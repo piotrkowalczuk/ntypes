@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package ntypes;
+option go_package = "ntypes";
 
 message String {
 	string value = 1;
