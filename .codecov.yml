@@ -3,7 +3,6 @@ comment:
 coverage:
   ignore:
   - .*.pb.go
-  - charontest/.*.go
   notify:
     slack:
       default:
