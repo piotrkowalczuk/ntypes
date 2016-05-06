@@ -16,7 +16,7 @@ type String struct {
 	Valid  bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (m *String) Reset() { *m = String{} }
+func (s *String) Reset() { *s = String{} }
 
 //func (m *String) String() string { return proto.CompactTextString(m) }
 func (*String) ProtoMessage() {}
@@ -94,10 +94,10 @@ type Int64 struct {
 }
 
 // Reset implements proto.Message interface.
-func (ni *Int64) Reset() { *ni = Int64{} }
+func (i *Int64) Reset() { *i = Int64{} }
 
 // String implements proto.Message interface.
-func (ni *Int64) String() string { return proto.CompactTextString(ni) }
+func (i *Int64) String() string { return proto.CompactTextString(i) }
 
 // ProtoMessage implements proto.Message interface.
 func (*Int64) ProtoMessage() {}
@@ -177,10 +177,10 @@ type Int32 struct {
 }
 
 // Reset implements proto.Message interface.
-func (ni *Int32) Reset() { *ni = Int32{} }
+func (i *Int32) Reset() { *i = Int32{} }
 
 // String implements proto.Message interface.
-func (ni *Int32) String() string { return proto.CompactTextString(ni) }
+func (i *Int32) String() string { return proto.CompactTextString(i) }
 
 // ProtoMessage implements proto.Message interface.
 func (*Int32) ProtoMessage() {}
@@ -631,11 +631,11 @@ func (b *Bool) BoolOr(or bool) bool {
 }
 
 // Value implements the driver Valuer interface.
-func (f Bool) Value() (driver.Value, error) {
-	if !f.Valid {
+func (b Bool) Value() (driver.Value, error) {
+	if !b.Valid {
 		return nil, nil
 	}
-	return f.Bool, nil
+	return b.Bool, nil
 }
 
 // Scan implements the Scanner interface.
