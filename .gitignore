@@ -1,6 +1,7 @@
 ### Project
 .idea
 *.iml
+.tmp
 
 
 ### Go template

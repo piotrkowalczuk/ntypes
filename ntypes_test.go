@@ -225,13 +225,13 @@ func TestUint32_MarshalJSON(t *testing.T) {
 func TestBool_MarshalJSON(t *testing.T) {
 	cases := map[string]*ntypes.Bool{
 		"nil":         nil,
-		"zero value":  &ntypes.Bool{},
-		"valid":       &ntypes.Bool{Valid: true},
-		"invalid":     &ntypes.Bool{Valid: false},
-		"true true":   &ntypes.Bool{Bool: true, Valid: true},
-		"true false":  &ntypes.Bool{Bool: true, Valid: false},
-		"false false": &ntypes.Bool{Bool: false, Valid: false},
-		"false true":  &ntypes.Bool{Bool: false, Valid: true},
+		"zero value":  {},
+		"valid":       {Valid: true},
+		"invalid":     {Valid: false},
+		"true true":   {Bool: true, Valid: true},
+		"true false":  {Bool: true, Valid: false},
+		"false false": {Bool: false, Valid: false},
+		"false true":  {Bool: false, Valid: true},
 	}
 
 	for d, c := range cases {
