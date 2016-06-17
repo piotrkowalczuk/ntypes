@@ -16,9 +16,10 @@ type String struct {
 	Valid  bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
+// Reset implements proto Message interface.
 func (s *String) Reset() { *s = String{} }
 
-//func (m *String) String() string { return proto.CompactTextString(m) }
+// ProtoMessage implements proto Message interface.
 func (*String) ProtoMessage() {}
 
 // StringOr returns given string value if receiver is nil or invalid.
