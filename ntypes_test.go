@@ -88,19 +88,16 @@ func TestInt64_MarshalJSON(t *testing.T) {
 		},
 	}
 
-CasesLoop:
 	for d, c := range cases {
-		b, err := json.Marshal(c.given)
-		if err != nil {
-			t.Errorf("%s: unexpected error: %s", d, err.Error())
-			continue CasesLoop
-		}
-
-		if string(b) != c.expected {
-			t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
-		} else {
-			t.Logf("%s: %s", d, string(b))
-		}
+		t.Run(d, func(t *testing.T) {
+			b, err := json.Marshal(c.given)
+			if err != nil {
+				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+			}
+			if string(b) != c.expected {
+				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+			}
+		})
 	}
 
 	type within struct {
@@ -208,19 +205,16 @@ func TestUint32_MarshalJSON(t *testing.T) {
 		},
 	}
 
-CasesLoop:
 	for d, c := range cases {
-		b, err := json.Marshal(c.given)
-		if err != nil {
-			t.Errorf("%s: unexpected error: %s", d, err.Error())
-			continue CasesLoop
-		}
-
-		if string(b) != c.expected {
-			t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
-		} else {
-			t.Logf("%s: %s", d, string(b))
-		}
+		t.Run(d, func(t *testing.T) {
+			b, err := json.Marshal(c.given)
+			if err != nil {
+				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+			}
+			if string(b) != c.expected {
+				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+			}
+		})
 	}
 
 	type within struct {
@@ -240,30 +234,147 @@ func TestBool_MarshalJSON(t *testing.T) {
 		"false true":  &ntypes.Bool{Bool: false, Valid: true},
 	}
 
-SimpleLoop:
 	for d, c := range cases {
-		b, err := json.Marshal(c)
-		if err != nil {
-			t.Errorf("simple: %s: unexpected error: %s", d, err.Error())
-			continue SimpleLoop
-		}
-
-		t.Logf("simple: %s: %s", d, string(b))
+		t.Run(d, func(t *testing.T) {
+			_, err := json.Marshal(c)
+			if err != nil {
+				t.Fatalf("simple: %s: unexpected error: %s", d, err.Error())
+			}
+		})
 	}
 
 	type within struct {
 		Exists *ntypes.Bool `json:"exists"`
 	}
 
-WithinLoop:
 	for d, c := range cases {
-		w := within{Exists: c}
-		b, err := json.Marshal(w)
-		if err != nil {
-			t.Errorf("within: %s: unexpected error: %s", d, err.Error())
-			continue WithinLoop
-		}
-
-		t.Logf("within: %s: %s", d, string(b))
+		t.Run(d, func(t *testing.T) {
+			w := within{Exists: c}
+			_, err := json.Marshal(w)
+			if err != nil {
+				t.Errorf("within: %s: unexpected error: %s", d, err.Error())
+			}
+		})
 	}
+}
+
+func TestString_Value(t *testing.T) {
+	t.Run("valid", func(t *testing.T) {
+		given := ntypes.String{String: "something", Valid: true}
+		val, err := given.Value()
+		if err != nil {
+			t.Fatalf("unexpected error: %s", err.Error())
+		}
+		if _, ok := val.(string); !ok {
+			t.Fatalf("unexpected output type, expected string but got %T", val)
+		}
+	})
+	t.Run("invalid", func(t *testing.T) {
+		given := ntypes.String{String: "something", Valid: false}
+		val, err := given.Value()
+		if err != nil {
+			t.Fatalf("unexpected error: %s", err.Error())
+		}
+		if val != nil {
+			t.Fatalf("unexpected value, expected nil but got %v", val)
+		}
+	})
+}
+
+func TestString_MarshalJSON(t *testing.T) {
+	t.Run("valid", func(t *testing.T) {
+		expected := `"test"`
+		given := &ntypes.String{String: "test", Valid: true}
+		got, err := given.MarshalJSON()
+		if err != nil {
+			t.Fatalf("unexpected error: %s", err.Error())
+		}
+		if string(got) != expected {
+			t.Fatalf("wrong output, expected %s but got %s", expected, string(got))
+		}
+	})
+	t.Run("invalid", func(t *testing.T) {
+		expected := `null`
+		given := &ntypes.String{String: "test", Valid: false}
+		got, err := given.MarshalJSON()
+		if err != nil {
+			t.Fatalf("unexpected error: %s", err.Error())
+		}
+		if string(got) != expected {
+			t.Fatalf("wrong output, expected %s but got %s", expected, string(got))
+		}
+	})
+	t.Run("nil", func(t *testing.T) {
+		expected := `null`
+		var given *ntypes.String
+		got, err := given.MarshalJSON()
+		if err != nil {
+			t.Fatalf("unexpected error: %s", err.Error())
+		}
+		if string(got) != expected {
+			t.Fatalf("wrong output, expected %s but got %s", expected, string(got))
+		}
+	})
+}
+
+func TestString_Scan(t *testing.T) {
+	cases := map[string]struct {
+		given    interface{}
+		expected string
+	}{
+		"bytes": {
+			given:    []byte("some byte slice"),
+			expected: "some byte slice",
+		},
+		"string": {
+			given:    "some string",
+			expected: "some string",
+		},
+		"nil": {
+			expected: "",
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			str := &ntypes.String{}
+			err := str.Scan(c.given)
+			if err != nil {
+				t.Fatalf("unexpected error: %s")
+			}
+			if c.expected != str.String {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.String)
+			}
+
+		})
+	}
+}
+func TestString_StringOr(t *testing.T) {
+	t.Run("valid", func(t *testing.T) {
+		expected := "test"
+		given := &ntypes.String{String: expected, Valid: true}
+		got := given.StringOr("alternative")
+
+		if got != expected {
+			t.Fatalf("wrong output, expected %s but got %s", expected, got)
+		}
+	})
+	t.Run("invalid", func(t *testing.T) {
+		expected := "alternative"
+		given := &ntypes.String{String: "test", Valid: false}
+		got := given.StringOr(expected)
+
+		if got != expected {
+			t.Fatalf("wrong output, expected %s but got %s", expected, got)
+		}
+	})
+	t.Run("nil", func(t *testing.T) {
+		expected := "alternative"
+		var given *ntypes.String
+		got := given.StringOr(expected)
+
+		if got != expected {
+			t.Fatalf("wrong output, expected %s but got %s", expected, got)
+		}
+	})
 }
