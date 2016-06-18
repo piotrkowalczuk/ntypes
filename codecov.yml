@@ -1,5 +1,5 @@
 comment:
-  layout: header, changes, diff
+  layout: header, diff, changes, uncovered
 coverage:
   ignore:
   - .*.pb.go
@@ -8,6 +8,10 @@ coverage:
       default:
         threshold: '0'
         url: https://hooks.slack.com/services/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
-  status:
+status:
     patch: false
-
+    project:
+      default:
+        branches:
+        - master
+        target: auto
