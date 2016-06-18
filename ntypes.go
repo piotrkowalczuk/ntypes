@@ -156,14 +156,11 @@ func (i *Int64) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (i *Int64) UnmarshalJSON(data []byte) error {
-	if data == nil {
-		i.Int64, i.Valid = 0, false
-		return nil
+	if err := json.Unmarshal(data, &i.Int64); err != nil {
+		return err
 	}
-
 	i.Valid = true
-
-	return json.Unmarshal(data, &i.Int64)
+	return nil
 }
 
 // Appear implements pqcomp Appearer interface.
@@ -242,14 +239,11 @@ func (i *Int32) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (i *Int32) UnmarshalJSON(data []byte) error {
-	if data == nil {
-		i.Int32, i.Valid = 0, false
-		return nil
+	if err := json.Unmarshal(data, &i.Int32); err != nil {
+		return err
 	}
-
 	i.Valid = true
-
-	return json.Unmarshal(data, &i.Int32)
+	return nil
 }
 
 // Appear implements pqcomp Appearer interface.
@@ -328,14 +322,11 @@ func (i *Int) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (i *Int) UnmarshalJSON(data []byte) error {
-	if data == nil {
-		i.Int, i.Valid = 0, false
-		return nil
+	if err := json.Unmarshal(data, &i.Int); err != nil {
+		return err
 	}
-
 	i.Valid = true
-
-	return json.Unmarshal(data, &i.Int)
+	return nil
 }
 
 // Appear implements pqcomp Appearer interface.
@@ -420,14 +411,11 @@ func (u *Uint32) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (u *Uint32) UnmarshalJSON(data []byte) error {
-	if data == nil {
-		u.Uint32, u.Valid = 0, false
-		return nil
+	if err := json.Unmarshal(data, &u.Uint32); err != nil {
+		return err
 	}
-
-	u.Valid = true
-
-	return json.Unmarshal(data, &u.Uint32)
+	f.Valid = true
+	return nil
 }
 
 // Appear implements pqcomp Appearer interface.
@@ -506,14 +494,11 @@ func (f *Float32) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (f *Float32) UnmarshalJSON(data []byte) error {
-	if data == nil {
-		f.Float32, f.Valid = 0, false
-		return nil
+	if err := json.Unmarshal(data, &f.Float32); err != nil {
+		return err
 	}
-
 	f.Valid = true
-
-	return json.Unmarshal(data, &f.Float32)
+	return nil
 }
 
 // Appear implements pqcomp Appearer interface.
@@ -589,14 +574,11 @@ func (f *Float64) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (f *Float64) UnmarshalJSON(data []byte) error {
-	if data == nil {
-		f.Float64, f.Valid = 0, false
-		return nil
+	if err := json.Unmarshal(data, &f.Float64); err != nil {
+		return err
 	}
-
 	f.Valid = true
-
-	return json.Unmarshal(data, &f.Float64)
+	return nil
 }
 
 // Appear implements pqcomp Appearer interface.
@@ -672,14 +654,11 @@ func (b *Bool) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (b *Bool) UnmarshalJSON(data []byte) error {
-	if data == nil {
-		b.Bool, b.Valid = false, false
-		return nil
+	if err := json.Unmarshal(data, &b.Bool); err != nil {
+		return err
 	}
-
 	b.Valid = true
-
-	return json.Unmarshal(data, &b.Bool)
+	return nil
 }
 
 // Appear implements pqcomp Appearer interface.
