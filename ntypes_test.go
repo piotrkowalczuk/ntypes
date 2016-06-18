@@ -18,33 +18,31 @@ func TestInt64_ProtoMessage(t *testing.T) {
 		err error
 		tmp ntypes.Int64
 	)
-	success := []ntypes.Int64{
-		{Int64: 1, Valid: true},
-		{Int64: 0, Valid: false},
-		{Int64: 13123, Valid: false},
-		{Int64: -1241223, Valid: true},
+	cases := map[string]ntypes.Int64{
+		"valid":        {Int64: 1, Valid: true},
+		"zero":         {Int64: 0, Valid: true},
+		"invalid-zero": {Int64: 0, Valid: false},
+		"invalid":      {Int64: 13123, Valid: false},
+		"negative":     {Int64: -1241223, Valid: true},
 	}
 
-	for _, given := range success {
-		buf, err = proto.Marshal(&given)
-		if err != nil {
-			t.Errorf("marshal returned unexpected error: %s", err.Error())
-			continue
-		}
-
-		err = proto.Unmarshal(buf, &tmp)
-		if err != nil {
-			t.Errorf("unmarshal returned unexpected error: %s", err.Error())
-			continue
-		}
-
-		if tmp.Int64 != given.Int64 {
-			t.Errorf("integers are not equal expected %d, got %d", given.Int64, tmp.Int64)
-		}
-
-		if tmp.Valid != given.Valid {
-			t.Errorf("booleans are not equal expected %t, got %t", given.Valid, tmp.Valid)
-		}
+	for hint, given := range cases {
+		t.Run(hint, func(t *testing.T) {
+			buf, err = proto.Marshal(&given)
+			if err != nil {
+				t.Fatalf("marshal returned unexpected error: %s", err.Error())
+			}
+			err = proto.Unmarshal(buf, &tmp)
+			if err != nil {
+				t.Fatalf("unmarshal returned unexpected error: %s", err.Error())
+			}
+			if tmp.Int64 != given.Int64 {
+				t.Errorf("integers are not equal expected %d, got %d", given.Int64, tmp.Int64)
+			}
+			if tmp.Valid != given.Valid {
+				t.Errorf("booleans are not equal expected %t, got %t", given.Valid, tmp.Valid)
+			}
+		})
 	}
 }
 
@@ -92,14 +90,14 @@ func TestInt64_MarshalJSON(t *testing.T) {
 		},
 	}
 
-	for d, c := range cases {
-		t.Run(d, func(t *testing.T) {
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
 			b, err := json.Marshal(c.given)
 			if err != nil {
-				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+				t.Fatalf("%s: unexpected error: %s", hint, err.Error())
 			}
 			if string(b) != c.expected {
-				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+				t.Errorf("%s: wrong output, expected %s but got %s", hint, c.expected, string(b))
 			}
 		})
 	}
@@ -153,14 +151,14 @@ func TestInt32_MarshalJSON(t *testing.T) {
 		},
 	}
 
-	for d, c := range cases {
-		t.Run(d, func(t *testing.T) {
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
 			b, err := json.Marshal(c.given)
 			if err != nil {
-				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+				t.Fatalf("%s: unexpected error: %s", hint, err.Error())
 			}
 			if string(b) != c.expected {
-				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+				t.Errorf("%s: wrong output, expected %s but got %s", hint, c.expected, string(b))
 			}
 		})
 	}
@@ -206,14 +204,14 @@ func TestFloat32_MarshalJSON(t *testing.T) {
 		},
 	}
 
-	for d, c := range cases {
-		t.Run(d, func(t *testing.T) {
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
 			b, err := json.Marshal(c.given)
 			if err != nil {
-				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+				t.Fatalf("%s: unexpected error: %s", hint, err.Error())
 			}
 			if string(b) != c.expected {
-				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+				t.Errorf("%s: wrong output, expected %s but got %s", hint, c.expected, string(b))
 			}
 		})
 	}
@@ -251,14 +249,14 @@ func TestInt_MarshalJSON(t *testing.T) {
 		},
 	}
 
-	for d, c := range cases {
-		t.Run(d, func(t *testing.T) {
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
 			b, err := json.Marshal(c.given)
 			if err != nil {
-				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+				t.Fatalf("%s: unexpected error: %s", hint, err.Error())
 			}
 			if string(b) != c.expected {
-				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+				t.Errorf("%s: wrong output, expected %s but got %s", hint, c.expected, string(b))
 			}
 		})
 	}
@@ -368,14 +366,14 @@ func TestUint32_MarshalJSON(t *testing.T) {
 		},
 	}
 
-	for d, c := range cases {
-		t.Run(d, func(t *testing.T) {
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
 			b, err := json.Marshal(c.given)
 			if err != nil {
-				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+				t.Fatalf("%s: unexpected error: %s", hint, err.Error())
 			}
 			if string(b) != c.expected {
-				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+				t.Errorf("%s: wrong output, expected %s but got %s", hint, c.expected, string(b))
 			}
 		})
 	}
@@ -991,6 +989,269 @@ func TestInt32_Scan(t *testing.T) {
 				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Int32)
 			}
 
+		})
+	}
+}
+
+func TestInt64_UnmarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		expected ntypes.Int64
+		given    []byte
+	}{
+		"valid": {
+			given:    []byte("1"),
+			expected: ntypes.Int64{Int64: 1, Valid: true},
+		},
+		"max": {
+			given:    []byte(strconv.FormatInt(math.MaxInt64, 10)),
+			expected: ntypes.Int64{Int64: math.MaxInt64, Valid: true},
+		},
+		"min": {
+			given:    []byte(strconv.FormatInt(math.MinInt64, 10)),
+			expected: ntypes.Int64{Int64: math.MinInt64, Valid: true},
+		},
+		"zero": {
+			given:    []byte("0"),
+			expected: ntypes.Int64{Int64: 0, Valid: true},
+		},
+		"null": {
+			given:    []byte("null"),
+			expected: ntypes.Int64{Int64: 0, Valid: true},
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			var got ntypes.Int64
+			err := json.Unmarshal(c.given, &got)
+			if err != nil {
+				t.Fatalf("marshal returned unexpected error: %s", err.Error())
+			}
+			if c.expected != got {
+				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestInt_UnmarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		expected ntypes.Int
+		given    []byte
+	}{
+		"valid": {
+			given:    []byte("1"),
+			expected: ntypes.Int{Int: 1, Valid: true},
+		},
+		"zero": {
+			given:    []byte("0"),
+			expected: ntypes.Int{Int: 0, Valid: true},
+		},
+		"null": {
+			given:    []byte("null"),
+			expected: ntypes.Int{Int: 0, Valid: true},
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			var got ntypes.Int
+			err := json.Unmarshal(c.given, &got)
+			if err != nil {
+				t.Fatalf("marshal returned unexpected error: %s", err.Error())
+			}
+			if c.expected != got {
+				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestInt32_UnmarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		expected ntypes.Int32
+		given    []byte
+	}{
+		"valid": {
+			given:    []byte("1"),
+			expected: ntypes.Int32{Int32: 1, Valid: true},
+		},
+		"max": {
+			given:    []byte(strconv.FormatInt(math.MaxInt32, 10)),
+			expected: ntypes.Int32{Int32: math.MaxInt32, Valid: true},
+		},
+		"min": {
+			given:    []byte(strconv.FormatInt(math.MinInt32, 10)),
+			expected: ntypes.Int32{Int32: math.MinInt32, Valid: true},
+		},
+		"zero": {
+			given:    []byte("0"),
+			expected: ntypes.Int32{Int32: 0, Valid: true},
+		},
+		"null": {
+			given:    []byte("null"),
+			expected: ntypes.Int32{Int32: 0, Valid: true},
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			var got ntypes.Int32
+			err := json.Unmarshal(c.given, &got)
+			if err != nil {
+				t.Fatalf("marshal returned unexpected error: %s", err.Error())
+			}
+			if c.expected != got {
+				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestFloat32_UnmarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		expected ntypes.Float32
+		given    []byte
+	}{
+		"valid": {
+			given:    []byte("1"),
+			expected: ntypes.Float32{Float32: 1, Valid: true},
+		},
+		"max": {
+			given:    []byte(strconv.FormatFloat(math.MaxFloat32, 'e', 10, 32)),
+			expected: ntypes.Float32{Float32: math.MaxFloat32, Valid: true},
+		},
+		"min": {
+			given:    []byte(strconv.FormatFloat(math.SmallestNonzeroFloat32, 'e', 10, 32)),
+			expected: ntypes.Float32{Float32: math.SmallestNonzeroFloat32, Valid: true},
+		},
+		"zero": {
+			given:    []byte("0"),
+			expected: ntypes.Float32{Float32: 0, Valid: true},
+		},
+		"null": {
+			given:    []byte("null"),
+			expected: ntypes.Float32{Float32: 0, Valid: true},
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			var got ntypes.Float32
+			err := json.Unmarshal(c.given, &got)
+			if err != nil {
+				t.Fatalf("marshal returned unexpected error: %s", err.Error())
+			}
+			if c.expected != got {
+				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestFloat64_UnmarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		expected ntypes.Float64
+		given    []byte
+	}{
+		"valid": {
+			given:    []byte("1"),
+			expected: ntypes.Float64{Float64: 1, Valid: true},
+		},
+		"max": {
+			given:    []byte(strconv.FormatFloat(math.MaxFloat64, 'g', -1, 64)),
+			expected: ntypes.Float64{Float64: math.MaxFloat64, Valid: true},
+		},
+		"min": {
+			given:    []byte(strconv.FormatFloat(math.SmallestNonzeroFloat64, 'g', -1, 64)),
+			expected: ntypes.Float64{Float64: math.SmallestNonzeroFloat64, Valid: true},
+		},
+		"zero": {
+			given:    []byte("0"),
+			expected: ntypes.Float64{Float64: 0, Valid: true},
+		},
+		"null": {
+			given:    []byte("null"),
+			expected: ntypes.Float64{Float64: 0, Valid: true},
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			var got ntypes.Float64
+			err := json.Unmarshal(c.given, &got)
+			if err != nil {
+				t.Fatalf("marshal returned unexpected error: %s", err.Error())
+			}
+			if c.expected != got {
+				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestUint32_UnmarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		expected ntypes.Uint32
+		given    []byte
+	}{
+		"valid": {
+			given:    []byte("1"),
+			expected: ntypes.Uint32{Uint32: 1, Valid: true},
+		},
+		"max": {
+			given:    []byte(strconv.FormatUint(math.MaxUint32, 10)),
+			expected: ntypes.Uint32{Uint32: math.MaxUint32, Valid: true},
+		},
+		"zero": {
+			given:    []byte("0"),
+			expected: ntypes.Uint32{Uint32: 0, Valid: true},
+		},
+		"null": {
+			given:    []byte("null"),
+			expected: ntypes.Uint32{Uint32: 0, Valid: true},
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			var got ntypes.Uint32
+			err := json.Unmarshal(c.given, &got)
+			if err != nil {
+				t.Fatalf("unexpected error for %s: %s", string(c.given), err.Error())
+			}
+			if c.expected != got {
+				t.Errorf("values are not equal, expected %v, got %v", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestBool_UnmarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		expected ntypes.Bool
+		given    []byte
+	}{
+		"valid": {
+			given:    []byte("true"),
+			expected: ntypes.Bool{Bool: true, Valid: true},
+		},
+		"null": {
+			given:    []byte("null"),
+			expected: ntypes.Bool{Bool: false, Valid: true},
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			var got ntypes.Bool
+			err := json.Unmarshal(c.given, &got)
+			if err != nil {
+				t.Fatalf("unexpected error for %s: %s", string(c.given), err.Error())
+			}
+			if c.expected != got {
+				t.Errorf("values are not equal, expected %v, got %v", c.expected, got)
+			}
 		})
 	}
 }
