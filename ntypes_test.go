@@ -350,31 +350,133 @@ func TestString_Scan(t *testing.T) {
 	}
 }
 func TestString_StringOr(t *testing.T) {
-	t.Run("valid", func(t *testing.T) {
-		expected := "test"
-		given := &ntypes.String{String: expected, Valid: true}
-		got := given.StringOr("alternative")
+	cases := map[string]struct {
+		expected string
+		or       string
+		given    *ntypes.String
+	}{
+		"valid": {
+			expected: "test",
+			given:    &ntypes.String{String: "test", Valid: true},
+			or:       "alternative",
+		},
+		"invalid": {
+			expected: "alternative",
+			given:    &ntypes.String{String: "test", Valid: false},
+			or:       "alternative",
+		},
+		"nil": {
+			expected: "alternative",
+			or:       "alternative",
+		},
+	}
 
-		if got != expected {
-			t.Fatalf("wrong output, expected %s but got %s", expected, got)
-		}
-	})
-	t.Run("invalid", func(t *testing.T) {
-		expected := "alternative"
-		given := &ntypes.String{String: "test", Valid: false}
-		got := given.StringOr(expected)
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			got := c.given.StringOr(c.or)
 
-		if got != expected {
-			t.Fatalf("wrong output, expected %s but got %s", expected, got)
-		}
-	})
-	t.Run("nil", func(t *testing.T) {
-		expected := "alternative"
-		var given *ntypes.String
-		got := given.StringOr(expected)
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
+}
 
-		if got != expected {
-			t.Fatalf("wrong output, expected %s but got %s", expected, got)
-		}
-	})
+func TestFloat64_Float64Or(t *testing.T) {
+	cases := map[string]struct {
+		expected float64
+		or       float64
+		given    *ntypes.Float64
+	}{
+		"valid": {
+			expected: 0.1,
+			given:    &ntypes.Float64{Float64: 0.1, Valid: true},
+			or:       0.2,
+		},
+		"invalid": {
+			expected: 0.2,
+			given:    &ntypes.Float64{Float64: 0.1, Valid: false},
+			or:       0.2,
+		},
+		"nil": {
+			expected: 0.3,
+			or:       0.3,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			got := c.given.Float64Or(c.or)
+
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestFloat32_Float32Or(t *testing.T) {
+	cases := map[string]struct {
+		expected float32
+		or       float32
+		given    *ntypes.Float32
+	}{
+		"valid": {
+			expected: 0.1,
+			given:    &ntypes.Float32{Float32: 0.1, Valid: true},
+			or:       0.2,
+		},
+		"invalid": {
+			expected: 0.2,
+			given:    &ntypes.Float32{Float32: 0.1, Valid: false},
+			or:       0.2,
+		},
+		"nil": {
+			expected: 0.3,
+			or:       0.3,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			got := c.given.Float32Or(c.or)
+
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestBool_BoolOr(t *testing.T) {
+	cases := map[string]struct {
+		expected bool
+		or       bool
+		given    *ntypes.Bool
+	}{
+		"valid": {
+			expected: true,
+			given:    &ntypes.Bool{Bool: true, Valid: true},
+			or:       false,
+		},
+		"invalid": {
+			expected: false,
+			given:    &ntypes.Bool{Bool: true, Valid: false},
+			or:       false,
+		},
+		"nil": {
+			expected: true,
+			or:       true,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			got := c.given.BoolOr(c.or)
+
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
 }
