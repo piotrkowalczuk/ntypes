@@ -349,6 +349,7 @@ func TestString_Scan(t *testing.T) {
 		})
 	}
 }
+
 func TestString_StringOr(t *testing.T) {
 	cases := map[string]struct {
 		expected string
@@ -407,6 +408,72 @@ func TestFloat64_Float64Or(t *testing.T) {
 	for hint, c := range cases {
 		t.Run(hint, func(t *testing.T) {
 			got := c.given.Float64Or(c.or)
+
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestInt_IntOr(t *testing.T) {
+	cases := map[string]struct {
+		expected int
+		or       int
+		given    *ntypes.Int
+	}{
+		"valid": {
+			expected: 1,
+			given:    &ntypes.Int{Int: 1, Valid: true},
+			or:       2,
+		},
+		"invalid": {
+			expected: 2,
+			given:    &ntypes.Int{Int: 1, Valid: false},
+			or:       2,
+		},
+		"nil": {
+			expected: 3,
+			or:       3,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			got := c.given.IntOr(c.or)
+
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestInt64_Int64Or(t *testing.T) {
+	cases := map[string]struct {
+		expected int64
+		or       int64
+		given    *ntypes.Int64
+	}{
+		"valid": {
+			expected: 1,
+			given:    &ntypes.Int64{Int64: 1, Valid: true},
+			or:       2,
+		},
+		"invalid": {
+			expected: 2,
+			given:    &ntypes.Int64{Int64: 1, Valid: false},
+			or:       2,
+		},
+		"nil": {
+			expected: 3,
+			or:       3,
+		},
+	}
+
+	for hint64, c := range cases {
+		t.Run(hint64, func(t *testing.T) {
+			got := c.given.Int64Or(c.or)
 
 			if got != c.expected {
 				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
@@ -477,6 +544,183 @@ func TestBool_BoolOr(t *testing.T) {
 			if got != c.expected {
 				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
 			}
+		})
+	}
+}
+
+func TestInt64_Scan(t *testing.T) {
+	cases := map[string]struct {
+		given    interface{}
+		expected int64
+	}{
+		"bytes": {
+			given:    []byte("15"),
+			expected: 15,
+		},
+		"string": {
+			given:    "16",
+			expected: 16,
+		},
+		"int64": {
+			given:    int64(19),
+			expected: 19,
+		},
+		"nil": {
+			expected: 0,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			str := &ntypes.Int64{}
+			err := str.Scan(c.given)
+			if err != nil {
+				t.Fatalf("unexpected error: %s")
+			}
+			if c.expected != str.Int64 {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Int64)
+			}
+
+		})
+	}
+}
+
+func TestFloat64_Scan(t *testing.T) {
+	cases := map[string]struct {
+		given    interface{}
+		expected float64
+	}{
+		"bytes": {
+			given:    []byte("15.15"),
+			expected: 15.15,
+		},
+		"string": {
+			given:    "16.16",
+			expected: 16.16,
+		},
+		"flaot64": {
+			given:    19.19,
+			expected: 19.19,
+		},
+		"nil": {
+			expected: 0.0,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			str := &ntypes.Float64{}
+			err := str.Scan(c.given)
+			if err != nil {
+				t.Fatalf("unexpected error: %s")
+			}
+			if c.expected != str.Float64 {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Float64)
+			}
+
+		})
+	}
+}
+
+func TestFloat32_Scan(t *testing.T) {
+	cases := map[string]struct {
+		given    interface{}
+		expected float32
+	}{
+		"bytes": {
+			given:    []byte("15.15"),
+			expected: 15.15,
+		},
+		"string": {
+			given:    "16.16",
+			expected: 16.16,
+		},
+		"float32": {
+			given:    float32(19.19),
+			expected: 19.19,
+		},
+		"nil": {
+			expected: 0.0,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			str := &ntypes.Float32{}
+			err := str.Scan(c.given)
+			if err != nil {
+				t.Fatalf("unexpected error: %s")
+			}
+			if c.expected != str.Float32 {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Float32)
+			}
+
+		})
+	}
+}
+
+func TestBool_Scan(t *testing.T) {
+	cases := map[string]struct {
+		given    interface{}
+		expected bool
+	}{
+		"bytes": {
+			given:    []byte("true"),
+			expected: true,
+		},
+		"string": {
+			given:    "true",
+			expected: true,
+		},
+		"nil": {
+			expected: false,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			str := &ntypes.Bool{}
+			err := str.Scan(c.given)
+			if err != nil {
+				t.Fatalf("unexpected error: %s")
+			}
+			if c.expected != str.Bool {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Bool)
+			}
+
+		})
+	}
+}
+
+func TestInt_Scan(t *testing.T) {
+	cases := map[string]struct {
+		given    interface{}
+		expected int
+	}{
+		"bytes": {
+			given:    []byte("31"),
+			expected: 31,
+		},
+		"string": {
+			given:    "14",
+			expected: 14,
+		},
+		"nil": {
+			expected: 0,
+		},
+	}
+
+	for hint, c := range cases {
+		t.Run(hint, func(t *testing.T) {
+			str := &ntypes.Int{}
+			err := str.Scan(c.given)
+			if err != nil {
+				t.Fatalf("unexpected error: %s")
+			}
+			if c.expected != str.Int {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Int)
+			}
+
 		})
 	}
 }
