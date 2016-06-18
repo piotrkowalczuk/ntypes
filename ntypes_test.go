@@ -2,7 +2,11 @@ package ntypes_test
 
 import (
 	"encoding/json"
+	"fmt"
+	"strconv"
 	"testing"
+
+	"math"
 
 	"github.com/golang/protobuf/proto"
 	"github.com/piotrkowalczuk/ntypes"
@@ -71,15 +75,15 @@ func TestInt64_MarshalJSON(t *testing.T) {
 			expected: "123",
 		},
 		"non zero valid max value": {
-			given:    &ntypes.Int64{Int64: 9223372036854775807, Valid: true},
-			expected: "9223372036854775807",
+			given:    &ntypes.Int64{Int64: math.MaxInt64, Valid: true},
+			expected: fmt.Sprintf("%d", math.MaxInt64),
 		},
 		"non zero valid min value": {
-			given:    &ntypes.Int64{Int64: -9223372036854775808, Valid: true},
-			expected: "-9223372036854775808",
+			given:    &ntypes.Int64{Int64: math.MinInt64, Valid: true},
+			expected: fmt.Sprintf("%d", math.MinInt64),
 		},
 		"non zero invalid max value": {
-			given:    &ntypes.Int64{Int64: 9223372036854775807, Valid: false},
+			given:    &ntypes.Int64{Int64: math.MaxInt64, Valid: false},
 			expected: "null",
 		},
 		"non zero invalid min value": {
@@ -102,6 +106,165 @@ func TestInt64_MarshalJSON(t *testing.T) {
 
 	type within struct {
 		ID *ntypes.Int64 `json:"id"`
+	}
+}
+
+func TestInt32_MarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		given    *ntypes.Int32
+		expected string
+	}{
+
+		"nil": {
+			given:    nil,
+			expected: "null",
+		},
+		"zero value": {
+			given:    &ntypes.Int32{},
+			expected: "null",
+		},
+		"valid": {
+			given:    &ntypes.Int32{Valid: true},
+			expected: "0",
+		},
+		"invalid": {
+			given:    &ntypes.Int32{Valid: false},
+			expected: "null",
+		},
+		"non zero valid value": {
+			given:    &ntypes.Int32{Int32: 123, Valid: true},
+			expected: "123",
+		},
+		"non zero valid max value": {
+			given:    &ntypes.Int32{Int32: math.MaxInt32, Valid: true},
+			expected: fmt.Sprintf("%d", math.MaxInt32),
+		},
+		"non zero valid min value": {
+			given:    &ntypes.Int32{Int32: math.MinInt32, Valid: true},
+			expected: fmt.Sprintf("%d", math.MinInt32),
+		},
+		"non zero invalid max value": {
+			given:    &ntypes.Int32{Int32: math.MaxInt32, Valid: false},
+			expected: "null",
+		},
+		"non zero invalid min value": {
+			given:    &ntypes.Int32{Int32: math.MinInt32, Valid: false},
+			expected: "null",
+		},
+	}
+
+	for d, c := range cases {
+		t.Run(d, func(t *testing.T) {
+			b, err := json.Marshal(c.given)
+			if err != nil {
+				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+			}
+			if string(b) != c.expected {
+				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+			}
+		})
+	}
+
+	type within struct {
+		ID *ntypes.Int32 `json:"id"`
+	}
+}
+
+func TestFloat32_MarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		given    *ntypes.Float32
+		expected string
+	}{
+
+		"nil": {
+			given:    nil,
+			expected: "null",
+		},
+		"zero value": {
+			given:    &ntypes.Float32{},
+			expected: "null",
+		},
+		"valid": {
+			given:    &ntypes.Float32{Valid: true},
+			expected: "0",
+		},
+		"invalid": {
+			given:    &ntypes.Float32{Valid: false},
+			expected: "null",
+		},
+		"non zero valid value": {
+			given:    &ntypes.Float32{Float32: 123, Valid: true},
+			expected: "123",
+		},
+		"non zero valid max value": {
+			given:    &ntypes.Float32{Float32: math.MaxFloat32, Valid: true},
+			expected: strconv.FormatFloat(float64(math.MaxFloat32), 'e', 7, 32),
+		},
+		"non zero invalid max value": {
+			given:    &ntypes.Float32{Float32: math.MaxFloat32, Valid: false},
+			expected: "null",
+		},
+	}
+
+	for d, c := range cases {
+		t.Run(d, func(t *testing.T) {
+			b, err := json.Marshal(c.given)
+			if err != nil {
+				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+			}
+			if string(b) != c.expected {
+				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+			}
+		})
+	}
+
+	type within struct {
+		ID *ntypes.Float32 `json:"id"`
+	}
+}
+
+func TestInt_MarshalJSON(t *testing.T) {
+	cases := map[string]struct {
+		given    *ntypes.Int
+		expected string
+	}{
+
+		"nil": {
+			given:    nil,
+			expected: "null",
+		},
+		"zero value": {
+			given:    &ntypes.Int{},
+			expected: "null",
+		},
+		"valid": {
+			given:    &ntypes.Int{Valid: true},
+			expected: "0",
+		},
+		"invalid": {
+			given:    &ntypes.Int{Valid: false},
+			expected: "null",
+		},
+		"non zero valid value": {
+			given:    &ntypes.Int{Int: 123, Valid: true},
+			expected: "123",
+		},
+	}
+
+	for d, c := range cases {
+		t.Run(d, func(t *testing.T) {
+			b, err := json.Marshal(c.given)
+			if err != nil {
+				t.Fatalf("%s: unexpected error: %s", d, err.Error())
+			}
+			if string(b) != c.expected {
+				t.Errorf("%s: wrong output, expected %s but got %s", d, c.expected, string(b))
+			}
+		})
+	}
+
+	type within struct {
+		ID *ntypes.Int `json:"id"`
 	}
 }
 
@@ -449,6 +612,72 @@ func TestInt_IntOr(t *testing.T) {
 	}
 }
 
+func TestUint32_Uint32Or(t *testing.T) {
+	cases := map[string]struct {
+		expected uint32
+		or       uint32
+		given    *ntypes.Uint32
+	}{
+		"valid": {
+			expected: 1,
+			given:    &ntypes.Uint32{Uint32: 1, Valid: true},
+			or:       2,
+		},
+		"invalid": {
+			expected: 2,
+			given:    &ntypes.Uint32{Uint32: 1, Valid: false},
+			or:       2,
+		},
+		"nil": {
+			expected: 3,
+			or:       3,
+		},
+	}
+
+	for huint32, c := range cases {
+		t.Run(huint32, func(t *testing.T) {
+			got := c.given.Uint32Or(c.or)
+
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
+}
+
+func TestInt32_Int32Or(t *testing.T) {
+	cases := map[string]struct {
+		expected int32
+		or       int32
+		given    *ntypes.Int32
+	}{
+		"valid": {
+			expected: 1,
+			given:    &ntypes.Int32{Int32: 1, Valid: true},
+			or:       2,
+		},
+		"invalid": {
+			expected: 2,
+			given:    &ntypes.Int32{Int32: 1, Valid: false},
+			or:       2,
+		},
+		"nil": {
+			expected: 3,
+			or:       3,
+		},
+	}
+
+	for hint32, c := range cases {
+		t.Run(hint32, func(t *testing.T) {
+			got := c.given.Int32Or(c.or)
+
+			if got != c.expected {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+			}
+		})
+	}
+}
+
 func TestInt64_Int64Or(t *testing.T) {
 	cases := map[string]struct {
 		expected int64
@@ -562,8 +791,8 @@ func TestInt64_Scan(t *testing.T) {
 			expected: 16,
 		},
 		"int64": {
-			given:    int64(19),
-			expected: 19,
+			given:    int64(18),
+			expected: 18,
 		},
 		"nil": {
 			expected: 0,
@@ -705,6 +934,10 @@ func TestInt_Scan(t *testing.T) {
 			given:    "14",
 			expected: 14,
 		},
+		"int64": {
+			given:    int64(18),
+			expected: 18,
+		},
 		"nil": {
 			expected: 0,
 		},
@@ -719,6 +952,43 @@ func TestInt_Scan(t *testing.T) {
 			}
 			if c.expected != str.Int {
 				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Int)
+			}
+
+		})
+	}
+}
+
+func TestInt32_Scan(t *testing.T) {
+	cases := map[string]struct {
+		given    interface{}
+		expected int32
+	}{
+		"bytes": {
+			given:    []byte("31"),
+			expected: 31,
+		},
+		"string": {
+			given:    "14",
+			expected: 14,
+		},
+		"int64": {
+			given:    int64(18),
+			expected: 18,
+		},
+		"nil": {
+			expected: 0,
+		},
+	}
+
+	for hint32, c := range cases {
+		t.Run(hint32, func(t *testing.T) {
+			str := &ntypes.Int32{}
+			err := str.Scan(c.given)
+			if err != nil {
+				t.Fatalf("unexpected error: %s")
+			}
+			if c.expected != str.Int32 {
+				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Int32)
 			}
 
 		})
