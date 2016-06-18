@@ -414,7 +414,7 @@ func (u *Uint32) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &u.Uint32); err != nil {
 		return err
 	}
-	f.Valid = true
+	u.Valid = true
 	return nil
 }
 
