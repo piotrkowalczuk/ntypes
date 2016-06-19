@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"strconv"
 
 	"github.com/golang/protobuf/proto"
@@ -381,13 +382,13 @@ func (u *Uint32) Scan(value interface{}) (err error) {
 	switch v := value.(type) {
 	case []byte:
 		tmp, err = strconv.ParseUint(string(v), 10, 32)
-		if tmp > 4294967295 {
+		if tmp > math.MaxUint32 {
 			return errors.New("ntypes: value passed to Uint32.Scan is out of range")
 		}
 		u.Uint32 = uint32(tmp)
 	case string:
 		tmp, err = strconv.ParseUint(v, 10, 32)
-		if tmp > 4294967295 {
+		if tmp > math.MaxUint32 {
 			return errors.New("ntypes: value passed to Uint32.Scan is out of range")
 		}
 		u.Uint32 = uint32(tmp)
