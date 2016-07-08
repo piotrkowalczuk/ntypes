@@ -593,6 +593,16 @@ type Bool struct {
 	Valid bool `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
+// True allocate new valid Bool object that holds true.
+func True() *Bool {
+	return &Bool{Bool: true, Valid: true}
+}
+
+// False allocate new valid Bool object that holds false.
+func False() *Bool {
+	return &Bool{Bool: false, Valid: true}
+}
+
 // Reset implements proto.Message interface.
 func (b *Bool) Reset() { *b = Bool{} }
 
