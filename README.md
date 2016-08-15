@@ -15,7 +15,7 @@ Package provides set of types that helps to build complex protobuf messages that
 
 ## Interfaces
 
-Each type implement set of interfaces:
+Each type implements set of interfaces:
 
 * [driver.Valuer](https://golang.org/pkg/database/sql/driver/#Valuer)
 * [proto.Message](https://godoc.org/github.com/golang/protobuf/proto#Message)
@@ -29,5 +29,5 @@ Each type implement set of interfaces:
 * [ntypes.True](https://godoc.org/github.com/piotrkowalczuk/ntypes#True)
 * [ntypes.False](https://godoc.org/github.com/piotrkowalczuk/ntypes#False)
 
-Besides that each type implements `func <Type>Or(<builtin>) <Type> {}` method. It returns given argument if receiver is not valid or is nil. For example:
+Besides that each type implementss `func <Type>Or(<builtin>) <builtin> {}` method. It returns given argument if receiver is not valid or is nil. For example:
 [ntypes.Bool.BoolOr](https://godoc.org/github.com/piotrkowalczuk/ntypes#Bool.BoolOr).
