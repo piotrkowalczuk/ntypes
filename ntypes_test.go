@@ -384,23 +384,41 @@ func TestUint32_MarshalJSON(t *testing.T) {
 }
 
 func TestBool_MarshalJSON(t *testing.T) {
-	cases := map[string]*ntypes.Bool{
-		"nil":         nil,
-		"zero value":  {},
-		"valid":       {Valid: true},
-		"invalid":     {Valid: false},
-		"true true":   {Bool: true, Valid: true},
-		"true false":  {Bool: true, Valid: false},
-		"false false": {Bool: false, Valid: false},
-		"false true":  {Bool: false, Valid: true},
+	cases := map[string]struct {
+		given    *ntypes.Bool
+		expected string
+	}{
+		"nil": {
+			given:    nil,
+			expected: "null",
+		},
+		"zero value": {
+			given:    &ntypes.Bool{},
+			expected: "null",
+		},
+		"valid": {
+			given:    &ntypes.Bool{Valid: true},
+			expected: "false",
+		},
+		"invalid":     {given: &ntypes.Bool{Valid: false}, expected: "null"},
+		"true true":   {given: &ntypes.Bool{Bool: true, Valid: true}, expected: "true"},
+		"true false":  {given: &ntypes.Bool{Bool: true, Valid: false}, expected: "null"},
+		"false false": {given: &ntypes.Bool{Bool: false, Valid: false}, expected: "null"},
+		"false true":  {given: &ntypes.Bool{Bool: false, Valid: true}, expected: "false"},
 	}
 
 	for d, c := range cases {
 		t.Run(d, func(t *testing.T) {
-			_, err := json.Marshal(c)
+			got, err := json.Marshal(c.given)
 			if err != nil {
 				t.Fatalf("simple: %s: unexpected error: %s", d, err.Error())
 			}
+			if string(got) != c.expected {
+				t.Errorf("wrong output, expected %s but got %s", c.expected, string(got))
+			} else {
+				t.Logf("correct output: %s", string(got))
+			}
+
 		})
 	}
 
@@ -410,12 +428,23 @@ func TestBool_MarshalJSON(t *testing.T) {
 
 	for d, c := range cases {
 		t.Run(d, func(t *testing.T) {
-			w := within{Exists: c}
+			w := within{Exists: c.given}
 			_, err := json.Marshal(w)
 			if err != nil {
 				t.Errorf("within: %s: unexpected error: %s", d, err.Error())
 			}
 		})
+	}
+}
+
+func TestNewString(t *testing.T) {
+	given := "test"
+	got := ntypes.NewString(given)
+	if !got.Valid {
+		t.Error("string should be valid")
+	}
+	if got.String != given {
+		t.Error("wrong string, expected %s but got %s", given, got.String)
 	}
 }
 
@@ -1016,7 +1045,7 @@ func TestInt64_UnmarshalJSON(t *testing.T) {
 		},
 		"null": {
 			given:    []byte("null"),
-			expected: ntypes.Int64{Int64: 0, Valid: true},
+			expected: ntypes.Int64{Int64: 0, Valid: false},
 		},
 	}
 
@@ -1049,7 +1078,7 @@ func TestInt_UnmarshalJSON(t *testing.T) {
 		},
 		"null": {
 			given:    []byte("null"),
-			expected: ntypes.Int{Int: 0, Valid: true},
+			expected: ntypes.Int{Int: 0, Valid: false},
 		},
 	}
 
@@ -1090,7 +1119,7 @@ func TestInt32_UnmarshalJSON(t *testing.T) {
 		},
 		"null": {
 			given:    []byte("null"),
-			expected: ntypes.Int32{Int32: 0, Valid: true},
+			expected: ntypes.Int32{Int32: 0, Valid: false},
 		},
 	}
 
@@ -1131,7 +1160,7 @@ func TestFloat32_UnmarshalJSON(t *testing.T) {
 		},
 		"null": {
 			given:    []byte("null"),
-			expected: ntypes.Float32{Float32: 0, Valid: true},
+			expected: ntypes.Float32{Float32: 0, Valid: false},
 		},
 	}
 
@@ -1172,7 +1201,7 @@ func TestFloat64_UnmarshalJSON(t *testing.T) {
 		},
 		"null": {
 			given:    []byte("null"),
-			expected: ntypes.Float64{Float64: 0, Valid: true},
+			expected: ntypes.Float64{Float64: 0, Valid: false},
 		},
 	}
 
@@ -1209,7 +1238,7 @@ func TestUint32_UnmarshalJSON(t *testing.T) {
 		},
 		"null": {
 			given:    []byte("null"),
-			expected: ntypes.Uint32{Uint32: 0, Valid: true},
+			expected: ntypes.Uint32{Uint32: 0, Valid: false},
 		},
 	}
 
@@ -1232,13 +1261,17 @@ func TestBool_UnmarshalJSON(t *testing.T) {
 		expected ntypes.Bool
 		given    []byte
 	}{
-		"valid": {
+		"valid-true": {
 			given:    []byte("true"),
 			expected: ntypes.Bool{Bool: true, Valid: true},
 		},
+		"valid-false": {
+			given:    []byte("false"),
+			expected: ntypes.Bool{Bool: false, Valid: true},
+		},
 		"null": {
 			given:    []byte("null"),
-			expected: ntypes.Bool{Bool: false, Valid: true},
+			expected: ntypes.Bool{Bool: false, Valid: false},
 		},
 	}
 
