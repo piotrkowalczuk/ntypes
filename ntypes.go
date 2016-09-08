@@ -8,6 +8,8 @@ import (
 	"math"
 	"strconv"
 
+	"bytes"
+
 	"github.com/golang/protobuf/proto"
 )
 
@@ -15,6 +17,11 @@ import (
 type String struct {
 	String string `protobuf:"bytes,1,opt,name=value" json:"value,omitempty"`
 	Valid  bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+}
+
+// NewString allocates new valid string.
+func NewString(s string) *String {
+	return &String{String: s, Valid: true}
 }
 
 // Reset implements proto Message interface.
@@ -51,6 +58,10 @@ func (s *String) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (s *String) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		s.Valid = false
+		return nil
+	}
 	if data == nil {
 		s.String, s.Valid = "", false
 		return nil
@@ -157,6 +168,10 @@ func (i *Int64) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (i *Int64) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		i.Valid = false
+		return nil
+	}
 	if err := json.Unmarshal(data, &i.Int64); err != nil {
 		return err
 	}
@@ -240,6 +255,10 @@ func (i *Int32) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (i *Int32) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		i.Valid = false
+		return nil
+	}
 	if err := json.Unmarshal(data, &i.Int32); err != nil {
 		return err
 	}
@@ -323,6 +342,10 @@ func (i *Int) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (i *Int) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		i.Valid = false
+		return nil
+	}
 	if err := json.Unmarshal(data, &i.Int); err != nil {
 		return err
 	}
@@ -412,6 +435,10 @@ func (u *Uint32) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (u *Uint32) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		u.Valid = false
+		return nil
+	}
 	if err := json.Unmarshal(data, &u.Uint32); err != nil {
 		return err
 	}
@@ -495,6 +522,10 @@ func (f *Float32) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (f *Float32) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		f.Valid = false
+		return nil
+	}
 	if err := json.Unmarshal(data, &f.Float32); err != nil {
 		return err
 	}
@@ -575,6 +606,10 @@ func (f *Float64) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (f *Float64) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		f.Valid = false
+		return nil
+	}
 	if err := json.Unmarshal(data, &f.Float64); err != nil {
 		return err
 	}
@@ -665,6 +700,10 @@ func (b *Bool) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements json.Unmarshaler interface.
 func (b *Bool) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		b.Valid = false
+		return nil
+	}
 	if err := json.Unmarshal(data, &b.Bool); err != nil {
 		return err
 	}
@@ -675,4 +714,8 @@ func (b *Bool) UnmarshalJSON(data []byte) error {
 // Appear implements pqcomp Appearer interface.
 func (b *Bool) Appear() bool {
 	return b != nil && b.Valid
+}
+
+func isNull(data []byte) bool {
+	return bytes.Equal(data, []byte("null"))
 }
