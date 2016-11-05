@@ -12,6 +12,81 @@ import (
 	"github.com/piotrkowalczuk/ntypes"
 )
 
+func TestNewString(t *testing.T) {
+	given := "test"
+	got := ntypes.NewString(given)
+	if !got.Valid {
+		t.Error("string should be valid")
+	}
+	if got.String != given {
+		t.Errorf("wrong string, expected %s but got %s", given, got.String)
+	}
+}
+
+func TestNewInt32(t *testing.T) {
+	given := int32(124)
+	got := ntypes.NewInt32(given)
+	if !got.Valid {
+		t.Error("int32 should be valid")
+	}
+	if got.Int32 != given {
+		t.Errorf("wrong int32, expected %d but got %d", given, got.Int32)
+	}
+}
+
+func TestNewInt64(t *testing.T) {
+	given := int64(124)
+	got := ntypes.NewInt64(given)
+	if !got.Valid {
+		t.Error("int64 should be valid")
+	}
+	if got.Int64 != given {
+		t.Errorf("wrong int64, expected %d but got %d", given, got.Int64)
+	}
+}
+
+func TestNewFloat32(t *testing.T) {
+	given := float32(124.124)
+	got := ntypes.NewFloat32(given)
+	if !got.Valid {
+		t.Error("float32 should be valid")
+	}
+	if got.Float32 != given {
+		t.Errorf("wrong float32, expected %f but got %f", given, got.Float32)
+	}
+}
+
+func TestNewFloat64(t *testing.T) {
+	given := float64(124.124)
+	got := ntypes.NewFloat64(given)
+	if !got.Valid {
+		t.Error("float64 should be valid")
+	}
+	if got.Float64 != given {
+		t.Errorf("wrong float64, expected %f but got %f", given, got.Float64)
+	}
+}
+
+func TestTrue(t *testing.T) {
+	got := ntypes.True()
+	if !got.Valid {
+		t.Error("bool should be valid")
+	}
+	if !got.Bool {
+		t.Error("bool should be true")
+	}
+}
+
+func TestFalse(t *testing.T) {
+	got := ntypes.False()
+	if !got.Valid {
+		t.Error("bool should be valid")
+	}
+	if got.Bool {
+		t.Error("bool should be false")
+	}
+}
+
 func TestInt64_ProtoMessage(t *testing.T) {
 	var (
 		buf []byte
@@ -392,17 +467,6 @@ func TestBool_MarshalJSON(t *testing.T) {
 	}
 }
 
-func TestNewString(t *testing.T) {
-	given := "test"
-	got := ntypes.NewString(given)
-	if !got.Valid {
-		t.Error("string should be valid")
-	}
-	if got.String != given {
-		t.Error("wrong string, expected %s but got %s", given, got.String)
-	}
-}
-
 func TestString_Value(t *testing.T) {
 	t.Run("valid", func(t *testing.T) {
 		given := ntypes.String{String: "something", Valid: true}
@@ -485,7 +549,7 @@ func TestString_Scan(t *testing.T) {
 			str := &ntypes.String{}
 			err := str.Scan(c.given)
 			if err != nil {
-				t.Fatalf("unexpected error: %s")
+				t.Fatalf("unexpected error: %s", err.Error())
 			}
 			if c.expected != str.String {
 				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.String)
@@ -555,7 +619,7 @@ func TestFloat64_Float64Or(t *testing.T) {
 			got := c.given.Float64Or(c.or)
 
 			if got != c.expected {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+				t.Fatalf("wrong output, expected %f but got %f", c.expected, got)
 			}
 		})
 	}
@@ -588,7 +652,7 @@ func TestUint32_Uint32Or(t *testing.T) {
 			got := c.given.Uint32Or(c.or)
 
 			if got != c.expected {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+				t.Fatalf("wrong output, expected %d but got %d", c.expected, got)
 			}
 		})
 	}
@@ -621,7 +685,7 @@ func TestInt32_Int32Or(t *testing.T) {
 			got := c.given.Int32Or(c.or)
 
 			if got != c.expected {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+				t.Fatalf("wrong output, expected %d but got %d", c.expected, got)
 			}
 		})
 	}
@@ -654,7 +718,7 @@ func TestInt64_Int64Or(t *testing.T) {
 			got := c.given.Int64Or(c.or)
 
 			if got != c.expected {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+				t.Fatalf("wrong output, expected %d but got %d", c.expected, got)
 			}
 		})
 	}
@@ -687,7 +751,7 @@ func TestFloat32_Float32Or(t *testing.T) {
 			got := c.given.Float32Or(c.or)
 
 			if got != c.expected {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+				t.Fatalf("wrong output, expected %f but got %f", c.expected, got)
 			}
 		})
 	}
@@ -720,7 +784,7 @@ func TestBool_BoolOr(t *testing.T) {
 			got := c.given.BoolOr(c.or)
 
 			if got != c.expected {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, got)
+				t.Fatalf("wrong output, expected %t but got %t", c.expected, got)
 			}
 		})
 	}
@@ -753,10 +817,10 @@ func TestInt64_Scan(t *testing.T) {
 			str := &ntypes.Int64{}
 			err := str.Scan(c.given)
 			if err != nil {
-				t.Fatalf("unexpected error: %s")
+				t.Fatalf("unexpected error: %s", err.Error())
 			}
 			if c.expected != str.Int64 {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Int64)
+				t.Fatalf("wrong output, expected %d but got %d", c.expected, str.Int64)
 			}
 
 		})
@@ -790,10 +854,10 @@ func TestFloat64_Scan(t *testing.T) {
 			str := &ntypes.Float64{}
 			err := str.Scan(c.given)
 			if err != nil {
-				t.Fatalf("unexpected error: %s")
+				t.Fatalf("unexpected error: %s", err.Error())
 			}
 			if c.expected != str.Float64 {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Float64)
+				t.Fatalf("wrong output, expected %f but got %f", c.expected, str.Float64)
 			}
 
 		})
@@ -827,10 +891,10 @@ func TestFloat32_Scan(t *testing.T) {
 			str := &ntypes.Float32{}
 			err := str.Scan(c.given)
 			if err != nil {
-				t.Fatalf("unexpected error: %s")
+				t.Fatalf("unexpected error: %s", err.Error())
 			}
 			if c.expected != str.Float32 {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Float32)
+				t.Fatalf("wrong output, expected %f but got %f", c.expected, str.Float32)
 			}
 
 		})
@@ -860,10 +924,10 @@ func TestBool_Scan(t *testing.T) {
 			str := &ntypes.Bool{}
 			err := str.Scan(c.given)
 			if err != nil {
-				t.Fatalf("unexpected error: %s")
+				t.Fatalf("unexpected error: %s", err.Error())
 			}
 			if c.expected != str.Bool {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Bool)
+				t.Fatalf("wrong output, expected %t but got %t", c.expected, str.Bool)
 			}
 
 		})
@@ -897,10 +961,10 @@ func TestInt32_Scan(t *testing.T) {
 			str := &ntypes.Int32{}
 			err := str.Scan(c.given)
 			if err != nil {
-				t.Fatalf("unexpected error: %s")
+				t.Fatalf("unexpected error: %s", err.Error())
 			}
 			if c.expected != str.Int32 {
-				t.Fatalf("wrong output, expected %s but got %s", c.expected, str.Int32)
+				t.Fatalf("wrong output, expected %d but got %d", c.expected, str.Int32)
 			}
 
 		})
