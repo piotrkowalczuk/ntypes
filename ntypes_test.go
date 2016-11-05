@@ -45,6 +45,17 @@ func TestNewInt64(t *testing.T) {
 	}
 }
 
+func TestNewUint32(t *testing.T) {
+	given := uint32(124)
+	got := ntypes.NewUint32(given)
+	if !got.Valid {
+		t.Error("uint32 should be valid")
+	}
+	if got.Uint32 != given {
+		t.Errorf("wrong uint32, expected %d but got %d", given, got.Uint32)
+	}
+}
+
 func TestNewFloat32(t *testing.T) {
 	given := float32(124.124)
 	got := ntypes.NewFloat32(given)
