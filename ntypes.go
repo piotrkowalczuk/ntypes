@@ -106,6 +106,11 @@ type Int64 struct {
 	Valid bool  `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
+// NewInt64 allocates new valid Int64.
+func NewInt64(i int64) *Int64 {
+	return &Int64{Int64: i, Valid: true}
+}
+
 // Reset implements proto.Message interface.
 func (i *Int64) Reset() { *i = Int64{} }
 
@@ -190,6 +195,11 @@ type Int32 struct {
 	Valid bool  `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
+// NewInt32 allocates new valid Int32.
+func NewInt32(i int32) *Int32 {
+	return &Int32{Int32: i, Valid: true}
+}
+
 // Reset implements proto.Message interface.
 func (i *Int32) Reset() { *i = Int32{} }
 
@@ -271,97 +281,15 @@ func (i *Int32) Appear() bool {
 	return i != nil && i.Valid
 }
 
-// Int represents a int that may be nil.
-type Int struct {
-	Int   int  `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
-	Valid bool `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
-}
-
-// Reset implements proto.Message interface.
-func (i *Int) Reset() { *i = Int{} }
-
-// String implements proto.Message interface.
-func (i *Int) String() string { return proto.CompactTextString(i) }
-
-// ProtoMessage implements proto.Message interface.
-func (*Int) ProtoMessage() {}
-
-// IntOr returns given int value if receiver is nil or invalid.
-func (i *Int) IntOr(or int) int {
-	if i == nil {
-		return or
-	}
-	if !i.Valid {
-		return or
-	}
-
-	return i.Int
-}
-
-// Value implements the driver Valuer interface.
-func (i Int) Value() (driver.Value, error) {
-	if !i.Valid {
-		return nil, nil
-	}
-	return i.Int, nil
-}
-
-// Scan implements the Scanner interface.
-func (i *Int) Scan(value interface{}) (err error) {
-	if value == nil {
-		i.Int, i.Valid = 0, false
-		return nil
-	}
-	i.Valid = true
-
-	var tmp int64
-	switch v := value.(type) {
-	case []byte:
-		tmp, err = strconv.ParseInt(string(v), 10, 32)
-		i.Int = int(tmp)
-	case string:
-		tmp, err = strconv.ParseInt(v, 10, 32)
-		i.Int = int(tmp)
-	case int64:
-		i.Int = int(v)
-	default:
-		err = fmt.Errorf("ntypes: unsuported type (%T) passed to Int.Scan", value)
-	}
-
-	return
-}
-
-// MarshalJSON implements json.Marshaler interface.
-func (i *Int) MarshalJSON() ([]byte, error) {
-	if i == nil || !i.Valid {
-		return []byte("null"), nil
-	}
-
-	return json.Marshal(i.Int)
-}
-
-// UnmarshalJSON implements json.Unmarshaler interface.
-func (i *Int) UnmarshalJSON(data []byte) error {
-	if isNull(data) {
-		i.Valid = false
-		return nil
-	}
-	if err := json.Unmarshal(data, &i.Int); err != nil {
-		return err
-	}
-	i.Valid = true
-	return nil
-}
-
-// Appear implements pqcomp Appearer interface.
-func (i *Int) Appear() bool {
-	return i != nil && i.Valid
-}
-
 // Uint32 represents a uint32 that may be nil.
 type Uint32 struct {
 	Uint32 uint32 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
 	Valid  bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+}
+
+// NewUint32 allocates new valid Uint32.
+func NewUint32(u uint32) *Uint32 {
+	return &Uint32{Uint32: u, Valid: true}
 }
 
 // Reset implements proto.Message interface.
@@ -457,6 +385,11 @@ type Float32 struct {
 	Valid   bool    `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
+// NewFloat32 allocates new valid Float32.
+func NewFloat32(f float32) *Float32 {
+	return &Float32{Float32: f, Valid: true}
+}
+
 // Reset implements proto.Message interface.
 func (f *Float32) Reset() { *f = Float32{} }
 
@@ -542,6 +475,11 @@ func (f *Float32) Appear() bool {
 type Float64 struct {
 	Float64 float64 `protobuf:"fixed64,1,opt,name=value" json:"value,omitempty"`
 	Valid   bool    `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+}
+
+// NewFloat64 allocates new valid Float64.
+func NewFloat64(f float64) *Float64 {
+	return &Float64{Float64: f, Valid: true}
 }
 
 // Reset implements proto.Message interface.

@@ -5,7 +5,6 @@ Package provides set of types that helps to build complex protobuf messages that
 
 * [ntypes.String](https://godoc.org/github.com/piotrkowalczuk/ntypes#String)
 * [ntypes.Bool](https://godoc.org/github.com/piotrkowalczuk/ntypes#Bool)
-* [ntypes.Int](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int)
 * [ntypes.Int32](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int32)
 * [ntypes.Int64](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int64)
 * [ntypes.Uint32](https://godoc.org/github.com/piotrkowalczuk/ntypes#Uint32)
