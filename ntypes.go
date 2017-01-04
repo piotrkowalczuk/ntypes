@@ -1,34 +1,19 @@
 package ntypes
 
 import (
+	"bytes"
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"math"
 	"strconv"
-
-	"bytes"
-
-	"github.com/golang/protobuf/proto"
 )
-
-// String represents a string that may be nil.
-type String struct {
-	String string `protobuf:"bytes,1,opt,name=value" json:"value,omitempty"`
-	Valid  bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
-}
 
 // NewString allocates new valid string.
 func NewString(s string) *String {
-	return &String{String: s, Valid: true}
+	return &String{Chars: s, Valid: true}
 }
-
-// Reset implements proto Message interface.
-func (s *String) Reset() { *s = String{} }
-
-// ProtoMessage implements proto Message interface.
-func (*String) ProtoMessage() {}
 
 // StringOr returns given string value if receiver is nil or invalid.
 func (s *String) StringOr(or string) string {
@@ -39,12 +24,7 @@ func (s *String) StringOr(or string) string {
 		return or
 	}
 
-	return s.String
-}
-
-// Appear implements pqcomp Appearer interface.
-func (s *String) Appear() bool {
-	return s != nil && s.Valid
+	return s.Chars
 }
 
 // MarshalJSON implements json.Marshaler interface.
@@ -53,7 +33,7 @@ func (s *String) MarshalJSON() ([]byte, error) {
 		return []byte("null"), nil
 	}
 
-	return json.Marshal(s.String)
+	return json.Marshal(s.Chars)
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
@@ -63,13 +43,13 @@ func (s *String) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 	if data == nil {
-		s.String, s.Valid = "", false
+		s.Chars, s.Valid = "", false
 		return nil
 	}
 
 	s.Valid = true
 
-	return json.Unmarshal(data, &s.String)
+	return json.Unmarshal(data, &s.Chars)
 }
 
 // Value implements the driver Valuer interface.
@@ -77,22 +57,22 @@ func (s String) Value() (driver.Value, error) {
 	if !s.Valid {
 		return nil, nil
 	}
-	return s.String, nil
+	return s.Chars, nil
 }
 
 // Scan implements the Scanner interface.
 func (s *String) Scan(value interface{}) error {
 	if value == nil {
-		s.String, s.Valid = "", false
+		s.Chars, s.Valid = "", false
 		return nil
 	}
 	s.Valid = true
 
 	switch v := value.(type) {
 	case []byte:
-		s.String = string(v)
+		s.Chars = string(v)
 	case string:
-		s.String = v
+		s.Chars = v
 	default:
 		return fmt.Errorf("ntypes: unsuported type (%T) passed to String.Scan", value)
 	}
@@ -100,25 +80,35 @@ func (s *String) Scan(value interface{}) error {
 	return nil
 }
 
-// Int64 represents a int64 that may be nil.
-type Int64 struct {
-	Int64 int64 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
-	Valid bool  `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+// MarshalJSON implements json.Marshaler interface.
+func (sa *StringArray) MarshalJSON() ([]byte, error) {
+	if sa == nil || !sa.Valid {
+		return []byte("null"), nil
+	}
+
+	return json.Marshal(sa.StringArray)
+}
+
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (sa *StringArray) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		sa.Valid = false
+		return nil
+	}
+	if data == nil {
+		sa.StringArray, sa.Valid = nil, false
+		return nil
+	}
+
+	sa.Valid = true
+
+	return json.Unmarshal(data, &sa.StringArray)
 }
 
 // NewInt64 allocates new valid Int64.
 func NewInt64(i int64) *Int64 {
 	return &Int64{Int64: i, Valid: true}
 }
-
-// Reset implements proto.Message interface.
-func (i *Int64) Reset() { *i = Int64{} }
-
-// String implements proto.Message interface.
-func (i *Int64) String() string { return proto.CompactTextString(i) }
-
-// ProtoMessage implements proto.Message interface.
-func (*Int64) ProtoMessage() {}
 
 // Int64Or returns given int64 value if receiver is nil or invalid.
 func (i *Int64) Int64Or(or int64) int64 {
@@ -184,30 +174,32 @@ func (i *Int64) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Appear implements pqcomp Appearer interface.
-func (i *Int64) Appear() bool {
-	return i != nil && i.Valid
+// MarshalJSON implements json.Marshaler interface.
+func (fa *Int64Array) MarshalJSON() ([]byte, error) {
+	if fa == nil || !fa.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(fa.Int64Array)
 }
 
-// Int32 represents a int32 that may be nil.
-type Int32 struct {
-	Int32 int32 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
-	Valid bool  `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (fa *Int64Array) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		fa.Valid = false
+		return nil
+	}
+	if data == nil {
+		fa.Int64Array, fa.Valid = nil, false
+		return nil
+	}
+	fa.Valid = true
+	return json.Unmarshal(data, &fa.Int64Array)
 }
 
 // NewInt32 allocates new valid Int32.
 func NewInt32(i int32) *Int32 {
 	return &Int32{Int32: i, Valid: true}
 }
-
-// Reset implements proto.Message interface.
-func (i *Int32) Reset() { *i = Int32{} }
-
-// String implements proto.Message interface.
-func (i *Int32) String() string { return proto.CompactTextString(i) }
-
-// ProtoMessage implements proto.Message interface.
-func (*Int32) ProtoMessage() {}
 
 // Int32Or returns given int32 value if receiver is nil or invalid.
 func (i *Int32) Int32Or(or int32) int32 {
@@ -276,30 +268,32 @@ func (i *Int32) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Appear implements pqcomp Appearer interface.
-func (i *Int32) Appear() bool {
-	return i != nil && i.Valid
+// MarshalJSON implements json.Marshaler interface.
+func (fa *Int32Array) MarshalJSON() ([]byte, error) {
+	if fa == nil || !fa.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(fa.Int32Array)
 }
 
-// Uint32 represents a uint32 that may be nil.
-type Uint32 struct {
-	Uint32 uint32 `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
-	Valid  bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (fa *Int32Array) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		fa.Valid = false
+		return nil
+	}
+	if data == nil {
+		fa.Int32Array, fa.Valid = nil, false
+		return nil
+	}
+	fa.Valid = true
+	return json.Unmarshal(data, &fa.Int32Array)
 }
 
 // NewUint32 allocates new valid Uint32.
 func NewUint32(u uint32) *Uint32 {
 	return &Uint32{Uint32: u, Valid: true}
 }
-
-// Reset implements proto.Message interface.
-func (u *Uint32) Reset() { *u = Uint32{} }
-
-// String implements proto.Message interface.
-func (u *Uint32) String() string { return proto.CompactTextString(u) }
-
-// ProtoMessage implements proto.Message interface.
-func (*Uint32) ProtoMessage() {}
 
 // Uint32Or returns given uint32 value if receiver is nil or invalid.
 func (u *Uint32) Uint32Or(or uint32) uint32 {
@@ -344,6 +338,9 @@ func (u *Uint32) Scan(value interface{}) (err error) {
 		}
 		u.Uint32 = uint32(tmp)
 	case int64:
+		if v > math.MaxUint32 {
+			return errors.New("ntypes: value passed to Uint32.Scan is out of range")
+		}
 		u.Uint32 = uint32(v)
 	default:
 		err = fmt.Errorf("ntypes: unsuported type (%T) passed to Uint32.Scan", value)
@@ -374,30 +371,93 @@ func (u *Uint32) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Appear implements pqcomp Appearer interface.
-func (u *Uint32) Appear() bool {
-	return u != nil && u.Valid
+// MarshalJSON implements json.Marshaler interface.
+func (fa *Uint32Array) MarshalJSON() ([]byte, error) {
+	if fa == nil || !fa.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(fa.Uint32Array)
 }
 
-// Float32 represents a flaot64 that may be nil.
-type Float32 struct {
-	Float32 float32 `protobuf:"fixed64,1,opt,name=value" json:"value,omitempty"`
-	Valid   bool    `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (fa *Uint32Array) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		fa.Valid = false
+		return nil
+	}
+	if data == nil {
+		fa.Uint32Array, fa.Valid = nil, false
+		return nil
+	}
+	fa.Valid = true
+	return json.Unmarshal(data, &fa.Uint32Array)
+}
+
+// NewUint64 allocates new valid Uint64.
+func NewUint64(u uint64) *Uint64 {
+	return &Uint64{Uint64: u, Valid: true}
+}
+
+// Uint64Or returns given uint64 value if receiver is nil or invalid.
+func (u *Uint64) Uint64Or(or uint64) uint64 {
+	if u == nil {
+		return or
+	}
+	if !u.Valid {
+		return or
+	}
+
+	return u.Uint64
+}
+
+// MarshalJSON implements json.Marshaler interface.
+func (u *Uint64) MarshalJSON() ([]byte, error) {
+	if u == nil || !u.Valid {
+		return []byte("null"), nil
+	}
+
+	return json.Marshal(u.Uint64)
+}
+
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (u *Uint64) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		u.Valid = false
+		return nil
+	}
+	if err := json.Unmarshal(data, &u.Uint64); err != nil {
+		return err
+	}
+	u.Valid = true
+	return nil
+}
+
+// MarshalJSON implements json.Marshaler interface.
+func (fa *Uint64Array) MarshalJSON() ([]byte, error) {
+	if fa == nil || !fa.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(fa.Uint64Array)
+}
+
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (fa *Uint64Array) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		fa.Valid = false
+		return nil
+	}
+	if data == nil {
+		fa.Uint64Array, fa.Valid = nil, false
+		return nil
+	}
+	fa.Valid = true
+	return json.Unmarshal(data, &fa.Uint64Array)
 }
 
 // NewFloat32 allocates new valid Float32.
 func NewFloat32(f float32) *Float32 {
 	return &Float32{Float32: f, Valid: true}
 }
-
-// Reset implements proto.Message interface.
-func (f *Float32) Reset() { *f = Float32{} }
-
-// String implements proto.Message interface.
-func (f *Float32) String() string { return proto.CompactTextString(f) }
-
-// ProtoMessage implements proto.Message interface.
-func (*Float32) ProtoMessage() {}
 
 // Float32Or returns given Float32 value if receiver is nil or invalid.
 func (f *Float32) Float32Or(or float32) float32 {
@@ -466,30 +526,32 @@ func (f *Float32) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Appear implements pqcomp Appearer interface.
-func (f *Float32) Appear() bool {
-	return f != nil && f.Valid
+// MarshalJSON implements json.Marshaler interface.
+func (fa *Float32Array) MarshalJSON() ([]byte, error) {
+	if fa == nil || !fa.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(fa.Float32Array)
 }
 
-// Float64 represents a flaot64 that may be nil.
-type Float64 struct {
-	Float64 float64 `protobuf:"fixed64,1,opt,name=value" json:"value,omitempty"`
-	Valid   bool    `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (fa *Float32Array) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		fa.Valid = false
+		return nil
+	}
+	if data == nil {
+		fa.Float32Array, fa.Valid = nil, false
+		return nil
+	}
+	fa.Valid = true
+	return json.Unmarshal(data, &fa.Float32Array)
 }
 
 // NewFloat64 allocates new valid Float64.
 func NewFloat64(f float64) *Float64 {
 	return &Float64{Float64: f, Valid: true}
 }
-
-// Reset implements proto.Message interface.
-func (f *Float64) Reset() { *f = Float64{} }
-
-// String implements proto.Message interface.
-func (f *Float64) String() string { return proto.CompactTextString(f) }
-
-// ProtoMessage implements proto.Message interface.
-func (*Float64) ProtoMessage() {}
 
 // Float64Or returns given float64 value if receiver is nil or invalid.
 func (f *Float64) Float64Or(or float64) float64 {
@@ -555,15 +617,26 @@ func (f *Float64) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Appear implements pqcomp Appearer interface.
-func (f *Float64) Appear() bool {
-	return f != nil && f.Valid
+// MarshalJSON implements json.Marshaler interface.
+func (fa *Float64Array) MarshalJSON() ([]byte, error) {
+	if fa == nil || !fa.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(fa.Float64Array)
 }
 
-// Bool represents a bool that may be nil.
-type Bool struct {
-	Bool  bool `protobuf:"varint,1,opt,name=value" json:"value,omitempty"`
-	Valid bool `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (fa *Float64Array) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		fa.Valid = false
+		return nil
+	}
+	if data == nil {
+		fa.Float64Array, fa.Valid = nil, false
+		return nil
+	}
+	fa.Valid = true
+	return json.Unmarshal(data, &fa.Float64Array)
 }
 
 // True allocate new valid Bool object that holds true.
@@ -575,15 +648,6 @@ func True() *Bool {
 func False() *Bool {
 	return &Bool{Bool: false, Valid: true}
 }
-
-// Reset implements proto.Message interface.
-func (b *Bool) Reset() { *b = Bool{} }
-
-// String implements proto.Message interface.
-func (b *Bool) String() string { return proto.CompactTextString(b) }
-
-// ProtoMessage implements proto.Message interface.
-func (*Bool) ProtoMessage() {}
 
 // BoolOr returns given bool value if receiver is nil or invalid.
 func (b *Bool) BoolOr(or bool) bool {
@@ -649,9 +713,26 @@ func (b *Bool) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// Appear implements pqcomp Appearer interface.
-func (b *Bool) Appear() bool {
-	return b != nil && b.Valid
+// MarshalJSON implements json.Marshaler interface.
+func (ba *BoolArray) MarshalJSON() ([]byte, error) {
+	if ba == nil || !ba.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(ba.BoolArray)
+}
+
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (ba *BoolArray) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		ba.Valid = false
+		return nil
+	}
+	if data == nil {
+		ba.BoolArray, ba.Valid = nil, false
+		return nil
+	}
+	ba.Valid = true
+	return json.Unmarshal(data, &ba.BoolArray)
 }
 
 func isNull(data []byte) bool {

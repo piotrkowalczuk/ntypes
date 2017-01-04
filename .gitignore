@@ -2,6 +2,7 @@
 .idea
 *.iml
 .tmp
+*.out
 
 
 ### Go template
