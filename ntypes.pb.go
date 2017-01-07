@@ -104,8 +104,8 @@ type Int64Array struct {
 	Valid      bool    `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (m *Int64Array) Reset()                    { *m = Int64Array{} }
-func (m *Int64Array) String() string            { return proto.CompactTextString(m) }
+func (ia *Int64Array) Reset()                   { *ia = Int64Array{} }
+func (ia *Int64Array) String() string           { return proto.CompactTextString(ia) }
 func (*Int64Array) ProtoMessage()               {}
 func (*Int64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
 
@@ -126,8 +126,8 @@ type Uint32Array struct {
 	Valid       bool     `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (m *Uint32Array) Reset()                    { *m = Uint32Array{} }
-func (m *Uint32Array) String() string            { return proto.CompactTextString(m) }
+func (ua *Uint32Array) Reset()                   { *ua = Uint32Array{} }
+func (ua *Uint32Array) String() string           { return proto.CompactTextString(ua) }
 func (*Uint32Array) ProtoMessage()               {}
 func (*Uint32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
@@ -148,8 +148,8 @@ type Uint64Array struct {
 	Valid       bool     `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (m *Uint64Array) Reset()                    { *m = Uint64Array{} }
-func (m *Uint64Array) String() string            { return proto.CompactTextString(m) }
+func (ua *Uint64Array) Reset()                   { *ua = Uint64Array{} }
+func (ua *Uint64Array) String() string           { return proto.CompactTextString(ua) }
 func (*Uint64Array) ProtoMessage()               {}
 func (*Uint64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
 
@@ -170,8 +170,8 @@ type Float32Array struct {
 	Valid        bool      `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (m *Float32Array) Reset()                    { *m = Float32Array{} }
-func (m *Float32Array) String() string            { return proto.CompactTextString(m) }
+func (fa *Float32Array) Reset()                   { *fa = Float32Array{} }
+func (fa *Float32Array) String() string           { return proto.CompactTextString(fa) }
 func (*Float32Array) ProtoMessage()               {}
 func (*Float32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
@@ -214,8 +214,8 @@ type BoolArray struct {
 	Valid     bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (m *BoolArray) Reset()                    { *m = BoolArray{} }
-func (m *BoolArray) String() string            { return proto.CompactTextString(m) }
+func (ba *BoolArray) Reset()                   { *ba = BoolArray{} }
+func (ba *BoolArray) String() string           { return proto.CompactTextString(ba) }
 func (*BoolArray) ProtoMessage()               {}
 func (*BoolArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
 
