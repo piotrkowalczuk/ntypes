@@ -11,20 +11,20 @@ import (
 )
 
 // NewString allocates new valid string.
-func NewString(s string) *String {
-	return &String{Chars: s, Valid: true}
+func NewString(s string) String {
+	return String{Chars: s, Valid: true}
 }
 
 // StringOr returns given string value if receiver is nil or invalid.
 func (s *String) StringOr(or string) string {
-	if s == nil {
+	switch {
+	case s == nil:
 		return or
-	}
-	if !s.Valid {
+	case !s.Valid:
 		return or
+	default:
+		return s.Chars
 	}
-
-	return s.Chars
 }
 
 // MarshalJSON implements json.Marshaler interface.
@@ -105,9 +105,21 @@ func (sa *StringArray) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &sa.StringArray)
 }
 
+// StringArrayOr returns given slice if receiver is nil or invalid.
+func (sa *StringArray) StringArrayOr(or []string) []string {
+	switch {
+	case sa == nil:
+		return or
+	case !sa.Valid:
+		return or
+	default:
+		return sa.StringArray
+	}
+}
+
 // NewInt64 allocates new valid Int64.
-func NewInt64(i int64) *Int64 {
-	return &Int64{Int64: i, Valid: true}
+func NewInt64(i int64) Int64 {
+	return Int64{Int64: i, Valid: true}
 }
 
 // Int64Or returns given int64 value if receiver is nil or invalid.
@@ -175,30 +187,42 @@ func (i *Int64) UnmarshalJSON(data []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler interface.
-func (fa *Int64Array) MarshalJSON() ([]byte, error) {
-	if fa == nil || !fa.Valid {
+func (ia *Int64Array) MarshalJSON() ([]byte, error) {
+	if ia == nil || !ia.Valid {
 		return []byte("null"), nil
 	}
-	return json.Marshal(fa.Int64Array)
+	return json.Marshal(ia.Int64Array)
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (fa *Int64Array) UnmarshalJSON(data []byte) error {
+func (ia *Int64Array) UnmarshalJSON(data []byte) error {
 	if isNull(data) {
-		fa.Valid = false
+		ia.Valid = false
 		return nil
 	}
 	if data == nil {
-		fa.Int64Array, fa.Valid = nil, false
+		ia.Int64Array, ia.Valid = nil, false
 		return nil
 	}
-	fa.Valid = true
-	return json.Unmarshal(data, &fa.Int64Array)
+	ia.Valid = true
+	return json.Unmarshal(data, &ia.Int64Array)
+}
+
+// Int64ArrayOr returns given slice if receiver is nil or invalid.
+func (ia *Int64Array) Int64ArrayOr(or []int64) []int64 {
+	switch {
+	case ia == nil:
+		return or
+	case !ia.Valid:
+		return or
+	default:
+		return ia.Int64Array
+	}
 }
 
 // NewInt32 allocates new valid Int32.
-func NewInt32(i int32) *Int32 {
-	return &Int32{Int32: i, Valid: true}
+func NewInt32(i int32) Int32 {
+	return Int32{Int32: i, Valid: true}
 }
 
 // Int32Or returns given int32 value if receiver is nil or invalid.
@@ -290,9 +314,21 @@ func (fa *Int32Array) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &fa.Int32Array)
 }
 
+// Int32ArrayOr returns given slice if receiver is nil or invalid.
+func (ia *Int32Array) Int32ArrayOr(or []int32) []int32 {
+	switch {
+	case ia == nil:
+		return or
+	case !ia.Valid:
+		return or
+	default:
+		return ia.Int32Array
+	}
+}
+
 // NewUint32 allocates new valid Uint32.
-func NewUint32(u uint32) *Uint32 {
-	return &Uint32{Uint32: u, Valid: true}
+func NewUint32(u uint32) Uint32 {
+	return Uint32{Uint32: u, Valid: true}
 }
 
 // Uint32Or returns given uint32 value if receiver is nil or invalid.
@@ -372,25 +408,37 @@ func (u *Uint32) UnmarshalJSON(data []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler interface.
-func (fa *Uint32Array) MarshalJSON() ([]byte, error) {
-	if fa == nil || !fa.Valid {
+func (ua *Uint32Array) MarshalJSON() ([]byte, error) {
+	if ua == nil || !ua.Valid {
 		return []byte("null"), nil
 	}
-	return json.Marshal(fa.Uint32Array)
+	return json.Marshal(ua.Uint32Array)
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (fa *Uint32Array) UnmarshalJSON(data []byte) error {
+func (ua *Uint32Array) UnmarshalJSON(data []byte) error {
 	if isNull(data) {
-		fa.Valid = false
+		ua.Valid = false
 		return nil
 	}
 	if data == nil {
-		fa.Uint32Array, fa.Valid = nil, false
+		ua.Uint32Array, ua.Valid = nil, false
 		return nil
 	}
-	fa.Valid = true
-	return json.Unmarshal(data, &fa.Uint32Array)
+	ua.Valid = true
+	return json.Unmarshal(data, &ua.Uint32Array)
+}
+
+// Uint32ArrayOr returns given slice if receiver is nil or invalid.
+func (ua *Uint32Array) Uint32ArrayOr(or []uint32) []uint32 {
+	switch {
+	case ua == nil:
+		return or
+	case !ua.Valid:
+		return or
+	default:
+		return ua.Uint32Array
+	}
 }
 
 // NewUint64 allocates new valid Uint64.
@@ -433,25 +481,37 @@ func (u *Uint64) UnmarshalJSON(data []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler interface.
-func (fa *Uint64Array) MarshalJSON() ([]byte, error) {
-	if fa == nil || !fa.Valid {
+func (ua *Uint64Array) MarshalJSON() ([]byte, error) {
+	if ua == nil || !ua.Valid {
 		return []byte("null"), nil
 	}
-	return json.Marshal(fa.Uint64Array)
+	return json.Marshal(ua.Uint64Array)
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (fa *Uint64Array) UnmarshalJSON(data []byte) error {
+func (ua *Uint64Array) UnmarshalJSON(data []byte) error {
 	if isNull(data) {
-		fa.Valid = false
+		ua.Valid = false
 		return nil
 	}
 	if data == nil {
-		fa.Uint64Array, fa.Valid = nil, false
+		ua.Uint64Array, ua.Valid = nil, false
 		return nil
 	}
-	fa.Valid = true
-	return json.Unmarshal(data, &fa.Uint64Array)
+	ua.Valid = true
+	return json.Unmarshal(data, &ua.Uint64Array)
+}
+
+// Uint64ArrayOr returns given slice if receiver is nil or invalid.
+func (ua *Uint64Array) Uint64ArrayOr(or []uint64) []uint64 {
+	switch {
+	case ua == nil:
+		return or
+	case !ua.Valid:
+		return or
+	default:
+		return ua.Uint64Array
+	}
 }
 
 // NewFloat32 allocates new valid Float32.
@@ -548,6 +608,18 @@ func (fa *Float32Array) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &fa.Float32Array)
 }
 
+// Float32ArrayOr returns given slice if receiver is nil or invalid.
+func (fa *Float32Array) Float32ArrayOr(or []float32) []float32 {
+	switch {
+	case fa == nil:
+		return or
+	case !fa.Valid:
+		return or
+	default:
+		return fa.Float32Array
+	}
+}
+
 // NewFloat64 allocates new valid Float64.
 func NewFloat64(f float64) *Float64 {
 	return &Float64{Float64: f, Valid: true}
@@ -637,6 +709,18 @@ func (fa *Float64Array) UnmarshalJSON(data []byte) error {
 	}
 	fa.Valid = true
 	return json.Unmarshal(data, &fa.Float64Array)
+}
+
+// Float64ArrayOr returns given slice if receiver is nil or invalid.
+func (fa *Float64Array) Float64ArrayOr(or []float64) []float64 {
+	switch {
+	case fa == nil:
+		return or
+	case !fa.Valid:
+		return or
+	default:
+		return fa.Float64Array
+	}
 }
 
 // True allocate new valid Bool object that holds true.
@@ -733,6 +817,18 @@ func (ba *BoolArray) UnmarshalJSON(data []byte) error {
 	}
 	ba.Valid = true
 	return json.Unmarshal(data, &ba.BoolArray)
+}
+
+// BoolArrayOr returns given slice if receiver is nil or invalid.
+func (ba *BoolArray) BoolArrayOr(or []bool) []bool {
+	switch {
+	case ba == nil:
+		return or
+	case !ba.Valid:
+		return or
+	default:
+		return ba.BoolArray
+	}
 }
 
 func isNull(data []byte) bool {
