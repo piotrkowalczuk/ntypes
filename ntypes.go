@@ -724,13 +724,13 @@ func (fa *Float64Array) Float64ArrayOr(or []float64) []float64 {
 }
 
 // True allocate new valid Bool object that holds true.
-func True() *Bool {
-	return &Bool{Bool: true, Valid: true}
+func True() Bool {
+	return Bool{Bool: true, Valid: true}
 }
 
 // False allocate new valid Bool object that holds false.
-func False() *Bool {
-	return &Bool{Bool: false, Valid: true}
+func False() Bool {
+	return Bool{Bool: false, Valid: true}
 }
 
 // BoolOr returns given bool value if receiver is nil or invalid.
