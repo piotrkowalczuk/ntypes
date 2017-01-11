@@ -10,6 +10,17 @@ import (
 	"strconv"
 )
 
+var (
+	StringArrayScan   func(interface{}) ([]string, error)
+	StringArrayValue  func([]string) (driver.Value, error)
+	Float64ArrayScan  func(interface{}) ([]float64, error)
+	Float64ArrayValue func([]float64) (driver.Value, error)
+	Int64ArrayScan    func(interface{}) ([]int64, error)
+	Int64ArrayValue   func([]int64) (driver.Value, error)
+	BoolArrayScan     func(interface{}) ([]bool, error)
+	BoolArrayValue    func([]bool) (driver.Value, error)
+)
+
 // NewString allocates new valid string.
 func NewString(s string) String {
 	return String{Chars: s, Valid: true}
@@ -90,7 +101,7 @@ func (sa *StringArray) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (sa *StringArray) UnmarshalJSON(data []byte) error {
+func (sa *StringArray) UnmarshalJSON(data []byte) (error) {
 	if isNull(data) {
 		sa.Valid = false
 		return nil
@@ -103,6 +114,24 @@ func (sa *StringArray) UnmarshalJSON(data []byte) error {
 	sa.Valid = true
 
 	return json.Unmarshal(data, &sa.StringArray)
+}
+
+func (sa *StringArray) Scan(value interface{}) (err error) {
+	if value == nil {
+		sa.StringArray, sa.Valid = nil, false
+		return
+	}
+	sa.Valid = true
+	sa.StringArray, err = StringArrayScan(value)
+	return
+}
+
+func (sa *StringArray) Value() (driver.Value, error) {
+	if sa == nil || !sa.Valid {
+		return nil, nil
+	}
+
+	return StringArrayValue(sa.StringArray)
 }
 
 // StringArrayOr returns given slice if receiver is nil or invalid.
@@ -206,6 +235,24 @@ func (ia *Int64Array) UnmarshalJSON(data []byte) error {
 	}
 	ia.Valid = true
 	return json.Unmarshal(data, &ia.Int64Array)
+}
+
+func (sa *Int64Array) Scan(value interface{}) (err error) {
+	if value == nil {
+		sa.Int64Array, sa.Valid = nil, false
+		return
+	}
+	sa.Valid = true
+	sa.Int64Array, err = Int64ArrayScan(value)
+	return
+}
+
+func (sa *Int64Array) Value() (driver.Value, error) {
+	if sa == nil || !sa.Valid {
+		return nil, nil
+	}
+
+	return Int64ArrayValue(sa.Int64Array)
 }
 
 // Int64ArrayOr returns given slice if receiver is nil or invalid.
@@ -711,6 +758,24 @@ func (fa *Float64Array) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &fa.Float64Array)
 }
 
+func (sa *Float64Array) Scan(value interface{}) (err error) {
+	if value == nil {
+		sa.Float64Array, sa.Valid = nil, false
+		return
+	}
+	sa.Valid = true
+	sa.Float64Array, err = Float64ArrayScan(value)
+	return
+}
+
+func (sa *Float64Array) Value() (driver.Value, error) {
+	if sa == nil || !sa.Valid {
+		return nil, nil
+	}
+
+	return Float64ArrayValue(sa.Float64Array)
+}
+
 // Float64ArrayOr returns given slice if receiver is nil or invalid.
 func (fa *Float64Array) Float64ArrayOr(or []float64) []float64 {
 	switch {
@@ -817,6 +882,24 @@ func (ba *BoolArray) UnmarshalJSON(data []byte) error {
 	}
 	ba.Valid = true
 	return json.Unmarshal(data, &ba.BoolArray)
+}
+
+func (sa *BoolArray) Scan(value interface{}) (err error) {
+	if value == nil {
+		sa.BoolArray, sa.Valid = nil, false
+		return
+	}
+	sa.Valid = true
+	sa.BoolArray, err = BoolArrayScan(value)
+	return
+}
+
+func (sa *BoolArray) Value() (driver.Value, error) {
+	if sa == nil || !sa.Valid {
+		return nil, nil
+	}
+
+	return BoolArrayValue(sa.BoolArray)
 }
 
 // BoolArrayOr returns given slice if receiver is nil or invalid.
