@@ -11,27 +11,35 @@ import (
 )
 
 var (
+	// StringArrayScan is used by StringArray Scan method.
 	StringArrayScan = func(interface{}) ([]string, error) {
 		return nil, errors.New("ntypes: StringArrayScan not set")
 	}
+	// StringArrayValue is used by StringArray Value method.
 	StringArrayValue = func([]string) (driver.Value, error) {
 		return nil, errors.New("ntypes: StringArrayValue not set")
 	}
+	// Float64ArrayScan is used by Float64Array Scan method.
 	Float64ArrayScan = func(interface{}) ([]float64, error) {
 		return nil, errors.New("ntypes: Float64ArrayScan not set")
 	}
+	// Float64ArrayValue is used by Float64Array Value method.
 	Float64ArrayValue = func([]float64) (driver.Value, error) {
 		return nil, errors.New("ntypes: Float64ArrayValue not set")
 	}
+	// Int64ArrayScan is used by Int64Array Scan method.
 	Int64ArrayScan = func(interface{}) ([]int64, error) {
 		return nil, errors.New("ntypes: Float64ArrayValue not set")
 	}
+	// Int64ArrayValue is used by Int64Array Value method.
 	Int64ArrayValue = func([]int64) (driver.Value, error) {
 		return nil, errors.New("ntypes: Int64ArrayValue not set")
 	}
+	// BoolArrayScan is used by BoolArray Scan method.
 	BoolArrayScan = func(interface{}) ([]bool, error) {
 		return nil, errors.New("ntypes: BoolArrayScan not set")
 	}
+	// BoolArrayValue is used by BoolArray Value method.
 	BoolArrayValue = func([]bool) (driver.Value, error) {
 		return nil, errors.New("ntypes: BoolArrayValue not set")
 	}
@@ -132,6 +140,7 @@ func (sa *StringArray) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &sa.StringArray)
 }
 
+// Scan implements the Scanner interface.
 func (sa *StringArray) Scan(value interface{}) (err error) {
 	if value == nil {
 		sa.StringArray, sa.Valid = nil, false
@@ -142,6 +151,7 @@ func (sa *StringArray) Scan(value interface{}) (err error) {
 	return
 }
 
+// Value implements the driver Valuer interface.
 func (sa StringArray) Value() (driver.Value, error) {
 	if !sa.Valid {
 		return nil, nil
@@ -253,22 +263,24 @@ func (ia *Int64Array) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &ia.Int64Array)
 }
 
-func (sa *Int64Array) Scan(value interface{}) (err error) {
+// Scan implements the Scanner interface.
+func (ia *Int64Array) Scan(value interface{}) (err error) {
 	if value == nil {
-		sa.Int64Array, sa.Valid = nil, false
+		ia.Int64Array, ia.Valid = nil, false
 		return
 	}
-	sa.Valid = true
-	sa.Int64Array, err = Int64ArrayScan(value)
+	ia.Valid = true
+	ia.Int64Array, err = Int64ArrayScan(value)
 	return
 }
 
-func (sa Int64Array) Value() (driver.Value, error) {
-	if !sa.Valid {
+// Value implements the driver Valuer interface.
+func (ia Int64Array) Value() (driver.Value, error) {
+	if !ia.Valid {
 		return nil, nil
 	}
 
-	return Int64ArrayValue(sa.Int64Array)
+	return Int64ArrayValue(ia.Int64Array)
 }
 
 // Int64ArrayOr returns given slice if receiver is nil or invalid.
@@ -356,25 +368,25 @@ func (i *Int32) UnmarshalJSON(data []byte) error {
 }
 
 // MarshalJSON implements json.Marshaler interface.
-func (fa *Int32Array) MarshalJSON() ([]byte, error) {
-	if fa == nil || !fa.Valid {
+func (ia *Int32Array) MarshalJSON() ([]byte, error) {
+	if ia == nil || !ia.Valid {
 		return []byte("null"), nil
 	}
-	return json.Marshal(fa.Int32Array)
+	return json.Marshal(ia.Int32Array)
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (fa *Int32Array) UnmarshalJSON(data []byte) error {
+func (ia *Int32Array) UnmarshalJSON(data []byte) error {
 	if isNull(data) {
-		fa.Valid = false
+		ia.Valid = false
 		return nil
 	}
 	if data == nil {
-		fa.Int32Array, fa.Valid = nil, false
+		ia.Int32Array, ia.Valid = nil, false
 		return nil
 	}
-	fa.Valid = true
-	return json.Unmarshal(data, &fa.Int32Array)
+	ia.Valid = true
+	return json.Unmarshal(data, &ia.Int32Array)
 }
 
 // Int32ArrayOr returns given slice if receiver is nil or invalid.
@@ -774,22 +786,24 @@ func (fa *Float64Array) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &fa.Float64Array)
 }
 
-func (sa *Float64Array) Scan(value interface{}) (err error) {
+// Scan implements the Scanner interface.
+func (fa *Float64Array) Scan(value interface{}) (err error) {
 	if value == nil {
-		sa.Float64Array, sa.Valid = nil, false
+		fa.Float64Array, fa.Valid = nil, false
 		return
 	}
-	sa.Valid = true
-	sa.Float64Array, err = Float64ArrayScan(value)
+	fa.Valid = true
+	fa.Float64Array, err = Float64ArrayScan(value)
 	return
 }
 
-func (sa Float64Array) Value() (driver.Value, error) {
-	if !sa.Valid {
+// Value implements the driver Valuer interface.
+func (fa Float64Array) Value() (driver.Value, error) {
+	if !fa.Valid {
 		return nil, nil
 	}
 
-	return Float64ArrayValue(sa.Float64Array)
+	return Float64ArrayValue(fa.Float64Array)
 }
 
 // Float64ArrayOr returns given slice if receiver is nil or invalid.
@@ -900,22 +914,24 @@ func (ba *BoolArray) UnmarshalJSON(data []byte) error {
 	return json.Unmarshal(data, &ba.BoolArray)
 }
 
-func (sa *BoolArray) Scan(value interface{}) (err error) {
+// Scan implements the Scanner interface.
+func (ba *BoolArray) Scan(value interface{}) (err error) {
 	if value == nil {
-		sa.BoolArray, sa.Valid = nil, false
+		ba.BoolArray, ba.Valid = nil, false
 		return
 	}
-	sa.Valid = true
-	sa.BoolArray, err = BoolArrayScan(value)
+	ba.Valid = true
+	ba.BoolArray, err = BoolArrayScan(value)
 	return
 }
 
-func (sa BoolArray) Value() (driver.Value, error) {
-	if !sa.Valid {
+// Value implements the driver Valuer interface.
+func (ba BoolArray) Value() (driver.Value, error) {
+	if !ba.Valid {
 		return nil, nil
 	}
 
-	return BoolArrayValue(sa.BoolArray)
+	return BoolArrayValue(ba.BoolArray)
 }
 
 // BoolArrayOr returns given slice if receiver is nil or invalid.

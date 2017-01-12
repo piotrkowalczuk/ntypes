@@ -176,7 +176,7 @@ func TestString_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %v but got %v", *c.object, got)
 				}
 			}
 		})
