@@ -126,8 +126,8 @@ func (sa *StringArray) Scan(value interface{}) (err error) {
 	return
 }
 
-func (sa *StringArray) Value() (driver.Value, error) {
-	if sa == nil || !sa.Valid {
+func (sa StringArray) Value() (driver.Value, error) {
+	if !sa.Valid {
 		return nil, nil
 	}
 
@@ -247,8 +247,8 @@ func (sa *Int64Array) Scan(value interface{}) (err error) {
 	return
 }
 
-func (sa *Int64Array) Value() (driver.Value, error) {
-	if sa == nil || !sa.Valid {
+func (sa Int64Array) Value() (driver.Value, error) {
+	if !sa.Valid {
 		return nil, nil
 	}
 
@@ -768,8 +768,8 @@ func (sa *Float64Array) Scan(value interface{}) (err error) {
 	return
 }
 
-func (sa *Float64Array) Value() (driver.Value, error) {
-	if sa == nil || !sa.Valid {
+func (sa Float64Array) Value() (driver.Value, error) {
+	if !sa.Valid {
 		return nil, nil
 	}
 
@@ -894,8 +894,8 @@ func (sa *BoolArray) Scan(value interface{}) (err error) {
 	return
 }
 
-func (sa *BoolArray) Value() (driver.Value, error) {
-	if sa == nil || !sa.Valid {
+func (sa BoolArray) Value() (driver.Value, error) {
+	if !sa.Valid {
 		return nil, nil
 	}
 
