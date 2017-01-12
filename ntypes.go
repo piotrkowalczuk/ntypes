@@ -22,8 +22,8 @@ var (
 )
 
 // NewString allocates new valid string.
-func NewString(s string) String {
-	return String{Chars: s, Valid: true}
+func NewString(s string) *String {
+	return &String{Chars: s, Valid: true}
 }
 
 // StringOr returns given string value if receiver is nil or invalid.
@@ -147,8 +147,8 @@ func (sa *StringArray) StringArrayOr(or []string) []string {
 }
 
 // NewInt64 allocates new valid Int64.
-func NewInt64(i int64) Int64 {
-	return Int64{Int64: i, Valid: true}
+func NewInt64(i int64) *Int64 {
+	return &Int64{Int64: i, Valid: true}
 }
 
 // Int64Or returns given int64 value if receiver is nil or invalid.
@@ -268,8 +268,8 @@ func (ia *Int64Array) Int64ArrayOr(or []int64) []int64 {
 }
 
 // NewInt32 allocates new valid Int32.
-func NewInt32(i int32) Int32 {
-	return Int32{Int32: i, Valid: true}
+func NewInt32(i int32) *Int32 {
+	return &Int32{Int32: i, Valid: true}
 }
 
 // Int32Or returns given int32 value if receiver is nil or invalid.
@@ -374,8 +374,8 @@ func (ia *Int32Array) Int32ArrayOr(or []int32) []int32 {
 }
 
 // NewUint32 allocates new valid Uint32.
-func NewUint32(u uint32) Uint32 {
-	return Uint32{Uint32: u, Valid: true}
+func NewUint32(u uint32) *Uint32 {
+	return &Uint32{Uint32: u, Valid: true}
 }
 
 // Uint32Or returns given uint32 value if receiver is nil or invalid.
@@ -789,13 +789,13 @@ func (fa *Float64Array) Float64ArrayOr(or []float64) []float64 {
 }
 
 // True allocate new valid Bool object that holds true.
-func True() Bool {
-	return Bool{Bool: true, Valid: true}
+func True() *Bool {
+	return &Bool{Bool: true, Valid: true}
 }
 
 // False allocate new valid Bool object that holds false.
-func False() Bool {
-	return Bool{Bool: false, Valid: true}
+func False() *Bool {
+	return &Bool{Bool: false, Valid: true}
 }
 
 // BoolOr returns given bool value if receiver is nil or invalid.
