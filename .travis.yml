@@ -6,7 +6,7 @@ install:
 script:
   - go test -coverprofile=coverage.txt -covermode=atomic
 after_success:
-  - bash <(curl -fa https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
   slack:
     secure: $SLACK_SECURE
