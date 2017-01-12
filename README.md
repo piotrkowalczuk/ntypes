@@ -3,25 +3,43 @@ Package provides set of types that helps to build complex protobuf messages that
 
 ## Types
 
+### Basic 
+
 * [ntypes.String](https://godoc.org/github.com/piotrkowalczuk/ntypes#String)
 * [ntypes.Bool](https://godoc.org/github.com/piotrkowalczuk/ntypes#Bool)
 * [ntypes.Int32](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int32)
 * [ntypes.Int64](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int64)
 * [ntypes.Uint32](https://godoc.org/github.com/piotrkowalczuk/ntypes#Uint32)
+* [ntypes.Uint64](https://godoc.org/github.com/piotrkowalczuk/ntypes#Uint64)
 * [ntypes.Float32](https://godoc.org/github.com/piotrkowalczuk/ntypes#Float32)
 * [ntypes.Float64](https://godoc.org/github.com/piotrkowalczuk/ntypes#Float64)
 
+### Arrays
+
+* [ntypes.StringArray](https://godoc.org/github.com/piotrkowalczuk/ntypes#StringArray)
+* [ntypes.BoolArray](https://godoc.org/github.com/piotrkowalczuk/ntypes#BoolArray)
+* [ntypes.Int32Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int32Array)
+* [ntypes.Int64Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int64Array)
+* [ntypes.Uint32Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Uint32Array)
+* [ntypes.Uint64Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Uint64Array)
+* [ntypes.Float32Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Float32Array)
+* [ntypes.Float64Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Float64Array)
+
+Arrays support is not an SQL standard. Extra import needs to be added to make it working with [postgres driver](github.com/lib/pq):
+ 
+ ```
+ import _ "github.com/piotrkowalczuk/ntypes/ntypespq"
+ ```
 
 ## Interfaces
 
-Each type implements set of interfaces:
+Some type implements set of interfaces:
 
-* [driver.Valuer](https://golang.org/pkg/database/sql/driver/#Valuer)
+* [driver.Valuer](https://golang.org/pkg/database/sql/driver/#Valuer) excluding Uint64 and some arrays
 * [proto.Message](https://godoc.org/github.com/golang/protobuf/proto#Message)
-* [sql.Scanner](https://golang.org/pkg/database/sql/#Scanner)
+* [sql.Scanner](https://golang.org/pkg/database/sql/#Scanner) excluding Uint64 and some arrays
 * [json.Marshaler](https://golang.org/pkg/encoding/json/#Marshaler)
 * [json.Unmarshaler](https://golang.org/pkg/encoding/json/#Unmarshaler)
-
 
 ## Helpers
 
