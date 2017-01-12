@@ -11,14 +11,30 @@ import (
 )
 
 var (
-	StringArrayScan   func(interface{}) ([]string, error)
-	StringArrayValue  func([]string) (driver.Value, error)
-	Float64ArrayScan  func(interface{}) ([]float64, error)
-	Float64ArrayValue func([]float64) (driver.Value, error)
-	Int64ArrayScan    func(interface{}) ([]int64, error)
-	Int64ArrayValue   func([]int64) (driver.Value, error)
-	BoolArrayScan     func(interface{}) ([]bool, error)
-	BoolArrayValue    func([]bool) (driver.Value, error)
+	StringArrayScan = func(interface{}) ([]string, error) {
+		return nil, errors.New("ntypes: StringArrayScan not set")
+	}
+	StringArrayValue = func([]string) (driver.Value, error) {
+		return nil, errors.New("ntypes: StringArrayValue not set")
+	}
+	Float64ArrayScan = func(interface{}) ([]float64, error) {
+		return nil, errors.New("ntypes: Float64ArrayScan not set")
+	}
+	Float64ArrayValue = func([]float64) (driver.Value, error) {
+		return nil, errors.New("ntypes: Float64ArrayValue not set")
+	}
+	Int64ArrayScan = func(interface{}) ([]int64, error) {
+		return nil, errors.New("ntypes: Float64ArrayValue not set")
+	}
+	Int64ArrayValue = func([]int64) (driver.Value, error) {
+		return nil, errors.New("ntypes: Int64ArrayValue not set")
+	}
+	BoolArrayScan = func(interface{}) ([]bool, error) {
+		return nil, errors.New("ntypes: BoolArrayScan not set")
+	}
+	BoolArrayValue = func([]bool) (driver.Value, error) {
+		return nil, errors.New("ntypes: BoolArrayValue not set")
+	}
 )
 
 // NewString allocates new valid string.
@@ -101,7 +117,7 @@ func (sa *StringArray) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler interface.
-func (sa *StringArray) UnmarshalJSON(data []byte) (error) {
+func (sa *StringArray) UnmarshalJSON(data []byte) error {
 	if isNull(data) {
 		sa.Valid = false
 		return nil
