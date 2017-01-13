@@ -9,6 +9,8 @@ It is generated from these files:
 	ntypes.proto
 
 It has these top-level messages:
+	Bytes
+	BytesArray
 	String
 	StringArray
 	Int32
@@ -43,6 +45,28 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
+// Bytes represents a byte slice that may be nil.
+type Bytes struct {
+	Bytes []byte `protobuf:"bytes,1,opt,name=bytes,proto3" json:"bytes,omitempty"`
+	Valid bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+}
+
+func (m *Bytes) Reset()                    { *m = Bytes{} }
+func (m *Bytes) String() string            { return proto.CompactTextString(m) }
+func (*Bytes) ProtoMessage()               {}
+func (*Bytes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+
+// BytesArray represents an array of byte slices that may be nil.
+type BytesArray struct {
+	BytesArray [][]byte `protobuf:"bytes,1,rep,name=bytes_array,json=bytesArray,proto3" json:"bytes_array,omitempty"`
+	Valid      bool     `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
+}
+
+func (m *BytesArray) Reset()                    { *m = BytesArray{} }
+func (m *BytesArray) String() string            { return proto.CompactTextString(m) }
+func (*BytesArray) ProtoMessage()               {}
+func (*BytesArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+
 // String represents a string that may be nil.
 type String struct {
 	Chars string `protobuf:"bytes,1,opt,name=chars" json:"chars,omitempty"`
@@ -52,7 +76,7 @@ type String struct {
 func (m *String) Reset()                    { *m = String{} }
 func (m *String) String() string            { return proto.CompactTextString(m) }
 func (*String) ProtoMessage()               {}
-func (*String) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
+func (*String) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
 
 // StringArray represents an array of strings that may be nil.
 type StringArray struct {
@@ -63,7 +87,7 @@ type StringArray struct {
 func (m *StringArray) Reset()                    { *m = StringArray{} }
 func (m *StringArray) String() string            { return proto.CompactTextString(m) }
 func (*StringArray) ProtoMessage()               {}
-func (*StringArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+func (*StringArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
 
 // Int32 represents a int32 that may be nil.
 type Int32 struct {
@@ -74,7 +98,7 @@ type Int32 struct {
 func (m *Int32) Reset()                    { *m = Int32{} }
 func (m *Int32) String() string            { return proto.CompactTextString(m) }
 func (*Int32) ProtoMessage()               {}
-func (*Int32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
+func (*Int32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
 
 // Int32Array represents an array of int32s that may be nil.
 type Int32Array struct {
@@ -82,10 +106,10 @@ type Int32Array struct {
 	Valid      bool    `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (ia *Int32Array) Reset()                   { *ia = Int32Array{} }
-func (ia *Int32Array) String() string           { return proto.CompactTextString(ia) }
+func (m *Int32Array) Reset()                    { *m = Int32Array{} }
+func (m *Int32Array) String() string            { return proto.CompactTextString(m) }
 func (*Int32Array) ProtoMessage()               {}
-func (*Int32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+func (*Int32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
 
 // Int64 represents a int64 that may be nil.
 type Int64 struct {
@@ -96,7 +120,7 @@ type Int64 struct {
 func (m *Int64) Reset()                    { *m = Int64{} }
 func (m *Int64) String() string            { return proto.CompactTextString(m) }
 func (*Int64) ProtoMessage()               {}
-func (*Int64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
+func (*Int64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
 // Int64Array represents an array of int64s that may be nil.
 type Int64Array struct {
@@ -104,10 +128,10 @@ type Int64Array struct {
 	Valid      bool    `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (ia *Int64Array) Reset()                   { *ia = Int64Array{} }
-func (ia *Int64Array) String() string           { return proto.CompactTextString(ia) }
+func (m *Int64Array) Reset()                    { *m = Int64Array{} }
+func (m *Int64Array) String() string            { return proto.CompactTextString(m) }
 func (*Int64Array) ProtoMessage()               {}
-func (*Int64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+func (*Int64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
 
 // Uint32 represents a Uint32 that may be nil.
 type Uint32 struct {
@@ -118,7 +142,7 @@ type Uint32 struct {
 func (m *Uint32) Reset()                    { *m = Uint32{} }
 func (m *Uint32) String() string            { return proto.CompactTextString(m) }
 func (*Uint32) ProtoMessage()               {}
-func (*Uint32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
+func (*Uint32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
 // Uint32Array represents an array of uint32s that may be nil.
 type Uint32Array struct {
@@ -126,10 +150,10 @@ type Uint32Array struct {
 	Valid       bool     `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (ua *Uint32Array) Reset()                   { *ua = Uint32Array{} }
-func (ua *Uint32Array) String() string           { return proto.CompactTextString(ua) }
+func (m *Uint32Array) Reset()                    { *m = Uint32Array{} }
+func (m *Uint32Array) String() string            { return proto.CompactTextString(m) }
 func (*Uint32Array) ProtoMessage()               {}
-func (*Uint32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
+func (*Uint32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
 
 // Uint64 represents a Uint64 that may be nil.
 type Uint64 struct {
@@ -140,7 +164,7 @@ type Uint64 struct {
 func (m *Uint64) Reset()                    { *m = Uint64{} }
 func (m *Uint64) String() string            { return proto.CompactTextString(m) }
 func (*Uint64) ProtoMessage()               {}
-func (*Uint64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
+func (*Uint64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
 
 // Uint64Array represents an array of uint64s that may be nil.
 type Uint64Array struct {
@@ -148,10 +172,10 @@ type Uint64Array struct {
 	Valid       bool     `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (ua *Uint64Array) Reset()                   { *ua = Uint64Array{} }
-func (ua *Uint64Array) String() string           { return proto.CompactTextString(ua) }
+func (m *Uint64Array) Reset()                    { *m = Uint64Array{} }
+func (m *Uint64Array) String() string            { return proto.CompactTextString(m) }
 func (*Uint64Array) ProtoMessage()               {}
-func (*Uint64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+func (*Uint64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
 
 // Float32 represents a Float32 that may be nil.
 type Float32 struct {
@@ -162,7 +186,7 @@ type Float32 struct {
 func (m *Float32) Reset()                    { *m = Float32{} }
 func (m *Float32) String() string            { return proto.CompactTextString(m) }
 func (*Float32) ProtoMessage()               {}
-func (*Float32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
+func (*Float32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
 // Float32Array represents an array of float32s that may be nil.
 type Float32Array struct {
@@ -170,10 +194,10 @@ type Float32Array struct {
 	Valid        bool      `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (fa *Float32Array) Reset()                   { *fa = Float32Array{} }
-func (fa *Float32Array) String() string           { return proto.CompactTextString(fa) }
+func (m *Float32Array) Reset()                    { *m = Float32Array{} }
+func (m *Float32Array) String() string            { return proto.CompactTextString(m) }
 func (*Float32Array) ProtoMessage()               {}
-func (*Float32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
+func (*Float32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
 
 // Float64 represents a Float64 that may be nil.
 type Float64 struct {
@@ -184,7 +208,7 @@ type Float64 struct {
 func (m *Float64) Reset()                    { *m = Float64{} }
 func (m *Float64) String() string            { return proto.CompactTextString(m) }
 func (*Float64) ProtoMessage()               {}
-func (*Float64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
+func (*Float64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
 
 // Float64Array represents an array of float64s that may be nil.
 type Float64Array struct {
@@ -192,10 +216,10 @@ type Float64Array struct {
 	Valid        bool      `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (fa *Float64Array) Reset()                   { *fa = Float64Array{} }
-func (fa *Float64Array) String() string           { return proto.CompactTextString(fa) }
+func (m *Float64Array) Reset()                    { *m = Float64Array{} }
+func (m *Float64Array) String() string            { return proto.CompactTextString(m) }
 func (*Float64Array) ProtoMessage()               {}
-func (*Float64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
+func (*Float64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
 
 // Bool represents a bool that may be nil.
 type Bool struct {
@@ -206,7 +230,7 @@ type Bool struct {
 func (m *Bool) Reset()                    { *m = Bool{} }
 func (m *Bool) String() string            { return proto.CompactTextString(m) }
 func (*Bool) ProtoMessage()               {}
-func (*Bool) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
+func (*Bool) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
 
 // BoolArray represents an array of booleans that may be nil.
 type BoolArray struct {
@@ -214,12 +238,14 @@ type BoolArray struct {
 	Valid     bool   `protobuf:"varint,2,opt,name=valid" json:"valid,omitempty"`
 }
 
-func (ba *BoolArray) Reset()                   { *ba = BoolArray{} }
-func (ba *BoolArray) String() string           { return proto.CompactTextString(ba) }
+func (m *BoolArray) Reset()                    { *m = BoolArray{} }
+func (m *BoolArray) String() string            { return proto.CompactTextString(m) }
 func (*BoolArray) ProtoMessage()               {}
-func (*BoolArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
+func (*BoolArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{17} }
 
 func init() {
+	proto.RegisterType((*Bytes)(nil), "ntypes.Bytes")
+	proto.RegisterType((*BytesArray)(nil), "ntypes.BytesArray")
 	proto.RegisterType((*String)(nil), "ntypes.String")
 	proto.RegisterType((*StringArray)(nil), "ntypes.StringArray")
 	proto.RegisterType((*Int32)(nil), "ntypes.Int32")
@@ -241,28 +267,30 @@ func init() {
 func init() { proto.RegisterFile("ntypes.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 361 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x84, 0x94, 0xc1, 0x6b, 0xf2, 0x40,
-	0x10, 0xc5, 0x89, 0x26, 0x31, 0x99, 0xc4, 0x4b, 0xf8, 0xf8, 0xc8, 0xa5, 0x54, 0xed, 0xc5, 0x53,
-	0x29, 0x75, 0x59, 0xe8, 0xad, 0xb5, 0x20, 0x78, 0x9d, 0xe2, 0xa5, 0x97, 0x12, 0xdb, 0xda, 0x06,
-	0x82, 0x2b, 0x49, 0x2c, 0xf8, 0xdf, 0x97, 0xdd, 0xd9, 0xd5, 0xb5, 0x24, 0xf1, 0xb6, 0xcf, 0x9d,
-	0x37, 0xbf, 0xf7, 0x16, 0x0c, 0xc4, 0xdb, 0xfa, 0xb0, 0xfb, 0xac, 0x6e, 0x77, 0xa5, 0xa8, 0x45,
-	0xe2, 0x93, 0x9a, 0x30, 0xf0, 0x5f, 0xea, 0x32, 0xdf, 0x7e, 0x25, 0xff, 0xc0, 0x7b, 0xff, 0xce,
-	0xca, 0x2a, 0x75, 0x46, 0xce, 0x34, 0x44, 0x12, 0xf2, 0xd7, 0x9f, 0xac, 0xc8, 0x3f, 0xd2, 0xde,
-	0xc8, 0x99, 0x06, 0x48, 0x62, 0xb2, 0x80, 0x88, 0x5c, 0x4f, 0x65, 0x99, 0x1d, 0x92, 0x31, 0xc4,
-	0x95, 0x92, 0x6f, 0x99, 0xd4, 0xa9, 0x33, 0xea, 0x4f, 0x43, 0x8c, 0x2a, 0x6b, 0xa4, 0x79, 0xcf,
-	0x0c, 0xbc, 0xe5, 0xb6, 0x9e, 0xdd, 0xcb, 0xeb, 0x5c, 0x1e, 0x14, 0xdc, 0x43, 0x12, 0x2d, 0xa6,
-	0x67, 0x00, 0x65, 0xa2, 0xc5, 0xd7, 0x10, 0xa9, 0x61, 0x0b, 0xed, 0x21, 0xe4, 0xa7, 0x81, 0x2e,
-	0x32, 0x67, 0x9a, 0xcc, 0x99, 0x22, 0xf7, 0x91, 0x44, 0x27, 0x99, 0x33, 0x9b, 0xcc, 0x99, 0x45,
-	0xee, 0x2b, 0xb2, 0x19, 0x68, 0x5e, 0xc2, 0xc1, 0x5f, 0x51, 0xbd, 0xff, 0xe0, 0xef, 0x4f, 0xad,
-	0x87, 0xa8, 0x55, 0xfb, 0x9b, 0xaf, 0xac, 0x5a, 0x63, 0x88, 0xf7, 0x7f, 0x8b, 0x0f, 0x31, 0xda,
-	0x5f, 0x6c, 0xae, 0xf9, 0x9c, 0x19, 0xbe, 0xee, 0xee, 0xa2, 0x56, 0xdd, 0x7c, 0x53, 0x4e, 0xf3,
-	0xcf, 0xea, 0xbb, 0xc4, 0xef, 0xee, 0xff, 0x00, 0x83, 0x45, 0x21, 0x32, 0x59, 0x34, 0x85, 0xc1,
-	0x86, 0x8e, 0x2a, 0x41, 0x0f, 0x8d, 0x6c, 0xb1, 0x2e, 0x21, 0xd6, 0x56, 0x02, 0xdc, 0xc0, 0x50,
-	0x1b, 0xac, 0x10, 0x3d, 0x8c, 0x37, 0xf6, 0x50, 0x77, 0x0a, 0xce, 0x8e, 0x29, 0xf4, 0x3b, 0x38,
-	0x68, 0xe4, 0x85, 0x14, 0xa6, 0xa6, 0x49, 0x71, 0xf6, 0x14, 0x8e, 0x4e, 0xd1, 0xfd, 0x16, 0x77,
-	0xe0, 0xce, 0x85, 0x28, 0x92, 0x04, 0xdc, 0xb5, 0x10, 0x85, 0xe2, 0x07, 0xa8, 0xce, 0x2d, 0x8e,
-	0x47, 0x08, 0xa5, 0x83, 0x96, 0x5e, 0x01, 0xc8, 0x51, 0x0b, 0x1b, 0x60, 0xb8, 0x3e, 0x5e, 0x37,
-	0x6e, 0x98, 0x07, 0xaf, 0xfa, 0xbf, 0xbf, 0xf6, 0xd5, 0xa7, 0x60, 0xf6, 0x1b, 0x00, 0x00, 0xff,
-	0xff, 0xe1, 0xb2, 0x8a, 0x2c, 0x1a, 0x04, 0x00, 0x00,
+	// 390 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x84, 0x94, 0x41, 0x6b, 0xab, 0x40,
+	0x14, 0x85, 0x31, 0x51, 0xa3, 0x57, 0xb3, 0x91, 0xc7, 0xc3, 0xcd, 0xe3, 0x25, 0xe9, 0x26, 0xab,
+	0x52, 0xaa, 0x0c, 0x74, 0xd7, 0xa6, 0x10, 0xc8, 0xf6, 0x96, 0x6c, 0xba, 0x29, 0xda, 0x26, 0xad,
+	0x20, 0x99, 0xa0, 0xa6, 0x90, 0x7f, 0x5f, 0x66, 0xee, 0x4c, 0x32, 0x29, 0x6a, 0x76, 0x73, 0x9c,
+	0x73, 0xee, 0x77, 0xcf, 0x2c, 0x84, 0x70, 0xd7, 0x1c, 0xf7, 0x9b, 0xfa, 0x76, 0x5f, 0xf1, 0x86,
+	0x47, 0x2e, 0xa9, 0x59, 0x02, 0xce, 0xe2, 0xd8, 0x6c, 0xea, 0xe8, 0x0f, 0x38, 0xb9, 0x38, 0xc4,
+	0xd6, 0xc4, 0x9a, 0x87, 0x48, 0x42, 0x7c, 0xfd, 0xce, 0xca, 0xe2, 0x23, 0x1e, 0x4c, 0xac, 0xb9,
+	0x87, 0x24, 0x66, 0xcf, 0x00, 0x32, 0xf4, 0x54, 0x55, 0xd9, 0x31, 0xfa, 0x0f, 0x81, 0x34, 0xbf,
+	0x65, 0x42, 0xc6, 0xd6, 0x64, 0x38, 0x0f, 0x11, 0xf2, 0xb3, 0xa1, 0x7d, 0x48, 0x0a, 0xee, 0x4b,
+	0x53, 0x15, 0xbb, 0x4f, 0x71, 0xff, 0xfe, 0x95, 0x55, 0x84, 0xf6, 0x91, 0x44, 0x47, 0x6a, 0x09,
+	0x01, 0xa5, 0x68, 0xf4, 0x14, 0xc2, 0x5a, 0x4a, 0x03, 0xee, 0x63, 0x50, 0x1b, 0x96, 0xf6, 0x39,
+	0x09, 0x38, 0xab, 0x5d, 0x93, 0xdc, 0x8b, 0xeb, 0x42, 0x1c, 0x24, 0xdc, 0x41, 0x12, 0xdd, 0xbd,
+	0x65, 0xe8, 0xd4, 0x5b, 0x9a, 0x0d, 0xb4, 0x83, 0x50, 0x9c, 0x0d, 0x7d, 0x64, 0x96, 0x2a, 0x32,
+	0x4b, 0x25, 0x79, 0x88, 0x24, 0x7a, 0xc9, 0x2c, 0x35, 0xc9, 0x2c, 0x35, 0xc8, 0x43, 0x49, 0xd6,
+	0x86, 0xf6, 0x21, 0x0c, 0xdc, 0x35, 0xd5, 0xfb, 0x0b, 0xee, 0xe1, 0xdc, 0x7a, 0x8c, 0x4a, 0x75,
+	0xbf, 0xf9, 0xda, 0xa8, 0x35, 0x85, 0xf0, 0xf0, 0xbb, 0xf8, 0x18, 0x83, 0xc3, 0xd5, 0xe6, 0x8a,
+	0xcf, 0x52, 0xcd, 0x57, 0xdd, 0x6d, 0x54, 0xaa, 0x9f, 0xaf, 0xcb, 0x29, 0xfe, 0x45, 0x7d, 0x9b,
+	0xf8, 0xfd, 0xfd, 0x1f, 0x60, 0xb4, 0x2c, 0x79, 0x26, 0x8a, 0xc6, 0x30, 0xda, 0xd2, 0x51, 0x6e,
+	0x30, 0x40, 0x2d, 0x3b, 0xa2, 0x2b, 0x08, 0x55, 0x94, 0x00, 0x37, 0x30, 0x56, 0x01, 0x63, 0x89,
+	0x01, 0x86, 0x5b, 0xd3, 0xd4, 0xbf, 0x05, 0x4b, 0x4f, 0x5b, 0xa8, 0x77, 0xb0, 0x50, 0xcb, 0x2b,
+	0x5b, 0xe8, 0x9a, 0x7a, 0x8b, 0x8b, 0xa7, 0xb0, 0xd4, 0x16, 0xfd, 0x6f, 0x71, 0x07, 0xf6, 0x82,
+	0xf3, 0x32, 0x8a, 0xc0, 0xce, 0x39, 0x2f, 0x25, 0xdf, 0x43, 0x79, 0xee, 0x48, 0x3c, 0x82, 0x2f,
+	0x12, 0x34, 0xf4, 0x1f, 0x80, 0xb0, 0x1a, 0x58, 0x0f, 0xfd, 0xfc, 0x74, 0xdd, 0x3a, 0x61, 0xe1,
+	0xbd, 0xaa, 0xbf, 0x4e, 0xee, 0xca, 0x9f, 0x50, 0xf2, 0x13, 0x00, 0x00, 0xff, 0xff, 0xd2, 0x9a,
+	0x97, 0x76, 0x94, 0x04, 0x00, 0x00,
 }

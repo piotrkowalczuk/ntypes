@@ -3,6 +3,18 @@ syntax = "proto3";
 package ntypes;
 option go_package = "ntypes";
 
+// Bytes represents a byte slice that may be nil.
+message Bytes {
+	bytes bytes = 1;
+	bool valid = 2;
+}
+
+// BytesArray represents an array of byte slices that may be nil.
+message BytesArray {
+	repeated bytes bytes_array = 1;
+	bool valid = 2;
+}
+
 // String represents a string that may be nil.
 message String {
 	string chars = 1;

@@ -48,4 +48,14 @@ func init() {
 	ntypes.BoolArrayValue = func(arr []bool) (driver.Value, error) {
 		return pq.BoolArray(arr).Value()
 	}
+	ntypes.BytesArrayScan = func(data interface{}) ([][]byte, error) {
+		var arr pq.ByteaArray
+		if err := arr.Scan(data); err != nil {
+			return nil, err
+		}
+		return arr, nil
+	}
+	ntypes.BytesArrayValue = func(arr [][]byte) (driver.Value, error) {
+		return pq.ByteaArray(arr).Value()
+	}
 }
