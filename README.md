@@ -5,6 +5,7 @@ Package provides set of types that helps to build complex protobuf messages that
 
 ### Basic 
 
+* [ntypes.Bytes](https://godoc.org/github.com/piotrkowalczuk/ntypes#Bytes)
 * [ntypes.String](https://godoc.org/github.com/piotrkowalczuk/ntypes#String)
 * [ntypes.Bool](https://godoc.org/github.com/piotrkowalczuk/ntypes#Bool)
 * [ntypes.Int32](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int32)
@@ -16,6 +17,7 @@ Package provides set of types that helps to build complex protobuf messages that
 
 ### Arrays
 
+* [ntypes.BytesArray](https://godoc.org/github.com/piotrkowalczuk/ntypes#BytesArray)
 * [ntypes.StringArray](https://godoc.org/github.com/piotrkowalczuk/ntypes#StringArray)
 * [ntypes.BoolArray](https://godoc.org/github.com/piotrkowalczuk/ntypes#BoolArray)
 * [ntypes.Int32Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Int32Array)
