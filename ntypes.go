@@ -43,7 +43,69 @@ var (
 	BoolArrayValue = func([]bool) (driver.Value, error) {
 		return nil, errors.New("ntypes: BoolArrayValue not set")
 	}
+	// BytesArrayScan is used by BytesArray Scan method.
+	BytesArrayScan = func(interface{}) ([][]byte, error) {
+		return nil, errors.New("ntypes: BytesArrayScan not set")
+	}
+	// ByteArrayValue is used by BytesArray Value method.
+	BytesArrayValue = func([][]byte) (driver.Value, error) {
+		return nil, errors.New("ntypes: BytesArrayValue not set")
+	}
 )
+
+// MarshalJSON implements json.Marshaler interface.
+func (ba *BytesArray) MarshalJSON() ([]byte, error) {
+	if ba == nil || !ba.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(ba.BytesArray)
+}
+
+// UnmarshalJSON implements json.Unmarshaler interface.
+func (ba *BytesArray) UnmarshalJSON(data []byte) error {
+	if isNull(data) {
+		ba.Valid = false
+		return nil
+	}
+	if data == nil {
+		ba.BytesArray, ba.Valid = nil, false
+		return nil
+	}
+	ba.Valid = true
+	return json.Unmarshal(data, &ba.BytesArray)
+}
+
+// Scan implements the Scanner interface.
+func (ba *BytesArray) Scan(value interface{}) (err error) {
+	if value == nil {
+		ba.BytesArray, ba.Valid = nil, false
+		return
+	}
+	ba.Valid = true
+	ba.BytesArray, err = BytesArrayScan(value)
+	return
+}
+
+// Value implements the driver Valuer interface.
+func (ba BytesArray) Value() (driver.Value, error) {
+	if !ba.Valid {
+		return nil, nil
+	}
+
+	return BytesArrayValue(ba.BytesArray)
+}
+
+// BytesArrayOr returns given slice if receiver is nil or invalid.
+func (ba *BytesArray) BytesArrayOr(or [][]byte) [][]byte {
+	switch {
+	case ba == nil:
+		return or
+	case !ba.Valid:
+		return or
+	default:
+		return ba.BytesArray
+	}
+}
 
 // NewString allocates new valid string.
 func NewString(s string) *String {
