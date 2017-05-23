@@ -5,7 +5,7 @@ PROTOC=/usr/local/bin/protoc
 
 gen:
 	@${PROTOC} -I=/usr/include -I=. --go_out=. ntypes.proto
-	@python -m grpc_tools.protoc -I=/usr/include -I=. --python_out=. --grpc_python_out=. ntypes.proto
+	@python -m grpc_tools.protoc -I=/usr/include -I=. --python_out=. ntypes.proto
 	@ls -al | grep "pb.go"
 	@ls -al | grep "_pb2"
 
