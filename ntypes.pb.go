@@ -56,6 +56,20 @@ func (m *Bytes) String() string            { return proto.CompactTextString(m) }
 func (*Bytes) ProtoMessage()               {}
 func (*Bytes) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{0} }
 
+func (m *Bytes) GetBytes() []byte {
+	if m != nil {
+		return m.Bytes
+	}
+	return nil
+}
+
+func (m *Bytes) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // BytesArray represents an array of byte slices that may be nil.
 type BytesArray struct {
 	BytesArray [][]byte `protobuf:"bytes,1,rep,name=bytes_array,json=bytesArray,proto3" json:"bytes_array,omitempty"`
@@ -66,6 +80,20 @@ func (m *BytesArray) Reset()                    { *m = BytesArray{} }
 func (m *BytesArray) String() string            { return proto.CompactTextString(m) }
 func (*BytesArray) ProtoMessage()               {}
 func (*BytesArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{1} }
+
+func (m *BytesArray) GetBytesArray() [][]byte {
+	if m != nil {
+		return m.BytesArray
+	}
+	return nil
+}
+
+func (m *BytesArray) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // String represents a string that may be nil.
 type String struct {
@@ -78,6 +106,20 @@ func (m *String) String() string            { return proto.CompactTextString(m) 
 func (*String) ProtoMessage()               {}
 func (*String) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{2} }
 
+func (m *String) GetChars() string {
+	if m != nil {
+		return m.Chars
+	}
+	return ""
+}
+
+func (m *String) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // StringArray represents an array of strings that may be nil.
 type StringArray struct {
 	StringArray []string `protobuf:"bytes,1,rep,name=string_array,json=stringArray" json:"string_array,omitempty"`
@@ -88,6 +130,20 @@ func (m *StringArray) Reset()                    { *m = StringArray{} }
 func (m *StringArray) String() string            { return proto.CompactTextString(m) }
 func (*StringArray) ProtoMessage()               {}
 func (*StringArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{3} }
+
+func (m *StringArray) GetStringArray() []string {
+	if m != nil {
+		return m.StringArray
+	}
+	return nil
+}
+
+func (m *StringArray) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // Int32 represents a int32 that may be nil.
 type Int32 struct {
@@ -100,6 +156,20 @@ func (m *Int32) String() string            { return proto.CompactTextString(m) }
 func (*Int32) ProtoMessage()               {}
 func (*Int32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{4} }
 
+func (m *Int32) GetInt32() int32 {
+	if m != nil {
+		return m.Int32
+	}
+	return 0
+}
+
+func (m *Int32) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // Int32Array represents an array of int32s that may be nil.
 type Int32Array struct {
 	Int32Array []int32 `protobuf:"varint,1,rep,packed,name=int32_array,json=int32Array" json:"int32_array,omitempty"`
@@ -110,6 +180,20 @@ func (m *Int32Array) Reset()                    { *m = Int32Array{} }
 func (m *Int32Array) String() string            { return proto.CompactTextString(m) }
 func (*Int32Array) ProtoMessage()               {}
 func (*Int32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{5} }
+
+func (m *Int32Array) GetInt32Array() []int32 {
+	if m != nil {
+		return m.Int32Array
+	}
+	return nil
+}
+
+func (m *Int32Array) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // Int64 represents a int64 that may be nil.
 type Int64 struct {
@@ -122,6 +206,20 @@ func (m *Int64) String() string            { return proto.CompactTextString(m) }
 func (*Int64) ProtoMessage()               {}
 func (*Int64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{6} }
 
+func (m *Int64) GetInt64() int64 {
+	if m != nil {
+		return m.Int64
+	}
+	return 0
+}
+
+func (m *Int64) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // Int64Array represents an array of int64s that may be nil.
 type Int64Array struct {
 	Int64Array []int64 `protobuf:"varint,1,rep,packed,name=int64_array,json=int64Array" json:"int64_array,omitempty"`
@@ -132,6 +230,20 @@ func (m *Int64Array) Reset()                    { *m = Int64Array{} }
 func (m *Int64Array) String() string            { return proto.CompactTextString(m) }
 func (*Int64Array) ProtoMessage()               {}
 func (*Int64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{7} }
+
+func (m *Int64Array) GetInt64Array() []int64 {
+	if m != nil {
+		return m.Int64Array
+	}
+	return nil
+}
+
+func (m *Int64Array) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // Uint32 represents a Uint32 that may be nil.
 type Uint32 struct {
@@ -144,6 +256,20 @@ func (m *Uint32) String() string            { return proto.CompactTextString(m) 
 func (*Uint32) ProtoMessage()               {}
 func (*Uint32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{8} }
 
+func (m *Uint32) GetUint32() uint32 {
+	if m != nil {
+		return m.Uint32
+	}
+	return 0
+}
+
+func (m *Uint32) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // Uint32Array represents an array of uint32s that may be nil.
 type Uint32Array struct {
 	Uint32Array []uint32 `protobuf:"varint,1,rep,packed,name=uint32_array,json=uint32Array" json:"uint32_array,omitempty"`
@@ -154,6 +280,20 @@ func (m *Uint32Array) Reset()                    { *m = Uint32Array{} }
 func (m *Uint32Array) String() string            { return proto.CompactTextString(m) }
 func (*Uint32Array) ProtoMessage()               {}
 func (*Uint32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{9} }
+
+func (m *Uint32Array) GetUint32Array() []uint32 {
+	if m != nil {
+		return m.Uint32Array
+	}
+	return nil
+}
+
+func (m *Uint32Array) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // Uint64 represents a Uint64 that may be nil.
 type Uint64 struct {
@@ -166,6 +306,20 @@ func (m *Uint64) String() string            { return proto.CompactTextString(m) 
 func (*Uint64) ProtoMessage()               {}
 func (*Uint64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{10} }
 
+func (m *Uint64) GetUint64() uint64 {
+	if m != nil {
+		return m.Uint64
+	}
+	return 0
+}
+
+func (m *Uint64) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // Uint64Array represents an array of uint64s that may be nil.
 type Uint64Array struct {
 	Uint64Array []uint64 `protobuf:"varint,1,rep,packed,name=uint64_array,json=uint64Array" json:"uint64_array,omitempty"`
@@ -176,6 +330,20 @@ func (m *Uint64Array) Reset()                    { *m = Uint64Array{} }
 func (m *Uint64Array) String() string            { return proto.CompactTextString(m) }
 func (*Uint64Array) ProtoMessage()               {}
 func (*Uint64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{11} }
+
+func (m *Uint64Array) GetUint64Array() []uint64 {
+	if m != nil {
+		return m.Uint64Array
+	}
+	return nil
+}
+
+func (m *Uint64Array) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // Float32 represents a Float32 that may be nil.
 type Float32 struct {
@@ -188,6 +356,20 @@ func (m *Float32) String() string            { return proto.CompactTextString(m)
 func (*Float32) ProtoMessage()               {}
 func (*Float32) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{12} }
 
+func (m *Float32) GetFloat32() float32 {
+	if m != nil {
+		return m.Float32
+	}
+	return 0
+}
+
+func (m *Float32) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // Float32Array represents an array of float32s that may be nil.
 type Float32Array struct {
 	Float32Array []float32 `protobuf:"fixed32,1,rep,packed,name=float32_array,json=float32Array" json:"float32_array,omitempty"`
@@ -198,6 +380,20 @@ func (m *Float32Array) Reset()                    { *m = Float32Array{} }
 func (m *Float32Array) String() string            { return proto.CompactTextString(m) }
 func (*Float32Array) ProtoMessage()               {}
 func (*Float32Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{13} }
+
+func (m *Float32Array) GetFloat32Array() []float32 {
+	if m != nil {
+		return m.Float32Array
+	}
+	return nil
+}
+
+func (m *Float32Array) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // Float64 represents a Float64 that may be nil.
 type Float64 struct {
@@ -210,6 +406,20 @@ func (m *Float64) String() string            { return proto.CompactTextString(m)
 func (*Float64) ProtoMessage()               {}
 func (*Float64) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{14} }
 
+func (m *Float64) GetFloat64() float64 {
+	if m != nil {
+		return m.Float64
+	}
+	return 0
+}
+
+func (m *Float64) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // Float64Array represents an array of float64s that may be nil.
 type Float64Array struct {
 	Float64Array []float64 `protobuf:"fixed64,1,rep,packed,name=float64_array,json=float64Array" json:"float64_array,omitempty"`
@@ -220,6 +430,20 @@ func (m *Float64Array) Reset()                    { *m = Float64Array{} }
 func (m *Float64Array) String() string            { return proto.CompactTextString(m) }
 func (*Float64Array) ProtoMessage()               {}
 func (*Float64Array) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{15} }
+
+func (m *Float64Array) GetFloat64Array() []float64 {
+	if m != nil {
+		return m.Float64Array
+	}
+	return nil
+}
+
+func (m *Float64Array) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 // Bool represents a bool that may be nil.
 type Bool struct {
@@ -232,6 +456,20 @@ func (m *Bool) String() string            { return proto.CompactTextString(m) }
 func (*Bool) ProtoMessage()               {}
 func (*Bool) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{16} }
 
+func (m *Bool) GetBool() bool {
+	if m != nil {
+		return m.Bool
+	}
+	return false
+}
+
+func (m *Bool) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
+
 // BoolArray represents an array of booleans that may be nil.
 type BoolArray struct {
 	BoolArray []bool `protobuf:"varint,1,rep,packed,name=bool_array,json=boolArray" json:"bool_array,omitempty"`
@@ -242,6 +480,20 @@ func (m *BoolArray) Reset()                    { *m = BoolArray{} }
 func (m *BoolArray) String() string            { return proto.CompactTextString(m) }
 func (*BoolArray) ProtoMessage()               {}
 func (*BoolArray) Descriptor() ([]byte, []int) { return fileDescriptor0, []int{17} }
+
+func (m *BoolArray) GetBoolArray() []bool {
+	if m != nil {
+		return m.BoolArray
+	}
+	return nil
+}
+
+func (m *BoolArray) GetValid() bool {
+	if m != nil {
+		return m.Valid
+	}
+	return false
+}
 
 func init() {
 	proto.RegisterType((*Bytes)(nil), "ntypes.Bytes")
@@ -268,7 +520,7 @@ func init() { proto.RegisterFile("ntypes.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
 	// 390 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x84, 0x94, 0x41, 0x6b, 0xab, 0x40,
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x94, 0x41, 0x6b, 0xab, 0x40,
 	0x14, 0x85, 0x31, 0x51, 0xa3, 0x57, 0xb3, 0x91, 0xc7, 0xc3, 0xcd, 0xe3, 0x25, 0xe9, 0x26, 0xab,
 	0x52, 0xaa, 0x0c, 0x74, 0xd7, 0xa6, 0x10, 0xc8, 0xf6, 0x96, 0x6c, 0xba, 0x29, 0xda, 0x26, 0xad,
 	0x20, 0x99, 0xa0, 0xa6, 0x90, 0x7f, 0x5f, 0x66, 0xee, 0x4c, 0x32, 0x29, 0x6a, 0x76, 0x73, 0x9c,
