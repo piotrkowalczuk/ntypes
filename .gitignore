@@ -4,6 +4,8 @@
 .tmp
 *.out
 VERSION.txt
+protobuf_ntypes.egg-info
+dist
 
 ### Go template
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
