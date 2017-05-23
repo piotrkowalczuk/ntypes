@@ -1,13 +1,26 @@
 language: go
+dist: trusty
+sudo: required
 go:
-  - tip
+- 1.8
 install:
-  - go get
+- go get
 script:
-  - go test -coverprofile=coverage.txt -covermode=atomic
+- go test -coverprofile=coverage.txt -covermode=atomic
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
 notifications:
   slack:
     secure: $SLACK_SECURE
-
+before_deploy:
+- make version
+- python setup.py egg_info
+deploy:
+  provider: pypi
+  skip_cleanup: true
+  skip_upload_docs: true
+  user: piotrkowalczuk
+  password:
+    secure: mVcA8SRHvw0QiH6SWI/wsIKPGhnoEg4iEG3JQ0xx/84aQarPHy3bexnLLMOcHAn+y+UGNUtQTo2pcH5eB8iD1iI7qN0A+vhjUR8bneUgLbYRmJJujbOKJEjsAVP7cYNePy4oR3blcoYIVR/Ve84Sm18ZDHRWyJ54G5BnH1I3tVRm9Dogq972fj3DQo83ldUAKbkv0PPyQNmYJiwFYTDvm7o1tZcqvcix2jO5YwSCLC/0zbQ6FiY2p24/nV9vLPdyvU8cdnorbS1ZalOOiK6wT7Z+PH4npAIftR62ipRr8QEq3054D+op4v5CXQzsdHTz9HgxSUM60C5u7Cv91QCE4K2fHzKnnN1ozcojgAEBZv+mE02g8cGow4wHbPtm5x8Mw4c24sVxhC/0+n9AqjvhfkWadBfUJEYGreya6q+qpPpbzr+sAGe1BClPaGslqZVnCQqiZyt/Ew71Me9KaEaPtOjc8DRRHqMeeLmI87Qp452ThTPknhoGq9UFP5UNJfgrRdbn4LHHwPoC5y65qO32j2ErmfPKmv7vnWBZE+EhxTCEX7dg/7aP7V+K8sk6VNfzCpOTB4iS2b9e34comUYH83M9oxldhuCKMgOjvBtZ+dXAnnYKADaMh+yjTH90GqcUFyYybV4cX+Xp3vT5MUSoAsAWbvno19YWNc/Efv0WeOw=
+  on:
+    tags: true
