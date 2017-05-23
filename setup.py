@@ -5,9 +5,9 @@ with open('VERSION.txt', 'r') as content_file:
     version = content_file.read()
 
     setup(
-        name='ntypes',
+        name='protobuf-ntypes',
         version=version[1:],
-        description='ntypes data structures',
+        description='protobuf nilable data structures',
         url='http://github.com/piotrkowalczuk/ntypes',
         author='Piotr Kowalczuk',
         author_email='p.kowalczuk.priv@gmail.com',
