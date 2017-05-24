@@ -12,7 +12,7 @@ with open('VERSION.txt', 'r') as content_file:
         author='Piotr Kowalczuk',
         author_email='p.kowalczuk.priv@gmail.com',
         license='MIT',
-        packages=[''],
+        packages=['ntypes'],
         install_requires=[
             'protobuf'
         ],
