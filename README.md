@@ -1,5 +1,5 @@
 # ntypes [![GoDoc](https://godoc.org/github.com/piotrkowalczuk/ntypes?status.svg)](http://godoc.org/github.com/piotrkowalczuk/ntypes)&nbsp;[![Build Status](https://travis-ci.org/piotrkowalczuk/ntypes.svg?branch=master)](https://travis-ci.org/piotrkowalczuk/ntypes)&nbsp;[![codecov.io](https://codecov.io/github/piotrkowalczuk/ntypes/coverage.svg?branch=master)](https://codecov.io/github/piotrkowalczuk/ntypes?branch=master)&nbsp;[![Code Climate](https://codeclimate.com/github/piotrkowalczuk/ntypes/badges/gpa.svg)](https://codeclimate.com/github/piotrkowalczuk/ntypes)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/piotrkowalczuk/ntypes)](https://goreportcard.com/report/github.com/piotrkowalczuk/ntypes)
-Package provides set of types that helps to build complex protobuf messages that contains optional properties.
+Package provides set of types that helps to build complex protobuf messages that contains optional properties. API can be considered as stable.
 
 ## Types
 
