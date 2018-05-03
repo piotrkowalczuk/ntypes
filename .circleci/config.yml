@@ -20,6 +20,8 @@ jobs:
     docker:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    environment:
+          TEST_RESULTS: /tmp/test-results/golang
     steps:
       - checkout
       - run:
@@ -28,6 +30,7 @@ jobs:
             go get -u github.com/golang/protobuf/proto
             go get -u github.com/golang/protobuf/protoc-gen-go
             go get -u google.golang.org/grpc
+            go get -u github.com/jstemmer/go-junit-report
       - run:
           name: Install protoc
           command: bash ./.circleci/scripts/install_protoc.sh
@@ -37,6 +40,14 @@ jobs:
       - run:
           name: Check for mismatch
           command: git diff --exit-code
+      - run:
+          name: Run tests
+          command: |
+            mkdir -p $TEST_RESULTS
+            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
+            go test -v | tee ${TEST_RESULTS}/go-test.out
+      - store_test_results:
+          path: /tmp/test-results
   generate_java:
     docker:
       - image: circleci/openjdk:8

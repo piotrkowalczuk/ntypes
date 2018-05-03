@@ -176,7 +176,7 @@ func TestString_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %v but got %v", *c.object, got)
+					t.Fatalf("wrong output, expected %v but got %v", c.object, &got)
 				}
 			}
 		})
@@ -302,7 +302,7 @@ func TestStringArray_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
@@ -501,7 +501,7 @@ func TestInt32_UnmarshalJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("marshal returned unexpected error: %s", err.Error())
 			}
-			if c.expected != got {
+			if !proto.Equal(&c.expected, &got) {
 				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
 			}
 		})
@@ -565,7 +565,7 @@ func TestInt32Array_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
@@ -798,7 +798,7 @@ func TestInt64_UnmarshalJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("marshal returned unexpected error: %s", err.Error())
 			}
-			if c.expected != got {
+			if !proto.Equal(&c.expected, &got) {
 				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
 			}
 		})
@@ -862,7 +862,7 @@ func TestInt64Array_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
@@ -1000,7 +1000,7 @@ func TestFloat32_UnmarshalJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("marshal returned unexpected error: %s", err.Error())
 			}
-			if c.expected != got {
+			if !proto.Equal(&c.expected, &got) {
 				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
 			}
 		})
@@ -1117,7 +1117,7 @@ func TestFloat32Array_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
@@ -1308,7 +1308,7 @@ func TestFloat64_UnmarshalJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("marshal returned unexpected error: %s", err.Error())
 			}
-			if c.expected != got {
+			if !proto.Equal(&c.expected, &got) {
 				t.Errorf("values are not equal expected %v, got %v", c.expected, got)
 			}
 		})
@@ -1372,7 +1372,7 @@ func TestFloat64Array_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
@@ -1408,6 +1408,8 @@ func TestUint32_Value(t *testing.T) {
 
 func TestUint32_Scan(t *testing.T) {
 	test := func(t *testing.T, given interface{}, expectedValue uint32, expectedValid bool, expectedError error) {
+		t.Helper()
+
 		var u ntypes.Uint32
 		if err := u.Scan(given); err != nil {
 			if expectedError != nil {
@@ -1430,9 +1432,9 @@ func TestUint32_Scan(t *testing.T) {
 	}
 
 	test(t, nil, 0, false, nil)
-	test(t, int64(math.MaxUint32+1), 0, false, errors.New("ntypes: value passed to Uint32.Scan is out of range"))
-	test(t, fmt.Sprint(math.MaxUint32+1), 0, false, errors.New("ntypes: value passed to Uint32.Scan is out of range"))
-	test(t, []byte(fmt.Sprint(math.MaxUint32+1)), 0, false, errors.New("ntypes: value passed to Uint32.Scan is out of range"))
+	test(t, int64(math.MaxUint32+1), 0, false, errors.New("ntypes: Uint32.Scan failure: value out of range"))
+	test(t, fmt.Sprint(math.MaxUint32+1), 0, false, errors.New(`ntypes: Uint32.Scan failure: strconv.ParseUint: parsing "4294967296": value out of range`))
+	test(t, []byte(fmt.Sprint(math.MaxUint32+1)), 0, false, errors.New(`ntypes: Uint32.Scan failure: strconv.ParseUint: parsing "4294967296": value out of range`))
 
 	dataInt64 := map[uint32]int64{
 		100:        100,
@@ -1589,7 +1591,7 @@ func TestUint32_UnmarshalJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unexpected error for %s: %s", string(c.given), err.Error())
 			}
-			if c.expected != got {
+			if !proto.Equal(&c.expected, &got) {
 				t.Errorf("values are not equal, expected %v, got %v", c.expected, got)
 			}
 		})
@@ -1653,7 +1655,7 @@ func TestUint32Array_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
@@ -1788,7 +1790,7 @@ func TestUint64_UnmarshalJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unexpected error for %s: %s", string(c.given), err.Error())
 			}
-			if c.expected != got {
+			if !proto.Equal(&c.expected, &got) {
 				t.Errorf("values are not equal, expected %v, got %v", c.expected, got)
 			}
 		})
@@ -1852,7 +1854,7 @@ func TestUint64Array_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
@@ -2056,7 +2058,7 @@ func TestBool_UnmarshalJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unexpected error for %s: %s", string(c.given), err.Error())
 			}
-			if c.expected != got {
+			if !proto.Equal(&c.expected, &got) {
 				t.Errorf("values are not equal, expected %v, got %v", c.expected, got)
 			}
 		})
@@ -2116,7 +2118,7 @@ func TestBoolArray_UnmarshalJSON(t *testing.T) {
 			}
 			if c.object != nil {
 				if !reflect.DeepEqual(got, *c.object) {
-					t.Fatalf("wrong output, expected %s but got %s", *c.object, got)
+					t.Fatalf("wrong output, expected %s but got %s", c.object, &got)
 				}
 			}
 		})
