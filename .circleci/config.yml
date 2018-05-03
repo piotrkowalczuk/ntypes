@@ -77,10 +77,6 @@ jobs:
     docker:
       - image: circleci/python:3
     working_directory: ~/ntypes
-    environment:
-      - TWINE_USERNAME: $USERNAME
-      - TWINE_PASSWORD: $PASSWORD
-      - TWINE_REPOSITORY: "pypi"
     steps:
       - checkout
       - restore_cache:
@@ -103,6 +99,7 @@ jobs:
 #            echo -e "password = $PASSWORD" >> ~/.pypirc
       - run:
           name: Upload to pypi
+          context: twine
           command: |
             . venv/bin/activate
             twine upload dist/*
