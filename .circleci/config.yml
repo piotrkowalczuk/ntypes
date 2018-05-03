@@ -99,16 +99,28 @@ workflows:
   version: 2
   generate:
     jobs:
-      - lint_protobuf
+      - lint_protobuf:
+          filters:
+            tags:
+              only: /.*/
       - test_golang:
           requires:
             - lint_protobuf
+          filters:
+            tags:
+              only: /.*/
       - generate_python:
           requires:
             - test_golang
+          filters:
+            tags:
+              only: /.*/
       - generate_java:
           requires:
             - test_golang
+          filters:
+            tags:
+              only: /.*/
       - deploy_python:
           context: twine
           requires:
