@@ -47,7 +47,7 @@ jobs:
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
             go test | tee ${TEST_RESULTS}/go-test.out
       - store_test_results:
-          path: $TEST_RESULTS
+          path: /tmp/test-results
   generate_java:
     docker:
       - image: circleci/openjdk:8
