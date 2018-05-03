@@ -76,6 +76,7 @@ jobs:
   python_deploy:
     docker:
       - image: circleci/python:3.6
+    working_directory: ~/ntypes
     steps:
       - checkout
       - restore_cache:
