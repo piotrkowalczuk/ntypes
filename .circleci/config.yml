@@ -77,6 +77,10 @@ jobs:
     docker:
       - image: circleci/python:3
     working_directory: ~/ntypes
+    environment:
+      - TWINE_USERNAME: $USERNAME
+      - TWINE_PASSWORD: $PASSWORD
+      - TWINE_REPOSITORY_URL: "https://pypi.org"
     steps:
       - checkout
       - restore_cache:
