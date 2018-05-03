@@ -24,8 +24,8 @@ jobs:
           command: |
             go get -u github.com/golang/protobuf/proto
             go get -u github.com/golang/protobuf/protoc-gen-go
-          	go get -u google.golang.org/grpc
-          	go get -u github.com/ckaznocha/protoc-gen-lint
+            go get -u google.golang.org/grpc
+            go get -u github.com/ckaznocha/protoc-gen-lint
       - run:
           name: Install local python packages
           command: |
