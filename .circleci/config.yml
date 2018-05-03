@@ -77,8 +77,6 @@ jobs:
     docker:
       - image: circleci/python:3
     working_directory: ~/ntypes
-    environment:
-      - TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
     steps:
       - checkout
       - restore_cache:
