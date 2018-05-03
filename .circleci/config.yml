@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/golang
       - image: circleci/python:3
-      - image: circleci/java:10
+      - image: circleci/openjdk:10
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     steps:
       - checkout
