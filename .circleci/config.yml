@@ -20,6 +20,9 @@ jobs:
             sudo mv ./tmp/protoc/include/google /usr/include/google
             protoc --version
       - run:
+          name: Install command line tools
+          command: make get
+      - run:
           name: Generate protobuf
           command: |
             ls -lha
