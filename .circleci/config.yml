@@ -25,7 +25,7 @@ jobs:
       - run:
           name: Install local python packages
           command: |
-            python3 -m venv venv
+            python -m venv ./venv
             . venv/bin/activate
             pip install grpcio grpcio-tools
       - run:
