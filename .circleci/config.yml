@@ -89,8 +89,8 @@ jobs:
           context: pypi
           command: |
             echo -e "[pypi]" >> ~/.pypirc
-            echo -e "username = levlaz" >> ~/.pypirc
-            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+            echo -e "username = $USERNAME" >> ~/.pypirc
+            echo -e "password = $PASSWORD" >> ~/.pypirc
       - run:
           name: Create package
           command: |
