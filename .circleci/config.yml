@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  golang:
+  lint:
     docker:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
@@ -10,15 +10,33 @@ jobs:
           name: Install protoc
           command: bash ./.circleci/scripts/install_protoc.sh
       - run:
+          name: Install command line tools
+          command: |
+            go get -u github.com/ckaznocha/protoc-gen-lint
+      - run:
+          name: Lint protobuf
+          command: bash ./.circleci/scripts/generate.sh lint
+      - run:
+          name: Generate protobuf
+          command: bash ./.circleci/scripts/generate.sh python
+  golang:
+    docker:
+      - image: circleci/golang
+    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    steps:
+      - checkout
+      - run:
           name: Install golang packages
           command: |
             go get -u github.com/golang/protobuf/proto
             go get -u github.com/golang/protobuf/protoc-gen-go
             go get -u google.golang.org/grpc
-            go get -u github.com/ckaznocha/protoc-gen-lint
+      - run:
+          name: Install protoc
+          command: bash ./.circleci/scripts/install_protoc.sh
       - run:
           name: Generate protobuf
-          command: protoc -I=/usr/include -I=. --go_out=${GOPATH}/src *.proto
+          command: bash ./.circleci/scripts/generate.sh golang
   python:
     docker:
       - image: circleci/python:3
@@ -26,35 +44,17 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Prepare directories
-          command: mkdir -p ./tmp/java ./tmp/protoc
-      - run:
-          name: Install protoc
+          name: Install python packages
           command: |
-            curl -L https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip > protoc.zip
-            unzip protoc.zip -d ./tmp/protoc
-            sudo mv ./tmp/protoc/bin/protoc /usr/local/bin/protoc
-            sudo mv ./tmp/protoc/include/google /usr/include/google
-            protoc --version
-      - run:
-          name: Install global golang packages
-          command: |
-            go get -u github.com/golang/protobuf/proto
-            go get -u github.com/golang/protobuf/protoc-gen-go
-            go get -u google.golang.org/grpc
-            go get -u github.com/ckaznocha/protoc-gen-lint
-      - run:
-          name: Install local python packages
-          command: |
-            python -V
             python -m venv ./venv
             . venv/bin/activate
             pip install grpcio grpcio-tools
       - run:
+          name: Install protoc
+          command: bash ./.circleci/scripts/install_protoc.sh
+      - run:
           name: Generate protobuf
-          command: |
-            ls -lha
-            make gen
+          command: bash ./.circleci/scripts/generate.sh python
       - run: make version
   java:
     docker:
@@ -63,35 +63,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Prepare directories
-          command: mkdir -p ./tmp/java ./tmp/protoc
-      - run:
           name: Install protoc
-          command: |
-            curl -L https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip > protoc.zip
-            unzip protoc.zip -d ./tmp/protoc
-            sudo mv ./tmp/protoc/bin/protoc /usr/local/bin/protoc
-            sudo mv ./tmp/protoc/include/google /usr/include/google
-            protoc --version
-      - run:
-          name: Install global golang packages
-          command: |
-            go get -u github.com/golang/protobuf/proto
-            go get -u github.com/golang/protobuf/protoc-gen-go
-            go get -u google.golang.org/grpc
-            go get -u github.com/ckaznocha/protoc-gen-lint
-      - run:
-          name: Install local python packages
-          command: |
-            python -V
-            python -m venv ./venv
-            . venv/bin/activate
-            pip install grpcio grpcio-tools
+          command: bash ./.circleci/scripts/install_protoc.sh
       - run:
           name: Generate protobuf
-          command: |
-            ls -lha
-            make gen
+          command: bash ./.circleci/scripts/generate.sh java
       - run: make version
   deploy:
     machine: true

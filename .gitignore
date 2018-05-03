@@ -2,6 +2,7 @@
 .idea
 *.iml
 .tmp
+*.zip
 *.out
 VERSION.txt
 protobuf_ntypes.egg-info
