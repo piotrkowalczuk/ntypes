@@ -23,6 +23,11 @@ jobs:
           name: Install command line tools
           command: make get
       - run:
+          name: Install python packages
+          command: |
+            pip install grpcio
+            pip install grpcio-tools
+      - run:
           name: Generate protobuf
           command: |
             ls -lha
