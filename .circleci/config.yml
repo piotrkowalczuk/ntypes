@@ -108,8 +108,8 @@ workflows:
       - golang
       - python_generate
       - java
-      - deploy:
+      - python_deploy:
           requires:
             - golang
-            - python_deploy
+            - python_generate
             - java
