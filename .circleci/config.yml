@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Install protoc
-          command: bash install_protoc.sh
+          command: bash ./.circleci/scripts/install_protoc.sh
       - run:
           name: Install global golang packages
           command: |
@@ -22,7 +22,7 @@ jobs:
   python:
     docker:
       - image: circleci/python:3
-    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    working_directory: ~/ntypes
     steps:
       - checkout
       - run:
