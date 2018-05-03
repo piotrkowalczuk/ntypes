@@ -70,7 +70,7 @@ jobs:
             . venv/bin/activate
             bash ./.circleci/scripts/generate.sh python
       - save_cache:
-          key: python-dependency-{{ .Branch }}-{{ .Revision }
+          key: python-dependency-{{ .Branch }}-{{ .Revision }}
           paths:
             - "venv"
   python_deploy:
@@ -80,7 +80,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - python-dependency-{{ .Branch }}-{{ .Revision }
+            - python-dependency-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Init VERSION.txt file
           command: make version
