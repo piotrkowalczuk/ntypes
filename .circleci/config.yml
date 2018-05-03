@@ -40,8 +40,8 @@ jobs:
       - run:
           name: Run tests
           command: |
-            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
-            go test | tee ${TEST_RESULTS}/go-test.out
+            trap "go-junit-report < go-test.out > go-test-report.xml" EXIT
+            go test | tee go-test.out
   generate_java:
     docker:
       - image: circleci/openjdk:8
