@@ -500,19 +500,19 @@ func (u *Uint32) Scan(value interface{}) (err error) {
 	switch v := value.(type) {
 	case []byte:
 		tmp, err = strconv.ParseUint(string(v), 10, 32)
-		if tmp > math.MaxUint32 {
-			return errors.New("ntypes: value passed to Uint32.Scan is out of range")
+		if err != nil {
+			return fmt.Errorf("ntypes: Uint32.Scan failure: %s", err)
 		}
 		u.Uint32 = uint32(tmp)
 	case string:
 		tmp, err = strconv.ParseUint(v, 10, 32)
-		if tmp > math.MaxUint32 {
-			return errors.New("ntypes: value passed to Uint32.Scan is out of range")
+		if err != nil {
+			return fmt.Errorf("ntypes: Uint32.Scan failure: %s", err)
 		}
 		u.Uint32 = uint32(tmp)
 	case int64:
 		if v > math.MaxUint32 {
-			return errors.New("ntypes: value passed to Uint32.Scan is out of range")
+			return errors.New("ntypes: Uint32.Scan failure: value out of range")
 		}
 		u.Uint32 = uint32(v)
 	default:
