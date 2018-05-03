@@ -21,7 +21,7 @@ jobs:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     environment:
-          TEST_RESULTS: /tmp/test-results
+          TEST_RESULTS: /tmp/test-results/golang
     steps:
       - checkout
       - run:
