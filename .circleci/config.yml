@@ -3,8 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/golang
-      - image: circleci/python:3
       - image: circleci/openjdk:8
+      - image: circleci/python:3
+        command: [python, --smallfiles]
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     steps:
       - checkout
@@ -29,6 +30,7 @@ jobs:
       - run:
           name: Install local python packages
           command: |
+            python -V
             python -m venv ./venv
             . venv/bin/activate
             pip install grpcio grpcio-tools
