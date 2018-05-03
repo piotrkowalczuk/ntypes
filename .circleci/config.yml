@@ -110,7 +110,7 @@ workflows:
           requires:
             - test_golang
       - deploy_python:
-          context: twine-test
+          context: twine
           requires:
             - generate_python
           filters:
