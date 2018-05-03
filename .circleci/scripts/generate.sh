@@ -3,21 +3,22 @@ PROTO_INCLUDE="-I=/usr/include -I=."
 
 (
 case $1 in
-    "lint" )
+    lint)
         ${PROTOC} ${PROTO_INCLUDE} --lint_out=. *.proto
         ;;
-    "python" )
+    python)
         python -m grpc_tools.protoc ${PROTO_INCLUDE} --python_out=./ntypes *.proto
         ;;
-    "java" )
+    java)
         rm -rf ./tmp/java
         mkdir -p ./tmp/java
         ${PROTOC} ${PROTO_INCLUDE} --java_out=./tmp/java *.proto
         ;;
-    "go" )
+    golang | go)
         ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src *.proto
         ;;
-    *)
+	*)
+	    echo "code generation failure due to unknown language: ${1}"
         exit 1
         ;;
 esac
