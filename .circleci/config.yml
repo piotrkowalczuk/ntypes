@@ -101,7 +101,6 @@ jobs:
 #            echo -e "password = $PASSWORD" >> ~/.pypirc
       - run:
           name: Upload to pypi
-          context: twine
           command: |
             . venv/bin/activate
             twine upload dist/*
@@ -113,6 +112,7 @@ workflows:
       - python_generate
       - java
       - python_deploy:
+          context: twine
           requires:
             - golang
             - python_generate
