@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  lint:
+  lint_protobuf:
     docker:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh python
-  golang_test:
+  test_golang:
     docker:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
@@ -40,7 +40,7 @@ jobs:
       - run:
           name: Check for mismatch
           command: git diff --exit-code
-  java_generate:
+  generate_java:
     docker:
       - image: circleci/openjdk:8
     working_directory: ~/ntypes
@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh java
-  python_generate:
+  generate_python:
     docker:
       - image: circleci/python:3
     working_directory: ~/ntypes
@@ -76,7 +76,7 @@ jobs:
           key: python-dependency-{{ .Branch }}-{{ .Revision }}
           paths:
             - "venv"
-  python_deploy:
+  deploy_python:
     docker:
       - image: circleci/python:3
     working_directory: ~/ntypes
@@ -102,17 +102,20 @@ workflows:
   version: 2
   generate:
     jobs:
-      - protobuf_lint
-      - golang_test:
+      - lint_protobuf
+      - test_golang:
           requires:
-            - protobuf_lint
-      - python_generate:
+            - lint_protobuf
+      - generate_python:
           requires:
-            - golang_test
-      - java_generate:
+            - test_golang
+      - generate_java:
           requires:
-            - golang_test
-      - python_deploy:
+            - test_golang
+      - deploy_python:
           context: twine-test
           requires:
-            - python_generate
+            - generate_python
+          filters:
+            tags:
+              only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
