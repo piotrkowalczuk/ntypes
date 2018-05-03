@@ -1,11 +1,27 @@
 version: 2
 jobs:
-  build:
+  golang:
     docker:
       - image: circleci/golang
-      - image: circleci/openjdk:8
+    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    steps:
+      - checkout
+      - run:
+          name: Install protoc
+          command: bash install_protoc.sh
+      - run:
+          name: Install global golang packages
+          command: |
+            go get -u github.com/golang/protobuf/proto
+            go get -u github.com/golang/protobuf/protoc-gen-go
+            go get -u google.golang.org/grpc
+            go get -u github.com/ckaznocha/protoc-gen-lint
+      - run:
+          name: Generate protobuf
+          command: ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src *.proto
+  python:
+    docker:
       - image: circleci/python:3
-        command: [python, --smallfiles]
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     steps:
       - checkout
@@ -40,3 +56,57 @@ jobs:
             ls -lha
             make gen
       - run: make version
+  java:
+    docker:
+      - image: circleci/openjdk:8
+    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    steps:
+      - checkout
+      - run:
+          name: Prepare directories
+          command: mkdir -p ./tmp/java ./tmp/protoc
+      - run:
+          name: Install protoc
+          command: |
+            curl -L https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip > protoc.zip
+            unzip protoc.zip -d ./tmp/protoc
+            sudo mv ./tmp/protoc/bin/protoc /usr/local/bin/protoc
+            sudo mv ./tmp/protoc/include/google /usr/include/google
+            protoc --version
+      - run:
+          name: Install global golang packages
+          command: |
+            go get -u github.com/golang/protobuf/proto
+            go get -u github.com/golang/protobuf/protoc-gen-go
+            go get -u google.golang.org/grpc
+            go get -u github.com/ckaznocha/protoc-gen-lint
+      - run:
+          name: Install local python packages
+          command: |
+            python -V
+            python -m venv ./venv
+            . venv/bin/activate
+            pip install grpcio grpcio-tools
+      - run:
+          name: Generate protobuf
+          command: |
+            ls -lha
+            make gen
+      - run: make version
+  deploy:
+    steps:
+      - run:
+          name: Finish
+          command: echo "OK"
+workflows:
+  version: 2
+  generate:
+    jobs:
+      - golang
+      - python
+      - java
+      - deploy:
+          requires
+            - golang
+            - python
+            - java
