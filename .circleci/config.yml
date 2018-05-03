@@ -37,7 +37,7 @@ jobs:
       - run:
           name: Check for mismatch
           command: git diff --exit-code
-     - run:
+      - run:
           name: Run tests
           command: |
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
