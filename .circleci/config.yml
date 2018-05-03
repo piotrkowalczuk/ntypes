@@ -10,7 +10,7 @@ jobs:
           name: Install protoc
           command: bash ./.circleci/scripts/install_protoc.sh
       - run:
-          name: Install global golang packages
+          name: Install golang packages
           command: |
             go get -u github.com/golang/protobuf/proto
             go get -u github.com/golang/protobuf/protoc-gen-go
@@ -18,7 +18,7 @@ jobs:
             go get -u github.com/ckaznocha/protoc-gen-lint
       - run:
           name: Generate protobuf
-          command: ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src *.proto
+          command: protoc -I=/usr/include -I=. --go_out=${GOPATH}/src *.proto
   python:
     docker:
       - image: circleci/python:3
