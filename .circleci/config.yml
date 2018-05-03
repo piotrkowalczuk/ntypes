@@ -102,19 +102,17 @@ workflows:
   version: 2
   generate:
     jobs:
-      - lint
+      - protobuf_lint
       - golang_test:
           requires:
-            - lint
+            - protobuf_lint
       - python_generate:
           requires:
-            - lint
+            - golang_test
       - java_generate:
           requires:
-            - lint
+            - golang_test
       - python_deploy:
           context: twine-test
           requires:
-            - golang_test
             - python_generate
-            - java_generate
