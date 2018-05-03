@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh python
-  golang:
+  golang_test:
     docker:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
@@ -38,9 +38,9 @@ jobs:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh golang
       - run:
-          name: Check if there is no difference
+          name: Check for mismatch
           command: git diff --exit-code
-  java:
+  java_generate:
     docker:
       - image: circleci/openjdk:8
     working_directory: ~/ntypes
@@ -102,12 +102,19 @@ workflows:
   version: 2
   generate:
     jobs:
-      - golang
-      - python_generate
-      - java
+      - lint
+      - golang_test:
+          requires:
+            - lint
+      - python_generate:
+          requires:
+            - lint
+      - java_generate:
+          requires:
+            - lint
       - python_deploy:
           context: twine-test
           requires:
-            - golang
+            - golang_test
             - python_generate
-            - java
+            - java_generate
