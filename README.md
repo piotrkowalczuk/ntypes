@@ -1,5 +1,6 @@
 # ntypes [![GoDoc](https://godoc.org/github.com/piotrkowalczuk/ntypes?status.svg)](http://godoc.org/github.com/piotrkowalczuk/ntypes)&nbsp;[![Build Status](https://travis-ci.org/piotrkowalczuk/ntypes.svg?branch=master)](https://travis-ci.org/piotrkowalczuk/ntypes)&nbsp;[![codecov.io](https://codecov.io/github/piotrkowalczuk/ntypes/coverage.svg?branch=master)](https://codecov.io/github/piotrkowalczuk/ntypes?branch=master)&nbsp;[![Code Climate](https://codeclimate.com/github/piotrkowalczuk/ntypes/badges/gpa.svg)](https://codeclimate.com/github/piotrkowalczuk/ntypes)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/piotrkowalczuk/ntypes)](https://goreportcard.com/report/github.com/piotrkowalczuk/ntypes)
-Package provides set of types that helps to build complex protobuf messages that contains optional properties. API can be considered as stable.
+Package provides set of types that helps to build complex protobuf messages that contains optional properties. 
+API can be considered as stable.
 
 ## Types
 
@@ -27,7 +28,7 @@ Package provides set of types that helps to build complex protobuf messages that
 * [ntypes.Float32Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Float32Array)
 * [ntypes.Float64Array](https://godoc.org/github.com/piotrkowalczuk/ntypes#Float64Array)
 
-Arrays support is not an SQL standard. Extra import needs to be added to make it working with [postgres driver](github.com/lib/pq):
+Arrays support is not an SQL standard. Extra import needs to be added to make it working with [postgres driver](https://github.com/lib/pq):
  
  ```
  import _ "github.com/piotrkowalczuk/ntypes/ntypespq"
@@ -48,5 +49,7 @@ Some type implements set of interfaces:
 * [ntypes.True](https://godoc.org/github.com/piotrkowalczuk/ntypes#True)
 * [ntypes.False](https://godoc.org/github.com/piotrkowalczuk/ntypes#False)
 
-Besides that each type implementss `func <Type>Or(<builtin>) <builtin> {}` method. It returns given argument if receiver is not valid or is nil. For example:
+Besides that each type implements `func <Type>Or(<builtin>) <builtin> {}` method. 
+It returns given argument if receiver is not valid or is nil. 
+For example:
 [ntypes.Bool.BoolOr](https://godoc.org/github.com/piotrkowalczuk/ntypes#Bool.BoolOr).
