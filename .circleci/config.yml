@@ -86,6 +86,11 @@ jobs:
           name: Init VERSION.txt file
           command: make version
       - run:
+          name: Create package
+          command: |
+            python setup.py sdist
+            python setup.py bdist_wheel
+      - run:
           name: Init .pypirc file
           context: pypi
           command: |
@@ -93,13 +98,10 @@ jobs:
             echo -e "username = $USERNAME" >> ~/.pypirc
             echo -e "password = $PASSWORD" >> ~/.pypirc
       - run:
-          name: Create package
-          command: |
-            python setup.py sdist
-            python setup.py bdist_wheel
-      - run:
           name: Upload to pypi
           command: |
+            ls -lha .
+            ls -lha ./dist/
             . venv/bin/activate
             twine upload dist/*
 workflows:
