@@ -37,6 +37,9 @@ jobs:
       - run:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh golang
+      - run:
+          name: Check if there is no difference
+          command: git diff --quiet
   java:
     docker:
       - image: circleci/openjdk:8
