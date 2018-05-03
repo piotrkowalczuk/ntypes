@@ -8,11 +8,11 @@ jobs:
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - run:
-          name: install protoc
+          name: Install protoc
           command: |
             curl -L https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip > protoc.zip
             unzip protoc.zip -d ./protoc
-            mv protoc/bin/protoc /usr/local/bin/protoc
-            mv protoc/include/google /usr/include/google
+            sudo mv protoc/bin/protoc /usr/local/bin/protoc
+            sudo mv protoc/include/google /usr/include/google
       - run: make gen
       - run: make version
