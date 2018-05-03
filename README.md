@@ -1,4 +1,11 @@
-# ntypes [![GoDoc](https://godoc.org/github.com/piotrkowalczuk/ntypes?status.svg)](http://godoc.org/github.com/piotrkowalczuk/ntypes)&nbsp;[![CircleCI](https://circleci.com/gh/piotrkowalczuk/ntypes/tree/master.svg?style=svg)](https://circleci.com/gh/piotrkowalczuk/ntypes/tree/master)&nbsp;[![codecov.io](https://codecov.io/github/piotrkowalczuk/ntypes/coverage.svg?branch=master)](https://codecov.io/github/piotrkowalczuk/ntypes?branch=master)&nbsp;[![Code Climate](https://codeclimate.com/github/piotrkowalczuk/ntypes/badges/gpa.svg)](https://codeclimate.com/github/piotrkowalczuk/ntypes)&nbsp;[![Go Report Card](https://goreportcard.com/badge/github.com/piotrkowalczuk/ntypes)](https://goreportcard.com/report/github.com/piotrkowalczuk/ntypes)
+# ntypes [![GoDoc](https://godoc.org/github.com/piotrkowalczuk/ntypes?status.svg)](http://godoc.org/github.com/piotrkowalczuk/ntypes)
+
+[![CircleCI](https://circleci.com/gh/piotrkowalczuk/ntypes/tree/master.svg?style=svg)](https://circleci.com/gh/piotrkowalczuk/ntypes/tree/master)
+[![codecov.io](https://codecov.io/github/piotrkowalczuk/ntypes/coverage.svg?branch=master)](https://codecov.io/github/piotrkowalczuk/ntypes?branch=master)
+[![Code Climate](https://codeclimate.com/github/piotrkowalczuk/ntypes/badges/gpa.svg)](https://codeclimate.com/github/piotrkowalczuk/ntypes)
+[![Go Report Card](https://goreportcard.com/badge/github.com/piotrkowalczuk/ntypes)](https://goreportcard.com/report/github.com/piotrkowalczuk/ntypes)
+[![pypi](https://img.shields.io/pypi/v/protobuf-ntypes.svg)](https://pypi.python.org/pypi/protobuf-ntypes)
+
 Package provides set of types that helps to build complex protobuf messages that contains optional properties. 
 API can be considered as stable.
 
