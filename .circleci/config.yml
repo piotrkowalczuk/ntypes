@@ -94,6 +94,7 @@ jobs:
             make gen
       - run: make version
   deploy:
+    machine: true
     steps:
       - run:
           name: Finish
