@@ -16,9 +16,6 @@ jobs:
       - run:
           name: Lint protobuf
           command: bash ./.circleci/scripts/generate.sh lint
-      - run:
-          name: Generate protobuf
-          command: bash ./.circleci/scripts/generate.sh python
   test_golang:
     docker:
       - image: circleci/golang
