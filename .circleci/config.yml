@@ -1,0 +1,120 @@
+version: 2
+jobs:
+  lint_protobuf:
+    docker:
+      - image: circleci/golang
+    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    steps:
+      - checkout
+      - run:
+          name: Install protoc
+          command: bash ./.circleci/scripts/install_protoc.sh
+      - run:
+          name: Install command line tools
+          command: |
+            go get -u github.com/ckaznocha/protoc-gen-lint
+      - run:
+          name: Lint protobuf
+          command: bash ./.circleci/scripts/generate.sh lint
+  test_golang:
+    docker:
+      - image: circleci/golang
+    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    steps:
+      - checkout
+      - run:
+          name: Install golang packages
+          command: |
+            go get -u github.com/golang/protobuf/proto
+            go get -u github.com/golang/protobuf/protoc-gen-go
+            go get -u google.golang.org/grpc
+      - run:
+          name: Install protoc
+          command: bash ./.circleci/scripts/install_protoc.sh
+      - run:
+          name: Generate protobuf
+          command: bash ./.circleci/scripts/generate.sh golang
+      - run:
+          name: Check for mismatch
+          command: git diff --exit-code
+  generate_java:
+    docker:
+      - image: circleci/openjdk:8
+    working_directory: ~/ntypes
+    steps:
+      - checkout
+      - run:
+          name: Install protoc
+          command: bash ./.circleci/scripts/install_protoc.sh
+      - run:
+          name: Generate protobuf
+          command: bash ./.circleci/scripts/generate.sh java
+  generate_python:
+    docker:
+      - image: circleci/python:3
+    working_directory: ~/ntypes
+    steps:
+      - checkout
+      - run:
+          name: Install python packages
+          command: |
+            python -m venv ./venv
+            . venv/bin/activate
+            pip install grpcio grpcio-tools twine
+      - run:
+          name: Install protoc
+          command: bash ./.circleci/scripts/install_protoc.sh
+      - run:
+          name: Generate protobuf
+          command: |
+            . venv/bin/activate
+            bash ./.circleci/scripts/generate.sh python
+      - save_cache:
+          key: python-dependency-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - "venv"
+  deploy_python:
+    docker:
+      - image: circleci/python:3
+    working_directory: ~/ntypes
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - python-dependency-{{ .Branch }}-{{ .Revision }}
+      - run:
+          name: Init VERSION.txt file
+          command: make version
+      - run:
+          name: Create package
+          command: |
+            python setup.py sdist
+            python setup.py bdist_wheel
+      - run:
+          name: Upload to pypi
+          command: |
+            . venv/bin/activate
+            twine upload dist/*
+workflows:
+  version: 2
+  generate:
+    jobs:
+      - lint_protobuf
+      - test_golang:
+          requires:
+            - lint_protobuf
+      - generate_python:
+          requires:
+            - test_golang
+      - generate_java:
+          requires:
+            - test_golang
+      - deploy_python:
+          context: twine
+          requires:
+            - generate_python
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/

@@ -3,6 +3,8 @@ syntax = "proto3";
 package ntypes;
 
 option go_package = "github.com/piotrkowalczuk/ntypes";
+option java_multiple_files = true;
+option java_package = "com.github.piotrkowalczuk.ntypes";
 
 // Bytes represents a byte slice that may be nil.
 message Bytes {

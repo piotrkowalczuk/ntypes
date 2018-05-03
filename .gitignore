@@ -2,10 +2,17 @@
 .idea
 *.iml
 .tmp
+*.zip
 *.out
+
+### Python template
 VERSION.txt
 protobuf_ntypes.egg-info
 dist
+ntypes/*_pb2.py
+ntypes/*_pb2_grpc.py
+build
+venv
 
 ### Go template
 # Compiled Object files, Static and Dynamic libs (Shared Objects)
