@@ -14,4 +14,4 @@ jobs:
         - run: unzip protoc.zip -d ./protoc
         - run: mv protoc/bin/protoc /usr/local/bin/protoc
         - run: mv protoc/include/google /usr/include/google
-        - run:w make gen
+        - run: make gen
