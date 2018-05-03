@@ -106,7 +106,7 @@ workflows:
       - python
       - java
       - deploy:
-          requires
+          requires:
             - golang
             - python
             - java
