@@ -112,7 +112,7 @@ workflows:
       - python_generate
       - java
       - python_deploy:
-          context: twine
+          context: twine-test
           requires:
             - golang
             - python_generate
