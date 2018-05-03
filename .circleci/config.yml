@@ -37,7 +37,19 @@ jobs:
       - run:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh golang
-  python:
+  java:
+    docker:
+      - image: circleci/openjdk:8
+    working_directory: ~/ntypes
+    steps:
+      - checkout
+      - run:
+          name: Install protoc
+          command: bash ./.circleci/scripts/install_protoc.sh
+      - run:
+          name: Generate protobuf
+          command: bash ./.circleci/scripts/generate.sh java
+  python_generate:
     docker:
       - image: circleci/python:3
     working_directory: ~/ntypes
@@ -57,34 +69,47 @@ jobs:
           command: |
             . venv/bin/activate
             bash ./.circleci/scripts/generate.sh python
-      - run: make version
-  java:
+      - save_cache:
+          key: python-dependency-{{ .Branch }}-{{ .Revision }
+          paths:
+            - "venv"
+  python_deploy:
     docker:
-      - image: circleci/openjdk:8
-    working_directory: ~/ntypes
+      - image: circleci/python:3.6
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - python-dependency-{{ .Branch }}-{{ .Revision }
       - run:
-          name: Install protoc
-          command: bash ./.circleci/scripts/install_protoc.sh
+          name: Init VERSION.txt file
+          command: make version
       - run:
-          name: Generate protobuf
-          command: bash ./.circleci/scripts/generate.sh java
-  deploy:
-    machine: true
-    steps:
+          name: Init .pypirc file
+          context: pypi
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = levlaz" >> ~/.pypirc
+            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
       - run:
-          name: Finish
-          command: echo "OK"
+          name: Create package
+          command: |
+            python setup.py sdist
+            python setup.py bdist_wheel
+      - run:
+          name: Upload to pypi
+          command: |
+            . venv/bin/activate
+            twine upload dist/*
 workflows:
   version: 2
   generate:
     jobs:
       - golang
-      - python
+      - python_generate
       - java
       - deploy:
           requires:
             - golang
-            - python
+            - python_deploy
             - java
