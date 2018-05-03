@@ -1,7 +1,6 @@
 : ${PROTOC:="/usr/local/bin/protoc"}
 PROTO_INCLUDE="-I=/usr/include -I=."
 
-(
 case $1 in
     lint)
         ${PROTOC} ${PROTO_INCLUDE} --lint_out=. *.proto
@@ -22,4 +21,3 @@ case $1 in
         exit 1
         ;;
 esac
-) 2>&1
