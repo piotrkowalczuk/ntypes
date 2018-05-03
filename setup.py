@@ -11,13 +11,14 @@ with open('VERSION.txt', 'r') as content_file:
 
     def readme():
         """print long description"""
-        with open('README.txt') as f:
+        with open('README.md') as f:
             return f.read()
 
 
     setup(
         name='protobuf-ntypes',
-        version=version[1:],
+        # version=version[1:],
+        version='1.0.1',
         description='protobuf nilable data structures',
         url='https://github.com/piotrkowalczuk/ntypes',
         author='Piotr Kowalczuk',
