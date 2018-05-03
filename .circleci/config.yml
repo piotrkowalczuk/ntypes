@@ -28,6 +28,7 @@ jobs:
             go get -u github.com/golang/protobuf/proto
             go get -u github.com/golang/protobuf/protoc-gen-go
             go get -u google.golang.org/grpc
+            go get -u github.com/jstemmer/go-junit-report
       - run:
           name: Install protoc
           command: bash ./.circleci/scripts/install_protoc.sh
