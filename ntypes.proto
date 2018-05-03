@@ -16,7 +16,6 @@ message Bytes {
 message BytesArray {
 	repeated bytes bytes_array = 1;
 	bool valid = 2;
-    bool xasASdas = 3;
 }
 
 // String represents a string that may be nil.
