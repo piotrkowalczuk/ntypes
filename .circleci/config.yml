@@ -60,7 +60,7 @@ jobs:
           command: |
             python -m venv ./venv
             . venv/bin/activate
-            pip install grpcio grpcio-tools
+            pip install grpcio grpcio-tools twine
       - run:
           name: Install protoc
           command: bash ./.circleci/scripts/install_protoc.sh
@@ -75,7 +75,7 @@ jobs:
             - "venv"
   python_deploy:
     docker:
-      - image: circleci/python:3.6
+      - image: circleci/python:3
     working_directory: ~/ntypes
     steps:
       - checkout
