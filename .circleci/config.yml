@@ -59,7 +59,7 @@ jobs:
   java:
     docker:
       - image: circleci/openjdk:8
-    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    working_directory: ~/ntypes
     steps:
       - checkout
       - run:
