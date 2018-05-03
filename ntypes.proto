@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package ntypes;
+
 option go_package = "github.com/piotrkowalczuk/ntypes";
 
 // Bytes represents a byte slice that may be nil.

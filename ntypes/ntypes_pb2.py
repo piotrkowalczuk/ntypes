@@ -21,7 +21,6 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_pb=_b('\n\x0cntypes.proto\x12\x06ntypes\"%\n\x05\x42ytes\x12\r\n\x05\x62ytes\x18\x01 \x01(\x0c\x12\r\n\x05valid\x18\x02 \x01(\x08\"0\n\nBytesArray\x12\x13\n\x0b\x62ytes_array\x18\x01 \x03(\x0c\x12\r\n\x05valid\x18\x02 \x01(\x08\"&\n\x06String\x12\r\n\x05\x63hars\x18\x01 \x01(\t\x12\r\n\x05valid\x18\x02 \x01(\x08\"2\n\x0bStringArray\x12\x14\n\x0cstring_array\x18\x01 \x03(\t\x12\r\n\x05valid\x18\x02 \x01(\x08\"%\n\x05Int32\x12\r\n\x05int32\x18\x01 \x01(\x05\x12\r\n\x05valid\x18\x02 \x01(\x08\"0\n\nInt32Array\x12\x13\n\x0bint32_array\x18\x01 \x03(\x05\x12\r\n\x05valid\x18\x02 \x01(\x08\"%\n\x05Int64\x12\r\n\x05int64\x18\x01 \x01(\x03\x12\r\n\x05valid\x18\x02 \x01(\x08\"0\n\nInt64Array\x12\x13\n\x0bint64_array\x18\x01 \x03(\x03\x12\r\n\x05valid\x18\x02 \x01(\x08\"\'\n\x06Uint32\x12\x0e\n\x06uint32\x18\x01 \x01(\r\x12\r\n\x05valid\x18\x02 \x01(\x08\"2\n\x0bUint32Array\x12\x14\n\x0cuint32_array\x18\x01 \x03(\r\x12\r\n\x05valid\x18\x02 \x01(\x08\"\'\n\x06Uint64\x12\x0e\n\x06uint64\x18\x01 \x01(\x04\x12\r\n\x05valid\x18\x02 \x01(\x08\"2\n\x0bUint64Array\x12\x14\n\x0cuint64_array\x18\x01 \x03(\x04\x12\r\n\x05valid\x18\x02 \x01(\x08\")\n\x07\x46loat32\x12\x0f\n\x07\x66loat32\x18\x01 \x01(\x02\x12\r\n\x05valid\x18\x02 \x01(\x08\"4\n\x0c\x46loat32Array\x12\x15\n\rfloat32_array\x18\x01 \x03(\x02\x12\r\n\x05valid\x18\x02 \x01(\x08\")\n\x07\x46loat64\x12\x0f\n\x07\x66loat64\x18\x01 \x01(\x01\x12\r\n\x05valid\x18\x02 \x01(\x08\"4\n\x0c\x46loat64Array\x12\x15\n\rfloat64_array\x18\x01 \x03(\x01\x12\r\n\x05valid\x18\x02 \x01(\x08\"#\n\x04\x42ool\x12\x0c\n\x04\x62ool\x18\x01 \x01(\x08\x12\r\n\x05valid\x18\x02 \x01(\x08\".\n\tBoolArray\x12\x12\n\nbool_array\x18\x01 \x03(\x08\x12\r\n\x05valid\x18\x02 \x01(\x08\x42\"Z github.com/piotrkowalczuk/ntypesb\x06proto3')
 )
-_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 
 
@@ -39,14 +38,14 @@ _BYTES = _descriptor.Descriptor(
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Bytes.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -77,14 +76,14 @@ _BYTESARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.BytesArray.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -115,14 +114,14 @@ _STRING = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.String.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -153,14 +152,14 @@ _STRINGARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.StringArray.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -191,14 +190,14 @@ _INT32 = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Int32.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -229,14 +228,14 @@ _INT32ARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Int32Array.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -267,14 +266,14 @@ _INT64 = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Int64.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -305,14 +304,14 @@ _INT64ARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Int64Array.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -343,14 +342,14 @@ _UINT32 = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Uint32.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -381,14 +380,14 @@ _UINT32ARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Uint32Array.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -419,14 +418,14 @@ _UINT64 = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Uint64.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -457,14 +456,14 @@ _UINT64ARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Uint64Array.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -495,14 +494,14 @@ _FLOAT32 = _descriptor.Descriptor(
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Float32.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -533,14 +532,14 @@ _FLOAT32ARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Float32Array.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -571,14 +570,14 @@ _FLOAT64 = _descriptor.Descriptor(
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Float64.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -609,14 +608,14 @@ _FLOAT64ARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Float64Array.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -647,14 +646,14 @@ _BOOL = _descriptor.Descriptor(
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.Bool.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -685,14 +684,14 @@ _BOOLARRAY = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='valid', full_name='ntypes.BoolArray.valid', index=1,
       number=2, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -727,6 +726,7 @@ DESCRIPTOR.message_types_by_name['Float64'] = _FLOAT64
 DESCRIPTOR.message_types_by_name['Float64Array'] = _FLOAT64ARRAY
 DESCRIPTOR.message_types_by_name['Bool'] = _BOOL
 DESCRIPTOR.message_types_by_name['BoolArray'] = _BOOLARRAY
+_sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Bytes = _reflection.GeneratedProtocolMessageType('Bytes', (_message.Message,), dict(
   DESCRIPTOR = _BYTES,
