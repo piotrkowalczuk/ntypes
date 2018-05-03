@@ -80,7 +80,7 @@ jobs:
     environment:
       - TWINE_USERNAME: $USERNAME
       - TWINE_PASSWORD: $PASSWORD
-      - TWINE_REPOSITORY_URL: "https://pypi.org"
+      - TWINE_REPOSITORY: "pypi"
     steps:
       - checkout
       - restore_cache:
@@ -94,18 +94,16 @@ jobs:
           command: |
             python setup.py sdist
             python setup.py bdist_wheel
-      - run:
-          name: Init .pypirc file
-          context: pypi
-          command: |
-            echo -e "[pypi]" >> ~/.pypirc
-            echo -e "username = $USERNAME" >> ~/.pypirc
-            echo -e "password = $PASSWORD" >> ~/.pypirc
+#      - run:
+#          name: Init .pypirc file
+#          context: pypi
+#          command: |
+#            echo -e "[pypi]" >> ~/.pypirc
+#            echo -e "username = $USERNAME" >> ~/.pypirc
+#            echo -e "password = $PASSWORD" >> ~/.pypirc
       - run:
           name: Upload to pypi
           command: |
-            ls -lha .
-            ls -lha ./dist/
             . venv/bin/activate
             twine upload dist/*
 workflows:
