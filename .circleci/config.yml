@@ -15,5 +15,9 @@ jobs:
             sudo mv protoc/bin/protoc /usr/local/bin/protoc
             sudo mv protoc/include/google /usr/include/google
             protoc --version
-      - run: make gen
+      - run:
+          name: Generate protobuf
+          command: |
+            ls -lha
+            make gen
       - run: make version
