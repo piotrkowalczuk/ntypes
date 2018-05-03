@@ -20,13 +20,14 @@ jobs:
             sudo mv ./tmp/protoc/include/google /usr/include/google
             protoc --version
       - run:
-          name: Install command line tools
+          name: Install global golang packages
           command: make get
       - run:
-          name: Install python packages
+          name: Install local python packages
           command: |
-            pip install grpcio
-            pip install grpcio-tools
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install grpcio grpcio-tools
       - run:
           name: Generate protobuf
           command: |
