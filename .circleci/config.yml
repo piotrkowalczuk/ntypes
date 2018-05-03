@@ -39,7 +39,7 @@ jobs:
           command: bash ./.circleci/scripts/generate.sh golang
       - run:
           name: Check if there is no difference
-          command: git diff --quiet
+          command: git diff --exit-code
   java:
     docker:
       - image: circleci/openjdk:8
@@ -93,13 +93,6 @@ jobs:
           command: |
             python setup.py sdist
             python setup.py bdist_wheel
-#      - run:
-#          name: Init .pypirc file
-#          context: twine
-#          command: |
-#            echo -e "[pypi]" >> ~/.pypirc
-#            echo -e "username = $USERNAME" >> ~/.pypirc
-#            echo -e "password = $PASSWORD" >> ~/.pypirc
       - run:
           name: Upload to pypi
           command: |
