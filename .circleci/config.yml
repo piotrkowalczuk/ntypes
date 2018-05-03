@@ -20,6 +20,8 @@ jobs:
     docker:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    environment:
+          TEST_RESULTS: /tmp/test-results
     steps:
       - checkout
       - run:
@@ -41,8 +43,11 @@ jobs:
       - run:
           name: Run tests
           command: |
-            trap "go-junit-report < go-test.out > go-test-report.xml" EXIT
-            go test | tee go-test.out
+            mkdir -p $TEST_RESULTS
+            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
+            make test | tee ${TEST_RESULTS}/go-test.out
+      - store_test_results:
+          path: $TEST_RESULTS
   generate_java:
     docker:
       - image: circleci/openjdk:8
