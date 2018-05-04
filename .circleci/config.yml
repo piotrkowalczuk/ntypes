@@ -5,6 +5,10 @@ references:
     docker:
       - image: circleci/python:3
     working_directory: ~/ntypes
+  container_config_java: &container_config_java
+    docker:
+      - image: circleci/openjdk:8
+    working_directory: ~/ntypes
 jobs:
   lint_protobuf:
     docker:
@@ -55,9 +59,7 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
   generate_java:
-    docker:
-      - image: circleci/openjdk:8
-    working_directory: ~/ntypes
+    <<: *container_config_java
     steps:
       - checkout
       - run:
@@ -88,6 +90,7 @@ jobs:
           key: python-dependency-{{ .Branch }}-{{ .Revision }}
           paths:
             - "venv"
+            - "dist"
   deploy_python:
     <<: *container_config_python
     steps:
@@ -108,6 +111,26 @@ jobs:
           command: |
             . venv/bin/activate
             twine upload dist/*
+#  deploy_java:
+#    <<: *container_config_java
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          keys:
+#            - java-dependency-{{ .Branch }}-{{ .Revision }}
+#      - run:
+#          name: Init VERSION.txt file
+#          command: make version
+#      - run:
+#          name: Create package
+#          command: |
+#            python setup.py sdist
+#            python setup.py bdist_wheel
+#      - run:
+#          name: Upload to pypi
+#          command: |
+#            . venv/bin/activate
+#            twine upload dist/*
 workflows:
   version: 2
   generate:
@@ -135,7 +158,7 @@ workflows:
             tags:
               only: /.*/
       - deploy_python:
-          context: twine
+          context: twine-test
           requires:
             - generate_python
           filters:
