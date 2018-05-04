@@ -161,7 +161,7 @@ workflows:
           context: twine-test
           requires:
             - generate_python
-          filters:
+#          filters:
 #            branches:
 #              ignore: /.*/
 #            tags:
