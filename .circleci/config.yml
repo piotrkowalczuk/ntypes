@@ -138,7 +138,7 @@ workflows:
             tags:
               only: /.*/
       - deploy_python:
-          context: twine-test
+          context: twine
           requires:
             - generate_python
           filters:
