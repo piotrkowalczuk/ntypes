@@ -90,7 +90,7 @@ jobs:
           key: python-dependency-{{ .Branch }}-{{ .Revision }}
           paths:
             - "venv"
-            - "dist"
+            - "ntypes"
   deploy_python:
     <<: *container_config_python
     steps:
