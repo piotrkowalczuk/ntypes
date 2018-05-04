@@ -17,8 +17,7 @@ with open('VERSION.txt', 'r') as content_file:
 
     setup(
         name='protobuf-ntypes',
-        # version=version[1:],
-        version='v0.0.2',
+        version=version[1:],
         description='protobuf nilable data structures',
         url='https://github.com/piotrkowalczuk/ntypes',
         author='Piotr Kowalczuk',
