@@ -1,4 +1,10 @@
 version: 2
+
+references:
+  container_config_python: &container_config_python
+    docker:
+      - image: circleci/python:3
+    working_directory: ~/ntypes
 jobs:
   lint_protobuf:
     docker:
@@ -61,9 +67,7 @@ jobs:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh java
   generate_python:
-    docker:
-      - image: circleci/python:3
-    working_directory: ~/ntypes
+    <<: *container_config_python
     steps:
       - checkout
       - run:
@@ -85,9 +89,7 @@ jobs:
           paths:
             - "venv"
   deploy_python:
-    docker:
-      - image: circleci/python:3
-    working_directory: ~/ntypes
+    <<: *container_config_python
     steps:
       - checkout
       - restore_cache:
