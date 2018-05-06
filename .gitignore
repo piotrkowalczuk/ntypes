@@ -4,6 +4,9 @@
 .tmp
 *.zip
 *.out
+*.jar
+*.java
+*.class
 
 ### Python template
 VERSION.txt
