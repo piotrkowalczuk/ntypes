@@ -1,4 +1,4 @@
-curl -L https://github.com/google/protobuf/releases/download/v3.5.1/protoc-3.5.1-linux-x86_64.zip > protoc.zip
+curl -L https://github.com/google/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip > protoc.zip
 
 rm -rf ./tmp/protoc
 mkdir -p ./tmp/protoc
