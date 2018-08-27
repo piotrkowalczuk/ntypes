@@ -1,5 +1,5 @@
 : ${PROTOC:="/usr/local/bin/protoc"}
-: ${SCALAPBC:="/usr/local/bin/scalapbc"}
+: ${SCALAPBC:="./tmp/scalapbc/scalapbc-0.7.4/bin/scalapbc"}
 PROTO_INCLUDE="-I=/usr/include -I=."
 
 DIR_JAVA="./tmp/java/"
@@ -20,7 +20,7 @@ case $1 in
     scala)
         rm -rf ./tmp/scala
         mkdir -p ./tmp/scala
-        ${SCALAPBC} --scala_out=ntypes.jar ${PROTO_INCLUDE} *.proto
+        ${SCALAPBC} -v361 --scala_out=ntypes.jar ${PROTO_INCLUDE} *.proto
         ;;
     golang | go)
         ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src *.proto

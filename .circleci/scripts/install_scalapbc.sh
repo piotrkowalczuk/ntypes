@@ -4,6 +4,4 @@ rm -rf ./tmp/scalapbc
 mkdir -p ./tmp/scalapbc
 unzip scalapbc.zip -d ./tmp/scalapbc
 
-sudo mv -f ./tmp/scalapbc/scalapbc-0.7.4/bin/scalapbc /usr/local/bin/scalapbc
-
 # scalapbc has no version flag

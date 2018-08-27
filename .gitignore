@@ -7,6 +7,7 @@
 *.jar
 *.java
 *.class
+*.jar
 
 ### Python template
 VERSION.txt
