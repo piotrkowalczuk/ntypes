@@ -68,6 +68,16 @@ jobs:
       - run:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh java
+  generate_scala:
+    <<: *container_config_java
+    steps:
+      - checkout
+      - run:
+          name: Install scalapbc
+          command: bash ./.circleci/scripts/install_scalapbc.sh
+      - run:
+          name: Generate protobuf
+          command: bash ./.circleci/scripts/generate.sh scala
   generate_python:
     <<: *container_config_python
     steps:
@@ -154,6 +164,12 @@ workflows:
       - generate_java:
           requires:
             - test_golang
+          filters:
+            tags:
+              only: /.*/
+      - generate_scala:
+          requires:
+          - test_golang
           filters:
             tags:
               only: /.*/
