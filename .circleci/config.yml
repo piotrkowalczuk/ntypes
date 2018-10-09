@@ -3,167 +3,167 @@ version: 2
 references:
   container_config_python: &container_config_python
     docker:
-      - image: circleci/python:3
+    - image: circleci/python:3
     working_directory: ~/ntypes
   container_config_java: &container_config_java
     docker:
-      - image: circleci/openjdk:8
+    - image: circleci/openjdk:8
     working_directory: ~/ntypes
 jobs:
   lint_protobuf:
     docker:
-      - image: circleci/golang
+    - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     steps:
-      - checkout
-      - run:
-          name: Install protoc
-          command: bash ./.circleci/scripts/install_protoc.sh
-      - run:
-          name: Install command line tools
-          command: |
-            go get -u github.com/ckaznocha/protoc-gen-lint
-      - run:
-          name: Lint protobuf
-          command: bash ./.circleci/scripts/generate.sh lint
+    - checkout
+    - run:
+        name: Install protoc
+        command: bash ./.circleci/scripts/install_protoc.sh
+    - run:
+        name: Install command line tools
+        command: |
+          go get -u github.com/ckaznocha/protoc-gen-lint
+    - run:
+        name: Lint protobuf
+        command: bash ./.circleci/scripts/generate.sh lint
   test_golang:
     docker:
-      - image: circleci/golang
+    - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     environment:
-          TEST_RESULTS: /tmp/test-results/golang
+      TEST_RESULTS: /tmp/test-results/golang
     steps:
-      - checkout
-      - run:
-          name: Install golang packages
-          command: |
-            go get -u github.com/golang/protobuf/proto
-            go get -u github.com/golang/protobuf/protoc-gen-go
-            go get -u google.golang.org/grpc
-            go get -u github.com/jstemmer/go-junit-report
-      - run:
-          name: Install protoc
-          command: bash ./.circleci/scripts/install_protoc.sh
-      - run:
-          name: Generate protobuf
-          command: bash ./.circleci/scripts/generate.sh golang
-      - run:
-          name: Check for mismatch
-          command: git diff --exit-code
-      - run:
-          name: Run tests
-          command: |
-            mkdir -p $TEST_RESULTS
-            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
-            go test -v | tee ${TEST_RESULTS}/go-test.out
-      - store_test_results:
-          path: /tmp/test-results
+    - checkout
+    - run:
+        name: Install golang packages
+        command: |
+          go get -u github.com/golang/protobuf/proto
+          go get -u github.com/golang/protobuf/protoc-gen-go
+          go get -u google.golang.org/grpc
+          go get -u github.com/jstemmer/go-junit-report
+    - run:
+        name: Install protoc
+        command: bash ./.circleci/scripts/install_protoc.sh
+    - run:
+        name: Generate protobuf
+        command: bash ./.circleci/scripts/generate.sh golang
+    - run:
+        name: Check for mismatch
+        command: git diff --exit-code
+    - run:
+        name: Run tests
+        command: |
+          mkdir -p $TEST_RESULTS
+          trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
+          go test -v | tee ${TEST_RESULTS}/go-test.out
+    - store_test_results:
+        path: /tmp/test-results
   generate_scala:
     <<: *container_config_java
     steps:
-      - checkout
-      - run:
-          name: Install scalapbc
-          command: bash ./.circleci/scripts/install_scalapbc.sh
-      - run:
-          name: Generate protobuf
-          command: bash ./.circleci/scripts/generate.sh scala
-      - persist_to_workspace:
-          root: ./tmp/scala
-          paths:
-          - ntypes.jar
+    - checkout
+    - run:
+        name: Install scalapbc
+        command: bash ./.circleci/scripts/install_scalapbc.sh
+    - run:
+        name: Generate protobuf
+        command: bash ./.circleci/scripts/generate.sh scala
+    - persist_to_workspace:
+        root: ./tmp/scala
+        paths:
+        - ntypes.jar
   publish_scala:
     <<: *container_config_java
     steps:
-      - attach_workspace:
-          at: ./tmp/scala
-      - run:
-          name: Send to Bintray
-          command: curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/ntypes-${CIRCLE_TAG}.jar
+    - attach_workspace:
+        at: ./tmp/scala
+    - run:
+        name: Send to Bintray
+        command: curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/ntypes-${CIRCLE_TAG}.jar
   generate_python:
     <<: *container_config_python
     steps:
-      - checkout
-      - run:
-          name: Install python packages
-          command: |
-            python -m venv ./venv
-            . venv/bin/activate
-            pip install grpcio grpcio-tools twine
-      - run:
-          name: Install protoc
-          command: bash ./.circleci/scripts/install_protoc.sh
-      - run:
-          name: Generate protobuf
-          command: |
-            . venv/bin/activate
-            bash ./.circleci/scripts/generate.sh python
-      - save_cache:
-          key: python-dependency-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - "venv"
-            - "ntypes"
+    - checkout
+    - run:
+        name: Install python packages
+        command: |
+          python -m venv ./venv
+          . venv/bin/activate
+          pip install grpcio grpcio-tools twine
+    - run:
+        name: Install protoc
+        command: bash ./.circleci/scripts/install_protoc.sh
+    - run:
+        name: Generate protobuf
+        command: |
+          . venv/bin/activate
+          bash ./.circleci/scripts/generate.sh python
+    - save_cache:
+        key: python-dependency-{{ .Branch }}-{{ .Revision }}
+        paths:
+        - "venv"
+        - "ntypes"
   publish_python:
     <<: *container_config_python
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - python-dependency-{{ .Branch }}-{{ .Revision }}
-      - run:
-          name: Init VERSION.txt file
-          command: make version
-      - run:
-          name: Create package
-          command: |
-            python setup.py sdist
-            python setup.py bdist_wheel
-      - run:
-          name: Upload to pypi
-          command: |
-            . venv/bin/activate
-            twine upload dist/*
+    - checkout
+    - restore_cache:
+        keys:
+        - python-dependency-{{ .Branch }}-{{ .Revision }}
+    - run:
+        name: Init VERSION.txt file
+        command: make version
+    - run:
+        name: Create package
+        command: |
+          python setup.py sdist
+          python setup.py bdist_wheel
+    - run:
+        name: Upload to pypi
+        command: |
+          . venv/bin/activate
+          twine upload dist/*
 workflows:
   version: 2
-  generate:
+  test_generate_and_publish:
     jobs:
-      - lint_protobuf:
-          filters:
-            tags:
-              only: /.*/
-      - test_golang:
-          requires:
-            - lint_protobuf
-          filters:
-            tags:
-              only: /.*/
-      - generate_python:
-          requires:
-            - test_golang
-          filters:
-            tags:
-              only: /.*/
-      - generate_scala:
-          requires:
-            - test_golang
-          filters:
-            tags:
-              only: /.*/
-      - publish_python:
-          context: twine
-          requires:
-            - generate_python
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
-      - publish_scala:
-          context: bintray
-          requires:
-            - generate_scala
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
+    - lint_protobuf:
+        filters:
+          tags:
+            only: /.*/
+    - test_golang:
+        requires:
+        - lint_protobuf
+        filters:
+          tags:
+            only: /.*/
+    - generate_python:
+        requires:
+        - test_golang
+        filters:
+          tags:
+            only: /.*/
+    - generate_scala:
+        requires:
+        - test_golang
+        filters:
+          tags:
+            only: /.*/
+    - publish_python:
+        context: twine
+        requires:
+        - generate_python
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
+    - publish_scala:
+        context: bintray
+        requires:
+        - generate_scala
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
