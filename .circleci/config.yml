@@ -31,7 +31,7 @@ jobs:
       - image: circleci/golang
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     environment:
-          TEST_RESULTS: /.tmp/test-results/golang
+          TEST_RESULTS: /tmp/test-results/golang
     steps:
       - checkout
       - run:
@@ -57,7 +57,7 @@ jobs:
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
             go test -v | tee ${TEST_RESULTS}/go-test.out
       - store_test_results:
-          path: /.tmp/test-results
+          path: /tmp/test-results
   generate_scala:
     <<: *container_config_java
     steps:
@@ -69,17 +69,17 @@ jobs:
           name: Generate protobuf
           command: bash ./.circleci/scripts/generate.sh scala
       - persist_to_workspace:
-          root: ./.tmp/scala
+          root: ./tmp/scala
           paths:
           - ntypes.jar
   deploy_scala:
     <<: *container_config_java
     steps:
       - attach_workspace:
-        at: ./.tmp/scala
+        at: ./tmp/scala
       - run:
         name: Send to Bintray
-        command: curl -T ./.tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/
+        command: curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/
   generate_python:
     <<: *container_config_python
     steps:
