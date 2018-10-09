@@ -10,6 +10,7 @@ POM_FILE="<?xml version=\"1.0\" encoding=\"UTF-8\"?> \
     <groupId>com.github.piotrkowalczuk</groupId> \
     <artifactId>ntypes</artifactId> \
     <version>${VERSION:1}</version> \
+    <packaging>jar</packaging> \
     <dependencies> \
         <dependency> \
             <groupId>com.thesamet.scalapb</groupId> \
