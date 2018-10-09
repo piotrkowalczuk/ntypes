@@ -1,5 +1,5 @@
 : ${PROTOC:="/usr/local/bin/protoc"}
-: ${SCALAPBC:="./.tmp/scalapbc/scalapbc-0.7.4/bin/scalapbc"}
+: ${SCALAPBC:="./.tmp/scalapbc/scalapbc-0.8.1/bin/scalapbc"}
 PROTO_INCLUDE="-I=/usr/include -I=."
 
 DIR_JAVA="./.tmp/java/"
