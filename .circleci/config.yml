@@ -79,7 +79,7 @@ jobs:
           at: ./tmp/scala
       - run:
           name: Send to Bintray
-          command: curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/
+          command: curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/ntypes.jar
   generate_python:
     <<: *container_config_python
     steps:
