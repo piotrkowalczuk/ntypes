@@ -12,15 +12,10 @@ case $1 in
     python)
         python -m grpc_tools.protoc ${PROTO_INCLUDE} --python_out=${DIR_PYTHON}ntypes *.proto
         ;;
-    java)
-        rm -rf ./tmp/java
-        mkdir -p ./tmp/java
-        ${PROTOC} ${PROTO_INCLUDE} --java_out=./tmp/java *.proto
-        ;;
     scala)
         rm -rf ./tmp/scala
         mkdir -p ./tmp/scala
-        ${SCALAPBC} -v361 --scala_out=ntypes.jar ${PROTO_INCLUDE} *.proto
+        ${SCALAPBC} -v361 --scala_out=./tmp/scala/ntypes.jar ${PROTO_INCLUDE} *.proto
         ;;
     golang | go)
         ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src *.proto
