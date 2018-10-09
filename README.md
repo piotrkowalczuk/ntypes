@@ -5,6 +5,8 @@
 [![Code Climate](https://codeclimate.com/github/piotrkowalczuk/ntypes/badges/gpa.svg)](https://codeclimate.com/github/piotrkowalczuk/ntypes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/piotrkowalczuk/ntypes)](https://goreportcard.com/report/github.com/piotrkowalczuk/ntypes)
 [![pypi](https://img.shields.io/pypi/v/protobuf-ntypes.svg)](https://pypi.python.org/pypi/protobuf-ntypes)
+[![Download](https://img.shields.io/bintray/v/piotrkowalczuk/maven/ntypes.svg)](https://bintray.com/piotrkowalczuk/maven/ntypes/_latestVersion)
+
 
 Package provides set of types that helps to build complex protobuf messages that contains optional properties. 
 API can be considered as stable.
