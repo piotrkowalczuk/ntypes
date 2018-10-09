@@ -8,7 +8,7 @@
 *.java
 *.class
 *.jar
-META-INF
+META-INF/
 
 ### Python template
 VERSION.txt
