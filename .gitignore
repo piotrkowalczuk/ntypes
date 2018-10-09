@@ -1,9 +1,14 @@
 ### Project
 .idea
 *.iml
-.tmp
+tmp
 *.zip
 *.out
+*.jar
+*.java
+*.class
+*.jar
+META-INF/
 
 ### Python template
 VERSION.txt

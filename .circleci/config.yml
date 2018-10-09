@@ -58,16 +58,28 @@ jobs:
             go test -v | tee ${TEST_RESULTS}/go-test.out
       - store_test_results:
           path: /tmp/test-results
-  generate_java:
+  generate_scala:
     <<: *container_config_java
     steps:
       - checkout
       - run:
-          name: Install protoc
-          command: bash ./.circleci/scripts/install_protoc.sh
+          name: Install scalapbc
+          command: bash ./.circleci/scripts/install_scalapbc.sh
       - run:
           name: Generate protobuf
-          command: bash ./.circleci/scripts/generate.sh java
+          command: bash ./.circleci/scripts/generate.sh scala
+      - persist_to_workspace:
+          root: ./tmp/scala
+          paths:
+          - ntypes.jar
+  publish_scala:
+    <<: *container_config_java
+    steps:
+      - attach_workspace:
+          at: ./tmp/scala
+      - run:
+          name: Send to Bintray
+          command: curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/ntypes-${CIRCLE_TAG}.jar
   generate_python:
     <<: *container_config_python
     steps:
@@ -91,7 +103,7 @@ jobs:
           paths:
             - "venv"
             - "ntypes"
-  deploy_python:
+  publish_python:
     <<: *container_config_python
     steps:
       - checkout
@@ -131,16 +143,25 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - generate_java:
+      - generate_scala:
           requires:
-            - test_golang
+          - test_golang
           filters:
             tags:
               only: /.*/
-      - deploy_python:
+      - publish_python:
           context: twine
           requires:
             - generate_python
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
+      - publish_scala:
+          context: bintray
+          requires:
+          - generate_scala
           filters:
             branches:
               ignore: /.*/
