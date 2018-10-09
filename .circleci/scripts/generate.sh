@@ -7,11 +7,10 @@ POM_FILE="<?xml version=\"1.0\" encoding=\"UTF-8\"?> \
          xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" \
          xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\"> \
     <modelVersion>4.0.0</modelVersion> \
-    <groupId>piotrkowalczuk</groupId> \
+    <groupId>com.github.piotrkowalczuk</groupId> \
     <artifactId>ntypes</artifactId> \
     <version>${VERSION:1}</version> \
     <dependencies> \
-        <!-- https://mvnrepository.com/artifact/com.thesamet.scalapb/compilerplugin --> \
         <dependency> \
             <groupId>com.thesamet.scalapb</groupId> \
             <artifactId>compilerplugin_2.12</artifactId> \
