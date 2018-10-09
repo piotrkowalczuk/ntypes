@@ -72,7 +72,7 @@ jobs:
           root: ./tmp/scala
           paths:
           - ntypes.jar
-  deploy_scala:
+  publish_scala:
     <<: *container_config_java
     steps:
       - attach_workspace:
@@ -103,7 +103,7 @@ jobs:
           paths:
             - "venv"
             - "ntypes"
-  deploy_python:
+  publish_python:
     <<: *container_config_python
     steps:
       - checkout
@@ -149,7 +149,7 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - deploy_python:
+      - publish_python:
           context: twine
           requires:
             - generate_python
@@ -158,7 +158,7 @@ workflows:
               ignore: /.*/
             tags:
               only: /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$/
-      - deploy_scala:
+      - publish_scala:
           context: bintray
           requires:
           - generate_scala
