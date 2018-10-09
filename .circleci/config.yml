@@ -69,17 +69,20 @@ jobs:
         name: Generate protobuf
         command: bash ./.circleci/scripts/generate.sh scala
     - persist_to_workspace:
-        root: ./tmp/scala
+        root: ./tmp
         paths:
-        - ntypes.jar
+        - scala/ntypes.jar
+        - pom.xml
   publish_scala:
     <<: *container_config_java
     steps:
     - attach_workspace:
-        at: ./tmp/scala
+        at: ./tmp
     - run:
         name: Send to Bintray
-        command: curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/ntypes-${CIRCLE_TAG}.jar
+        command: |
+          curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/ntypes-${CIRCLE_TAG}.jar
+          curl -T ./tmp/pom.xml -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG}/ntypes-${CIRCLE_TAG}.pom
   generate_python:
     <<: *container_config_python
     steps:
