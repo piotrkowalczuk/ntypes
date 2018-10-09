@@ -145,7 +145,7 @@ workflows:
               only: /.*/
       - generate_scala:
           requires:
-          - test_golang
+            - test_golang
           filters:
             tags:
               only: /.*/
@@ -161,7 +161,7 @@ workflows:
       - publish_scala:
           context: bintray
           requires:
-          - generate_scala
+            - generate_scala
           filters:
             branches:
               ignore: /.*/
