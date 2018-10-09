@@ -9,7 +9,7 @@ POM_FILE="<?xml version=\"1.0\" encoding=\"UTF-8\"?> \
     <modelVersion>4.0.0</modelVersion> \
     <groupId>piotrkowalczuk</groupId> \
     <artifactId>ntypes</artifactId> \
-    <version>${VERSION}</version> \
+    <version>${VERSION:1}</version> \
     <dependencies> \
         <!-- https://mvnrepository.com/artifact/com.thesamet.scalapb/compilerplugin --> \
         <dependency> \
