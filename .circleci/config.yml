@@ -73,6 +73,7 @@ jobs:
           paths:
           - ntypes.jar
   deploy_scala:
+    <<: *container_config_java
     steps:
       - attach_workspace:
         at: ./.tmp/scala
