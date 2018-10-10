@@ -81,8 +81,8 @@ jobs:
     - run:
         name: Send to Bintray
         command: |
-          curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG:1}/ntypes-${CIRCLE_TAG:1}.jar
-          curl -T ./tmp/pom.xml -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/${CIRCLE_TAG:1}/ntypes-${CIRCLE_TAG:1}.pom
+          curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/com.github.piotrkowalczuk/ntypes/${CIRCLE_TAG:1}/ntypes-${CIRCLE_TAG:1}.jar
+          curl -T ./tmp/pom.xml -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/com.github.piotrkowalczuk/ntypes/${CIRCLE_TAG:1}/ntypes-${CIRCLE_TAG:1}.pom
   generate_python:
     <<: *container_config_python
     steps:
