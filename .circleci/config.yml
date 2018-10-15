@@ -80,7 +80,7 @@ jobs:
     - attach_workspace:
         at: ./tmp
     - run:
-        name: Create the package
+        name: Packaging
         command: |
           cd ./tmp/scala
           sbt package
