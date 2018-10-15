@@ -81,10 +81,13 @@ jobs:
         at: ./tmp
     - run:
         name: Create the package
-        command: sbt package
+        command: |
+          cd ./tmp/scala
+          sbt package
     - run:
         name: Publish
         command: |
+          cd ./tmp/scala
           sbt publishLocal
           sbt publish
   generate_python:
