@@ -9,6 +9,8 @@ references:
     docker:
     - image: circleci/openjdk:8
     working_directory: ~/ntypes
+    environment:
+      SBT_VERSION: 1.2.4
 jobs:
   lint_protobuf:
     docker:
@@ -45,7 +47,7 @@ jobs:
         name: Install protoc
         command: bash ./.circleci/scripts/install_protoc.sh
     - run:
-        name: Generate protobuf
+        name: Generate from protobuf
         command: bash ./.circleci/scripts/generate.sh golang
     - run:
         name: Check for mismatch
@@ -66,23 +68,25 @@ jobs:
         name: Install scalapbc
         command: bash ./.circleci/scripts/install_scalapbc.sh
     - run:
-        name: Generate protobuf
+        name: Generate from protobuf
         command: bash ./.circleci/scripts/generate.sh scala
     - persist_to_workspace:
         root: ./tmp
         paths:
-        - scala/ntypes.jar
-        - pom.xml
+        - scala
   publish_scala:
     <<: *container_config_java
     steps:
     - attach_workspace:
         at: ./tmp
     - run:
-        name: Send to Bintray
+        name: Create the package
+        command: sbt package
+    - run:
+        name: Publish
         command: |
-          curl -T ./tmp/scala/ntypes.jar -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/com.github.piotrkowalczuk/ntypes/${CIRCLE_TAG:1}/ntypes-${CIRCLE_TAG:1}.jar
-          curl -T ./tmp/pom.xml -upiotrkowalczuk:${API_KEY} https://api.bintray.com/content/piotrkowalczuk/maven/ntypes/com.github.piotrkowalczuk/ntypes/${CIRCLE_TAG:1}/ntypes-${CIRCLE_TAG:1}.pom
+          sbt publishLocal
+          sbt publish
   generate_python:
     <<: *container_config_python
     steps:
@@ -97,7 +101,7 @@ jobs:
         name: Install protoc
         command: bash ./.circleci/scripts/install_protoc.sh
     - run:
-        name: Generate protobuf
+        name: Generate from protobuf
         command: |
           . venv/bin/activate
           bash ./.circleci/scripts/generate.sh python
