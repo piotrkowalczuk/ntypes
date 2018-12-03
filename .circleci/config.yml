@@ -19,9 +19,7 @@ references:
       SBT_VERSION: 1.2.4
 jobs:
   lint_protobuf:
-    docker:
-    - image: circleci/golang
-    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    <<: *container_config_golang
     steps:
     - checkout
     - run:
@@ -35,9 +33,7 @@ jobs:
         name: Lint protobuf
         command: bash ./.circleci/scripts/generate.sh lint
   test_golang:
-    docker:
-    - image: circleci/golang
-    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    <<: *container_config_golang
     environment:
       TEST_RESULTS: /tmp/test-results/golang
     steps:
