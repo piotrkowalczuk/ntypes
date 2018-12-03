@@ -1,6 +1,12 @@
 version: 2
 
 references:
+  container_config_golang: &container_config_golang
+    docker:
+      - image: circleci/golang
+    working_directory: /go/src/github.com/piotrkowalczuk/ntypes
+    environment:
+      GO111MODULE: on
   container_config_python: &container_config_python
     docker:
     - image: circleci/python:3
@@ -39,9 +45,8 @@ jobs:
     - run:
         name: Install golang packages
         command: |
-          go get -u github.com/golang/protobuf/proto
-          go get -u github.com/golang/protobuf/protoc-gen-go
-          go get -u google.golang.org/grpc
+          cd tools/protobuf && go install github.com/golang/protobuf/proto
+          cd tools/protobuf && go install github.com/golang/protobuf/protoc-gen-go
           go get -u github.com/jstemmer/go-junit-report
     - run:
         name: Install protoc

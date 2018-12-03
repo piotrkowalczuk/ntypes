@@ -1,6 +1,6 @@
 : ${PROTOC:="/usr/local/bin/protoc"}
 : ${SCALAPBC:="./tmp/scalapbc/scalapbc-0.8.1/bin/scalapbc"}
-PROTO_INCLUDE="-I=/usr/include -I=."
+PROTO_INCLUDE="-I=/usr/include -I=${GOPATH}/src -I=."
 VERSION=$(git describe --tags --always --dirty)
 SCALA_VERSION="2.12.7"
 DIR_PYTHON="./"
@@ -21,7 +21,7 @@ case $1 in
         .circleci/templates/plugins.sbt.sh > ./tmp/scala/project/plugins.sbt
         ;;
     golang | go)
-        ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src *.proto
+        ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src ${GOPATH}/src/github.com/piotrkowalczuk/ntypes/*.proto
         ;;
 	*)
 	    echo "code generation failure due to unknown language: ${1}"
