@@ -8,7 +8,7 @@ DIR_SCALA="./tmp/scala"
 
 case $1 in
     lint)
-        ${PROTOC} ${PROTO_INCLUDE} --lint_out=. *.proto
+        ${PROTOC} ${PROTO_INCLUDE} --lint_out=sort_imports:. *.proto
         ;;
     python)
         python -m grpc_tools.protoc ${PROTO_INCLUDE} --python_out=${DIR_PYTHON}ntypes *.proto
