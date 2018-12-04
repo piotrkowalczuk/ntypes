@@ -41,7 +41,7 @@ jobs:
     - run:
         name: Install golang packages
         command: |
-          cd tools/protoc-gen-go && go get -u github.com/golang/protobuf/protoc-gen-go
+          cd tools/protoc-gen-go && go get github.com/golang/protobuf/protoc-gen-go
           go get -u github.com/jstemmer/go-junit-report
     - run:
         name: Install protoc
