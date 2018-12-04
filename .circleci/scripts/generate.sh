@@ -22,6 +22,7 @@ case $1 in
         ;;
     golang | go)
         ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src ${GOPATH}/src/github.com/piotrkowalczuk/ntypes/*.proto
+        goimports -w .
         ;;
 	*)
 	    echo "code generation failure due to unknown language: ${1}"
