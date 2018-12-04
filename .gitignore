@@ -8,6 +8,7 @@ tmp
 *.java
 *.class
 *.jar
+vendor
 META-INF/
 
 ### Python template
