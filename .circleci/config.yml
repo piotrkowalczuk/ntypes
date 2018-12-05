@@ -1,5 +1,22 @@
-version: 2
-
+version: 2.1
+commands:
+  go_install:
+    parameters:
+      package:
+        type: string
+      version:
+        type: string
+        default: "master"
+    steps:
+      - run:
+          name: Go Install <<parameters.package>>@<<parameters.version>>
+          environment:
+            GO111MODULE: "on"
+          command: |
+            mkdir -p /go/.tmp/install/<<parameters.package>>
+            cd /go/.tmp/install/<<parameters.package>>
+            go mod init install/<<parameters.package>>
+            go get -u <<parameters.package>>@<<parameters.version>>
 references:
   container_config_golang: &container_config_golang
     docker:
@@ -38,12 +55,13 @@ jobs:
       TEST_RESULTS: /tmp/test-results/golang
     steps:
     - checkout
-    - run:
-        name: Install golang packages
-        command: |
-          mkdir -p /go/install/protoc-gen-go && cd /go/install/protoc-gen- && go get -u github.com/golang/protobuf/protoc-gen-go@v1.2.0
-          go get -u golang.org/x/tools/cmd/goimports
-          go get -u github.com/jstemmer/go-junit-report
+    - go_install:
+        package: "github.com/golang/protobuf/protoc-gen-go"
+        version: "v1.2.0"
+    - go_install:
+        package: "golang.org/x/tools/cmd/goimports"
+    - go_install:
+        package: "github.com/jstemmer/go-junit-report"
     - run:
         name: Install protoc
         command: bash ./.circleci/scripts/install_protoc.sh
