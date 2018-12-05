@@ -8,9 +8,12 @@ commands:
         type: string
         default: "master"
     steps:
-      - run: mkdir -p /go/install/<<parameters.package>>
-      - run: cd /go/install/<<parameters.package>>
-      - run: go get -u <<parameters.package>>@<<parameters.version>>
+      - run:
+          name: Go Install <<parameters.package>>@<<parameters.version>>
+          command: |
+            mkdir -p /go/.tmp/install/<<parameters.package>>
+            cd /go/.tmp/install/<<parameters.package>>
+            go get -u <<parameters.package>>@<<parameters.version>>
 references:
   container_config_golang: &container_config_golang
     docker:
