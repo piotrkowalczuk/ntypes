@@ -6,7 +6,7 @@ references:
       - image: circleci/golang:1.11
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     environment:
-      GO111MODULE: "ON"
+      GO111MODULE: "on"
   container_config_python: &container_config_python
     docker:
     - image: circleci/python:3
@@ -41,7 +41,7 @@ jobs:
     - run:
         name: Install golang packages
         command: |
-          cd tools/protoc-gen-go && go get github.com/golang/protobuf/protoc-gen-go
+          mkdir -p /go/install/protoc-gen-go && cd /go/install/protoc-gen- && go get -u github.com/golang/protobuf/protoc-gen-go@v1.2.0
           go get -u golang.org/x/tools/cmd/goimports
           go get -u github.com/jstemmer/go-junit-report
     - run:
