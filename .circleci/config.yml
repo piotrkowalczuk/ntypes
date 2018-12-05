@@ -6,7 +6,7 @@ references:
       - image: circleci/golang:1.11
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
     environment:
-      GO111MODULE: "on"
+      GO111MODULE: "ON"
   container_config_python: &container_config_python
     docker:
     - image: circleci/python:3
