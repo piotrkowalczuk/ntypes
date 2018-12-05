@@ -4,9 +4,9 @@ references:
   container_config_golang: &container_config_golang
     docker:
       - image: circleci/golang:1.11
+        environment:
+          GO111MODULE: "on"
     working_directory: /go/src/github.com/piotrkowalczuk/ntypes
-    environment:
-      GO111MODULE: "on"
   container_config_python: &container_config_python
     docker:
     - image: circleci/python:3
