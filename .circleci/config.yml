@@ -15,6 +15,7 @@ commands:
           command: |
             mkdir -p /go/.tmp/install/<<parameters.package>>
             cd /go/.tmp/install/<<parameters.package>>
+            go mod init
             go get -u <<parameters.package>>@<<parameters.version>>
 references:
   container_config_golang: &container_config_golang
