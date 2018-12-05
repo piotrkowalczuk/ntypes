@@ -2,7 +2,7 @@ version: 2.1
 commands:
   go_install:
     parameters:
-      name:
+      package:
         type: string
       version:
         type: string
@@ -50,12 +50,12 @@ jobs:
     steps:
     - checkout
     - go_install:
-        name: "github.com/golang/protobuf/protoc-gen-go"
+        package: "github.com/golang/protobuf/protoc-gen-go"
         version: "v1.2.0"
     - go_install:
-        name: "golang.org/x/tools/cmd/goimports"
+        package: "golang.org/x/tools/cmd/goimports"
     - go_install:
-        name: "github.com/jstemmer/go-junit-report"
+        package: "github.com/jstemmer/go-junit-report"
     - run:
         name: Install protoc
         command: bash ./.circleci/scripts/install_protoc.sh
