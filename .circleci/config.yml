@@ -10,6 +10,8 @@ commands:
     steps:
       - run:
           name: Go Install <<parameters.package>>@<<parameters.version>>
+          environment:
+            GO111MODULE: "on"
           command: |
             mkdir -p /go/.tmp/install/<<parameters.package>>
             cd /go/.tmp/install/<<parameters.package>>
