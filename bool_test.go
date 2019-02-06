@@ -134,11 +134,9 @@ func TestBool_JSON(t *testing.T) {
 				t.Fatalf("json marshal failure: %s", err.Error())
 			}
 			var got ntypes.Bool
-			if err =json.Unmarshal(buf,&got); err != nil {
+			if err = json.Unmarshal(buf, &got); err != nil {
 				t.Fatalf("json unmarshal failure: %s", err.Error())
 			}
-
-			if proto.Equal(given, got)
 		})
 	}
 }
