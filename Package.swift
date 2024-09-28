@@ -6,7 +6,7 @@ let package = Package(
     products: [
         .library(
             name: "ntypes",
-            targets: ["ntypes"]
+            targets: ["NTypes"]
         )
     ],
     dependencies: [
@@ -16,7 +16,7 @@ let package = Package(
     targets: [
         // Główny target dla kodu źródłowego
         .target(
-            name: "ntypes",
+            name: "NTypes",
             dependencies: [
                 .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 .product(name: "GRPC", package: "grpc-swift"),
