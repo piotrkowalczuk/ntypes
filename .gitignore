@@ -47,3 +47,15 @@ _testmain.go
 *.prof
 
 # Created by .ignore support plugin (hsz.mobi)
+
+
+# Swift
+.DS_Store
+/.build
+/Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+Sources/Generated/*
