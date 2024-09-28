@@ -1,6 +1,6 @@
 : ${PROTOC:="/usr/local/bin/protoc"}
 : ${SCALAPBC:="./tmp/scalapbc/scalapbc-0.8.1/bin/scalapbc"}
-PROTO_INCLUDE="-I=/usr/include -I=${GOPATH}/src -I=."
+PROTO_INCLUDE="-I=/usr/local/include -I=${GOPATH}/src -I=."
 VERSION=$(git describe --tags --always --dirty)
 SCALA_VERSION="2.12.7"
 DIR_PYTHON="./"
@@ -24,8 +24,11 @@ case $1 in
         ${PROTOC} ${PROTO_INCLUDE} --go_out=${GOPATH}/src ${GOPATH}/src/github.com/piotrkowalczuk/ntypes/*.proto
         goimports -w .
         ;;
-	*)
-	    echo "code generation failure due to unknown language: ${1}"
+    swift)
+        ${PROTOC} ${PROTO_INCLUDE} --swift_opt=Visibility=Public --swift_opt=FileNaming=DropPath --swift_out=. --grpc-swift_out=. ${GOPATH}/src/github.com/piotrkowalczuk/ntypes/*.proto
+        ;;
+    *)
+        echo "code generation failure due to unknown language: ${1}"
         exit 1
         ;;
 esac

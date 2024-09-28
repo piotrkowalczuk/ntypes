@@ -1,7 +1,9 @@
 module github.com/piotrkowalczuk/ntypes
 
+go 1.23.1
+
 require (
-	github.com/golang/protobuf v1.2.0
+	github.com/golang/protobuf v1.5.0
 	github.com/lib/pq v1.0.0
-	golang.org/x/sync v0.0.0-20181108010431-42b317875d0f // indirect
+	google.golang.org/protobuf v1.34.2
 )
