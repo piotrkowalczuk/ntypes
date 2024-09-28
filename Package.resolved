@@ -1,5 +1,5 @@
 {
-  "originHash" : "0a9348f5c790b83adbe5161e3d91a4f3e4f040c9de424d93a4914ad8350b2d76",
+  "originHash" : "3aef39a9e1cab956b4f967ed734845cfbd59dcbe663d8f8dab6a794da3e060ba",
   "pins" : [
     {
       "identity" : "grpc-swift",
@@ -101,12 +101,30 @@
       }
     },
     {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax.git",
+      "state" : {
+        "revision" : "0687f71944021d616d34d922343dcef086855920",
+        "version" : "600.0.1"
+      }
+    },
+    {
       "identity" : "swift-system",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-system.git",
       "state" : {
         "revision" : "d2ba781702a1d8285419c15ee62fd734a9437ff5",
         "version" : "1.3.2"
+      }
+    },
+    {
+      "identity" : "swift-testing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-testing.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "bf1479ea59e13a26583cb29fe109145db60b22ca"
       }
     }
   ],
